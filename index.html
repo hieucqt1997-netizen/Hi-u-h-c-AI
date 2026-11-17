@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sổ tay học AI</title>
+<meta name="description" content="Học AI và lập trình vừa đủ hiểu trong 30 buổi – chạy offline">
+<meta name="theme-color" content="#0b6e6e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Học AI">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- ================= PHẦN 1: TRANG TRÍ (CSS) ================= -->
+<style>
+/* ================= GIAO DIỆN (CSS) ================= */
+:root{
+  --bg:#f4f6f8; --card:#ffffff; --text:#1d2733; --muted:#5f6b78; --line:#e1e6ec;
+  --pri:#0b6e6e; --pri-2:#e3f2f1; --ok:#1e8a4c; --ok-2:#e5f5ec; --bad:#c0392b; --bad-2:#fdecea;
+  --warn:#b7791f; --warn-2:#fdf4e3; --code:#f1f3f5;
+  --radius:14px; --nav-h:64px;
+  --font: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#0f1418; --card:#182027; --text:#e6edf3; --muted:#9aa7b4; --line:#2a343d;
+  --pri:#4fc3b8; --pri-2:#163432; --ok:#4cc38a; --ok-2:#143323; --bad:#ff7b6b; --bad-2:#3a1c19;
+  --warn:#f0b452; --warn-2:#3a2c12; --code:#11181d;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:17px;line-height:1.6;
+  -webkit-text-size-adjust:100%; padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));}
+a{color:var(--pri)}
+h1,h2,h3,h4{line-height:1.3;margin:1.1em 0 .5em}
+h1{font-size:1.45rem} h2{font-size:1.25rem} h3{font-size:1.1rem} h4{font-size:1rem}
+header.top{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);
+  padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:10px}
+header.top .title{font-weight:700;font-size:1.05rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+header.top button{background:none;border:none;color:var(--text);font-size:1.3rem;padding:4px 8px;cursor:pointer}
+main{max-width:860px;margin:0 auto;padding:14px 14px 30px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:0 0 14px}
+.card h2:first-child,.card h3:first-child{margin-top:0}
+.muted{color:var(--muted);font-size:.92rem}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--card);
+  color:var(--text);border-radius:10px;padding:10px 14px;font-size:1rem;cursor:pointer;font-family:inherit;min-height:44px}
+.btn.pri{background:var(--pri);border-color:var(--pri);color:#fff}
+[data-theme="dark"] .btn.pri{color:#06201e}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.sm{padding:6px 10px;min-height:34px;font-size:.9rem}
+.btn.block{width:100%}
+.btn:disabled{opacity:.5}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;background:var(--pri-2);color:var(--pri);font-weight:600}
+.pill.ok{background:var(--ok-2);color:var(--ok)} .pill.bad{background:var(--bad-2);color:var(--bad)} .pill.warn{background:var(--warn-2);color:var(--warn)}
+.progress{height:10px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress>div{height:100%;background:var(--pri);border-radius:99px;transition:width .3s}
+.stat{display:flex;flex-direction:column;background:var(--bg);border-radius:10px;padding:10px 12px}
+.stat b{font-size:1.35rem}
+.stat span{font-size:.82rem;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+/* Danh sách */
+.list{list-style:none;margin:0;padding:0}
+.list li{border-top:1px solid var(--line);padding:12px 4px;display:flex;gap:10px;align-items:center;cursor:pointer}
+.list li:first-child{border-top:none}
+.list .num{width:34px;height:34px;flex:0 0 34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);font-weight:700;font-size:.9rem}
+.list .num.done{background:var(--ok);color:#fff}
+.list .grow{flex:1;min-width:0}
+.list .t{font-weight:600}
+/* Nội dung bài học */
+.lesson p{margin:.5em 0}
+.lesson table,.tbl{border-collapse:collapse;width:100%;font-size:.93rem;margin:.6em 0;display:block;overflow-x:auto}
+.lesson th,.lesson td,.tbl th,.tbl td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.lesson th,.tbl th{background:var(--pri-2)}
+.lesson blockquote{margin:.8em 0;padding:10px 14px;border-left:4px solid var(--pri);background:var(--pri-2);border-radius:8px}
+.lesson ul,.lesson ol{padding-left:1.3em}
+.codebox{margin:.8em 0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--code)}
+.codebox .bar{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 4px 12px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--line)}
+.codebox pre{margin:0;padding:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-word;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;line-height:1.5}
+/* Trắc nghiệm */
+.q{margin:14px 0}
+.q .opt{display:block;width:100%;text-align:left;margin:6px 0;border:1px solid var(--line);background:var(--card);color:var(--text);
+  border-radius:10px;padding:10px 12px;font-size:.98rem;cursor:pointer;font-family:inherit}
+.q .opt.right{background:var(--ok-2);border-color:var(--ok)}
+.q .opt.wrong{background:var(--bad-2);border-color:var(--bad)}
+.q .exp{font-size:.9rem;color:var(--muted);margin-top:4px}
+/* Thẻ ghi nhớ */
+.flash{min-height:190px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:1.15rem;
+  padding:24px;border-radius:var(--radius);background:var(--pri-2);cursor:pointer;user-select:none}
+.flash.back{background:var(--card);border:2px solid var(--pri);font-size:1.02rem}
+/* Form */
+label{display:block;font-size:.88rem;color:var(--muted);margin:8px 0 3px}
+input,select,textarea{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);
+  font-size:16px;font-family:inherit}
+textarea{min-height:90px;resize:vertical}
+input[type=checkbox],input[type=radio]{width:auto}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:none;background:var(--card);color:var(--text);padding:9px 6px;font-size:.95rem;cursor:pointer;font-family:inherit;border-left:1px solid var(--line)}
+.seg button:first-child{border-left:none}
+.seg button.on{background:var(--pri);color:#fff}
+[data-theme="dark"] .seg button.on{color:#06201e}
+/* Cảnh báo */
+.alert{border-radius:12px;padding:14px 16px;margin:0 0 14px;border:1px solid}
+.alert.bad{background:var(--bad-2);border-color:var(--bad);color:var(--text)}
+.alert.ok{background:var(--ok-2);border-color:var(--ok)}
+.alert.warn{background:var(--warn-2);border-color:var(--warn)}
+.alert h3{margin:0 0 6px}
+.stopscreen{text-align:center;padding:26px 16px}
+.stopscreen .big{font-size:2.1rem;font-weight:800;color:var(--bad);letter-spacing:.5px}
+/* Đồng hồ */
+.timer{font-size:2.6rem;font-weight:800;font-variant-numeric:tabular-nums;text-align:center}
+.stages{display:flex;gap:6px}
+.stages div{flex:1;text-align:center;font-size:.8rem;padding:6px 2px;border-radius:8px;background:var(--bg);color:var(--muted)}
+.stages div.on{background:var(--pri);color:#fff;font-weight:700}
+/* Thanh điều hướng */
+nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);
+  display:flex;padding-bottom:env(safe-area-inset-bottom);height:calc(var(--nav-h) + env(safe-area-inset-bottom))}
+nav.bottom a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;color:var(--muted);font-size:.7rem;gap:2px}
+nav.bottom a .i{font-size:1.35rem;line-height:1}
+nav.bottom a.on{color:var(--pri);font-weight:700}
+@media (min-width:1000px){
+  body{padding-bottom:0;padding-left:210px}
+  nav.bottom{top:0;right:auto;width:210px;height:auto;flex-direction:column;justify-content:flex-start;border-top:none;border-right:1px solid var(--line);padding-top:70px}
+  nav.bottom a{flex:0 0 auto;flex-direction:row;justify-content:flex-start;gap:12px;padding:12px 20px;font-size:.98rem}
+}
+.toast{position:fixed;left:50%;bottom:calc(var(--nav-h) + 20px);transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:10px;
+  z-index:99;font-size:.95rem;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%}
+.toast.show{opacity:.95}
+.hl{background:var(--warn-2);border-radius:3px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:0 0 12px;padding-bottom:2px}
+.tabs a{white-space:nowrap;text-decoration:none;padding:7px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);color:var(--text);font-size:.92rem}
+.tabs a.on{background:var(--pri);border-color:var(--pri);color:#fff}
+[data-theme="dark"] .tabs a.on{color:#06201e}
+.trade{border-top:1px solid var(--line);padding:10px 2px}
+.trade:first-child{border-top:none}
+.small{font-size:.85rem}
+.right{text-align:right}
+hr{border:none;border-top:1px solid var(--line);margin:14px 0}
+
+</style>
+</head>
+<body>
+<!-- ================= PHẦN 2: KHUNG TRANG (HTML) ================= -->
+<header class="top">
+  <span class="title" id="pageTitle">Sổ tay học AI</span>
+  <button data-act="theme" title="Đổi giao diện sáng/tối" aria-label="Đổi giao diện">🌓</button>
+</header>
+<main id="main"></main>
+<nav class="bottom" id="nav"></nav>
+<div class="toast" id="toast"></div>
+<noscript>Cần bật JavaScript để dùng ứng dụng.</noscript>
+
+<!-- ================= PHẦN 3: DỮ LIỆU BÀI HỌC (sửa ở đây để thêm bài) ================= -->
+<script id="du-lieu-bai-hoc">
+/* =====================================================================
+   DỮ LIỆU BÀI HỌC — SỔ TAY HỌC AI
+   ---------------------------------------------------------------------
+   Phần này CHỈ chứa nội dung. Muốn thêm/sửa bài học, chỉ sửa ở đây,
+   không cần đụng tới phần giao diện bên dưới.
+
+   Mỗi buổi học là một đối tượng { ... } trong mảng SESSIONS:
+     id       : số thứ tự buổi (1..30)
+     week     : thuộc tuần mấy (1..4)
+     title    : tên buổi
+     goal     : mục tiêu (1 câu)
+     practice : bài thực hành trên máy tính (tóm tắt 1 câu)
+     practiceDetail : hướng dẫn thực hành chi tiết (markdown như content)
+     ready    : true = đã có nội dung đầy đủ; false = mới có khung
+     content  : nội dung bài, viết kiểu "markdown đơn giản":
+                  ## Tiêu đề lớn      ### Tiêu đề nhỏ
+                  - gạch đầu dòng     1. đánh số
+                  > khung ghi chú
+                  | bảng | có | cột |
+                  **chữ đậm**
+                  ~~~prompt  ... ~~~   (khối prompt, có nút Sao chép)
+                  ~~~python  ... ~~~   (khối code)
+     summary  : 3 dòng tóm tắt
+     quiz     : [{ q: câu hỏi, a: [đáp án...], c: số thứ tự đáp án đúng (0 là đầu tiên), e: giải thích }]
+     cards    : [{ f: mặt trước, b: mặt sau }]   (thẻ ghi nhớ)
+
+   LƯU Ý: nội dung đặt giữa hai dấu ` (dấu huyền). Trong nội dung
+   KHÔNG được gõ dấu ` và không gõ ký hiệu $ đứng liền dấu {.
+   ===================================================================== */
+
+const WEEKS = [
+  { id: 1, title: "Tuần 1 – Hiểu AI và nói chuyện với AI", goal: "Biết AI hoạt động ra sao, hay sai ở đâu, và giao việc cho AI đúng cách." },
+  { id: 2, title: "Tuần 2 – Lập trình vừa đủ hiểu", goal: "Đọc hiểu code AI viết, chạy được script Python đầu tiên, biết báo lỗi cho AI sửa." },
+  { id: 3, title: "Tuần 3 – Ứng dụng chạy thế nào & tự động hóa văn phòng", goal: "Hiểu app offline, API, Agent; tự động hóa Excel/Word; bảo mật dữ liệu." },
+  { id: 4, title: "Tuần 4 – AI với trading và kiếm tiền", goal: "Dùng AI để giữ kỷ luật và quản lý rủi ro; chọn hướng kiếm tiền hợp với kế toán." }
+];
+
+const SESSIONS = [
+/* ============================ TUẦN 1 ============================ */
+{
+id: 1, week: 1, ready: true,
+title: "AI là gì? Vì sao AI trả lời được",
+goal: "Hiểu mô hình ngôn ngữ lớn (LLM) hoạt động bằng cách đoán chữ tiếp theo, từ đó biết AI giỏi gì và yếu gì.",
+practice: "Làm 3 thí nghiệm nhỏ với AI để tự thấy điểm mạnh, điểm yếu của nó.",
+content: `
+## AI mà bạn đang dùng là loại nào?
+"AI" là một từ rất rộng. Thứ bạn dùng hằng ngày như Claude, ChatGPT, Gemini thuộc một loại cụ thể: **mô hình ngôn ngữ lớn**, tiếng Anh là Large Language Model, viết tắt **LLM**.
+
+"Mô hình" ở đây là một chương trình máy tính rất lớn. "Ngôn ngữ" nghĩa là nó làm việc với chữ. "Lớn" nghĩa là nó được cho đọc một lượng văn bản khổng lồ: sách, báo, trang web, tài liệu, code...
+
+## Nó "học" như thế nào?
+Hãy nghĩ đến chính bạn. Làm kế toán lâu năm, nhìn dòng đầu của một biên bản giao nhận thực phẩm là bạn đoán được gần hết các dòng sau: tên hàng, đơn vị tính, số lượng, đơn giá, thành tiền, chữ ký các bên. Bạn không cần thuộc lòng từng biên bản, vì đã nhìn đủ nhiều để nắm **quy luật**.
+
+LLM học theo cách tương tự nhưng ở quy mô cực lớn. Trong giai đoạn **huấn luyện**, máy đọc hàng tỷ trang văn bản và liên tục tự tập: "với đoạn chữ này, chữ tiếp theo hợp lý nhất là gì?". Đoán sai thì tự chỉnh lại. Lặp đi lặp lại vô số lần, nó nắm được quy luật của ngôn ngữ, cách lập luận, cách viết code, cả văn phong hành chính.
+
+## Nó "trả lời" như thế nào?
+Đây là điểm quan trọng nhất của cả khóa học:
+
+> AI **không tra cứu** câu trả lời trong một cuốn sổ như Excel tra bảng. Nó **viết ra từng mẩu chữ một**, mỗi lần chọn mẩu hợp lý nhất dựa trên toàn bộ những gì đã có phía trước.
+
+Ví dụ bạn gõ: "Biên bản giao nhận thực ..." thì mẩu chữ tiếp theo hợp lý nhất là "phẩm". Cứ thế nối dài thành câu, thành đoạn, thành cả văn bản.
+
+## Hệ quả: AI giỏi gì, yếu gì?
+| Giỏi | Yếu |
+| Viết, sửa văn, tóm tắt, đổi giọng văn | Con số cần chính xác tuyệt đối (khi không cho nó dùng công cụ tính) |
+| Giải thích khái niệm khó cho dễ hiểu | Thông tin mới xảy ra sau thời điểm nó được huấn luyện |
+| Viết code, công thức Excel | Số hiệu văn bản, điều khoản, tên người cụ thể nó không chắc |
+| Chuyển định dạng: bảng → văn bản, văn bản → bảng | Biết "hôm nay" là ngày nào nếu không được cho biết |
+| Gợi ý ý tưởng, lập dàn ý | Dự đoán tương lai (ví dụ giá vàng ngày mai) |
+
+Vì AI luôn cố viết ra câu "nghe hợp lý", khi không biết nó vẫn có thể viết rất trơn tru, gọi là **"bịa"**. Buổi 3 sẽ học kỹ cách phát hiện và phòng tránh.
+
+## Phép so sánh dễ nhớ
+> Hãy coi AI như **một nhân viên mới cực kỳ chăm đọc**: viết nhanh, biết nhiều, nhưng không có sổ sách của cơ quan bạn, không biết hôm nay ngày mấy nếu bạn không nói, và rất ngại trả lời "tôi không biết". Giao việc phải rõ ràng, và **luôn kiểm tra** trước khi ký.
+
+## AI có "công cụ" thì khác
+Ngày nay nhiều trợ lý AI được trang bị công cụ: tìm kiếm web, chạy code, đọc file Excel/PDF, tạo file. Khi có công cụ, AI có thể **tính bằng code** thay vì "đoán" con số, và **tra web** thay vì dựa vào trí nhớ cũ.
+
+Bài học thực tế cho kế toán: khi cần số liệu chính xác, hãy yêu cầu rõ: "Hãy dùng code (hoặc công thức Excel) để tính, không tính nhẩm."
+
+## Vì sao cần hiểu điều này?
+Mọi kỹ năng ở các buổi sau (viết prompt, kiểm soát AI, nhờ AI làm app, dùng AI trong trading) đều dựa trên một ý: **AI là cỗ máy viết chữ hợp lý, không phải cỗ máy biết sự thật.** Bạn là người cầm lái và chịu trách nhiệm cuối cùng.
+`,
+summary: [
+  "LLM học quy luật ngôn ngữ từ lượng văn bản khổng lồ, rồi trả lời bằng cách viết từng mẩu chữ hợp lý nhất.",
+  "AI giỏi viết, giải thích, viết code; yếu về con số chính xác, thông tin mới và chi tiết cụ thể nó không chắc.",
+  "Coi AI như nhân viên mới chăm đọc: giao việc rõ, cho dùng công cụ khi cần chính xác, luôn kiểm tra kết quả."
+],
+practiceDetail: `
+### Thí nghiệm 1 – AI có biết hôm nay ngày mấy?
+Mở một cuộc trò chuyện mới, gõ:
+~~~prompt
+Hôm nay là ngày mấy, thứ mấy? Bạn dựa vào đâu để biết?
+~~~
+Ghi lại: nó trả lời đúng không, và nó giải thích dựa vào đâu.
+
+### Thí nghiệm 2 – Tính nhẩm và tính bằng code
+~~~prompt
+Cộng giúp tôi các số sau, chỉ ghi kết quả cuối, không dùng công cụ:
+1.234.500 + 987.650 + 45.300 + 2.310.000 + 76.890 + 512.340 + 3.045.600 + 88.120 + 701.230 + 1.999.990
+~~~
+Sau đó gõ tiếp:
+~~~prompt
+Bây giờ hãy dùng code để tính lại chính xác và so sánh với kết quả trước. Nếu khác, giải thích vì sao.
+~~~
+(Đáp án đúng: 11.001.620)
+
+### Thí nghiệm 3 – Nhờ AI giải thích cho người mới
+~~~prompt
+Giải thích cho tôi, một kế toán chưa biết gì về công nghệ, "mô hình ngôn ngữ lớn" là gì. Dùng 1 ví dụ về sổ sách kế toán. Tối đa 150 chữ.
+~~~
+Ghi nhận xét của bạn vào ô Ghi chú bên dưới.
+`,
+quiz: [
+  { q: "LLM tạo ra câu trả lời bằng cách nào?", a: ["Tra cứu trong một cơ sở dữ liệu có sẵn đáp án", "Viết từng mẩu chữ, mỗi lần chọn mẩu hợp lý nhất", "Hỏi ý kiến chuyên gia qua mạng", "Sao chép nguyên văn từ trang web"], c: 1, e: "LLM sinh chữ dần dần dựa trên quy luật đã học, không tra một cuốn sổ đáp án nào." },
+  { q: "Việc nào AI dễ làm sai nhất khi KHÔNG có công cụ?", a: ["Viết lại đoạn văn cho trang trọng hơn", "Tóm tắt một văn bản bạn dán vào", "Cộng chính xác 30 số lớn", "Gợi ý dàn ý báo cáo"], c: 2, e: "Tính toán dài là điểm yếu khi AI chỉ 'đoán chữ'. Hãy yêu cầu AI dùng code hoặc Excel." },
+  { q: "Vì sao AI có thể 'bịa'?", a: ["Vì nó cố ý lừa người dùng", "Vì nó luôn cố viết ra câu nghe hợp lý, kể cả khi không biết", "Vì máy tính bị virus", "Vì người dùng gõ sai chính tả"], c: 1, e: "AI tối ưu cho câu chữ hợp lý chứ không phải sự thật, nên khi thiếu thông tin vẫn viết trơn tru." },
+  { q: "Cách tốt nhất để có con số chính xác từ AI là gì?", a: ["Hỏi lại nhiều lần đến khi giống nhau", "Yêu cầu AI dùng code hoặc công thức Excel để tính", "Bảo AI 'hãy cẩn thận'", "Dùng chữ in hoa"], c: 1, e: "Khi chạy code, phép tính được máy thực hiện thật, không còn là đoán chữ." }
+],
+cards: [
+  { f: "LLM là gì?", b: "Mô hình ngôn ngữ lớn: chương trình học quy luật ngôn ngữ từ lượng văn bản khổng lồ, trả lời bằng cách viết từng mẩu chữ hợp lý nhất." },
+  { f: "Huấn luyện (training)", b: "Giai đoạn AI đọc dữ liệu khổng lồ và tự tập đoán chữ tiếp theo, đoán sai thì tự chỉnh." },
+  { f: "AI tra cứu hay sinh chữ?", b: "Sinh chữ. Nó không tra sổ đáp án, nên có thể sai mà vẫn nghe rất hợp lý." },
+  { f: "Muốn số liệu chính xác thì làm gì?", b: "Yêu cầu AI dùng code/công thức Excel để tính, và tự đối chiếu lại." }
+]
+},
+
+{
+id: 2, week: 1, ready: true,
+title: "Token, cửa sổ ngữ cảnh và giới hạn kiến thức",
+goal: "Hiểu vì sao AI 'quên', vì sao cuộc trò chuyện dài làm AI kém đi, và vì sao AI không biết quy định mới.",
+practice: "Thử nghiệm AI quên giữa các cuộc trò chuyện và kiểm tra AI với một quy định mới.",
+content: `
+## Token – đơn vị "đếm chữ" của AI
+AI không đọc chữ như người. Nó cắt văn bản thành những mẩu nhỏ gọi là **token**. Một token có thể là một từ, một phần của từ, hoặc dấu câu.
+
+- Tiếng Việt có dấu thường bị cắt thành **nhiều token hơn** tiếng Anh cho cùng một ý.
+- Giới hạn sử dụng của các gói AI (miễn phí hay trả phí) thường được tính theo token.
+- Dán một file dài vào = tiêu tốn nhiều token.
+
+Bạn không cần đếm token. Chỉ cần nhớ: **càng dài càng tốn**, và mọi thứ đều có giới hạn.
+
+## Cửa sổ ngữ cảnh – "cái bàn làm việc" của AI
+Hãy tưởng tượng AI ngồi ở một cái bàn. Mọi thứ trong cuộc trò chuyện (câu bạn hỏi, câu nó trả lời, file bạn dán vào) đều được bày lên bàn. Mỗi lần trả lời, AI nhìn lại **toàn bộ mặt bàn**.
+
+Cái bàn này gọi là **cửa sổ ngữ cảnh** (context window). Nó rất rộng nhưng **có giới hạn**. Khi cuộc trò chuyện quá dài:
+- Phần đầu có thể bị tóm tắt lại hoặc bị đẩy khỏi bàn → AI "quên" yêu cầu ban đầu.
+- AI dễ lẫn lộn giữa các phiên bản (ví dụ biên bản tháng 9 và tháng 10).
+- Trả lời chậm hơn, tốn lượt dùng hơn.
+
+### Mẹo dùng bàn làm việc hiệu quả
+1. **Mỗi việc một cuộc trò chuyện mới.** Làm biên bản thì mở chat riêng, hỏi trading thì mở chat riêng.
+2. Khi chat đã quá dài, nhờ AI: "Tóm tắt các quyết định quan trọng của cuộc trò chuyện này trong 10 dòng", rồi dán bản tóm tắt sang chat mới.
+3. Đưa tài liệu nền vào **Project** (dự án) để không phải dán lại mỗi lần (học kỹ ở buổi 6).
+
+## AI có nhớ bạn không?
+Mặc định: **mỗi cuộc trò chuyện là một tờ giấy trắng.** Chat hôm qua AI không thấy được ở chat hôm nay, trừ khi:
+- Bạn dùng tính năng **bộ nhớ** (memory): AI tự ghi lại vài điều về bạn để dùng lại.
+- Bạn làm việc trong cùng một **Project** có tài liệu và hướng dẫn chung.
+
+Vì vậy nếu AI "quên" bạn là kế toán hay quên cách bạn muốn trình bày, đó không phải lỗi; bạn cần đưa thông tin đó vào bộ nhớ hoặc Project.
+
+## Giới hạn kiến thức (knowledge cutoff)
+AI được huấn luyện đến một thời điểm nhất định rồi dừng. Những gì xảy ra **sau** thời điểm đó, nó không biết, trừ khi được tìm web hoặc bạn dán tài liệu vào.
+
+Ví dụ thực tế: một thông tư, nghị định mới ban hành có thể nằm ngoài kiến thức của AI. Nếu bạn hỏi, nó có thể trả lời theo **quy định cũ** một cách rất tự tin.
+
+> Quy tắc: Với quy định pháp luật, giá cả, tỷ giá, tin tức, hãy **bật tìm kiếm web** và yêu cầu nêu nguồn, hoặc **dán văn bản gốc** vào và bảo AI chỉ trả lời dựa trên văn bản đó.
+
+## Tóm lại bằng hình ảnh
+| Khái niệm | Hình ảnh dễ nhớ | Việc bạn cần làm |
+| Token | Mẩu chữ, đơn vị tính tiền/lượt | Đừng dán thừa, chỉ đưa phần cần thiết |
+| Cửa sổ ngữ cảnh | Cái bàn làm việc có giới hạn | Mỗi việc một chat; chat dài thì tóm tắt sang chat mới |
+| Bộ nhớ / Project | Sổ tay ghi chú về bạn / tủ hồ sơ chung | Lưu thông tin cố định một lần, dùng nhiều lần |
+| Giới hạn kiến thức | Người đi xa lâu ngày mới về | Cho tìm web hoặc dán văn bản mới vào |
+`,
+summary: [
+  "Token là mẩu chữ AI dùng để đọc và tính giới hạn; tiếng Việt thường tốn token hơn tiếng Anh.",
+  "Cửa sổ ngữ cảnh là 'bàn làm việc' có giới hạn: mỗi việc một chat, chat quá dài thì tóm tắt sang chat mới.",
+  "AI không biết điều xảy ra sau thời điểm huấn luyện: quy định mới phải cho tìm web hoặc dán văn bản gốc."
+],
+practiceDetail: `
+### Thí nghiệm 1 – AI có nhớ giữa hai cuộc trò chuyện?
+Trong chat A, gõ: "Hãy nhớ: mã số dự án của tôi là ALPHA-27." Mở chat B mới (không dùng Project), hỏi: "Mã số dự án của tôi là gì?". Quan sát.
+
+### Thí nghiệm 2 – Hỏi về quy định mới
+~~~prompt
+Văn bản mới nhất quy định về chế độ ăn của người cai nghiện ma túy tại cơ sở cai nghiện công lập là văn bản nào? Nêu số hiệu, ngày ban hành và nguồn bạn dựa vào. Nếu không chắc chắn, hãy nói rõ là không chắc.
+~~~
+Sau đó bật tìm kiếm web (nếu công cụ có) và hỏi lại. So sánh hai câu trả lời. Tự mở nguồn để kiểm tra.
+
+### Thí nghiệm 3 – Tóm tắt để chuyển sang chat mới
+Chọn một cuộc trò chuyện dài bạn từng làm với AI, gõ:
+~~~prompt
+Tóm tắt cuộc trò chuyện này thành tối đa 10 gạch đầu dòng gồm: mục tiêu, các quyết định đã chốt, việc còn dở. Để tôi dán sang cuộc trò chuyện mới làm tiếp.
+~~~
+`,
+quiz: [
+  { q: "Token là gì?", a: ["Mật khẩu đăng nhập AI", "Mẩu chữ nhỏ mà AI dùng để đọc và tính giới hạn", "Một loại tiền ảo", "Tên một công cụ AI"], c: 1, e: "AI cắt văn bản thành token; giới hạn sử dụng thường tính theo token." },
+  { q: "Cuộc trò chuyện quá dài thường gây ra điều gì?", a: ["AI thông minh hơn", "AI có thể quên yêu cầu ban đầu, lẫn lộn thông tin", "AI tự động lưu vào Excel", "Không ảnh hưởng gì"], c: 1, e: "Cửa sổ ngữ cảnh có giới hạn; phần đầu có thể bị tóm tắt hoặc đẩy ra." },
+  { q: "Bạn hỏi AI về một thông tư vừa ban hành tháng trước. Cách làm đúng là:", a: ["Tin ngay câu trả lời", "Bật tìm web và yêu cầu nêu nguồn, hoặc dán văn bản gốc vào", "Hỏi lại 5 lần", "Đổi sang tiếng Anh"], c: 1, e: "Thông tin mới có thể nằm ngoài giới hạn kiến thức của AI." },
+  { q: "Muốn AI luôn biết bạn là kế toán và thích trình bày dạng bảng, nên dùng:", a: ["Gõ lại ở mỗi câu hỏi", "Bộ nhớ hoặc hướng dẫn trong Project", "Viết chữ in hoa", "Không cách nào"], c: 1, e: "Bộ nhớ/Project giúp lưu thông tin cố định một lần, dùng nhiều lần." }
+],
+cards: [
+  { f: "Token", b: "Mẩu chữ nhỏ AI dùng để đọc văn bản; giới hạn sử dụng thường tính theo token." },
+  { f: "Cửa sổ ngữ cảnh (context window)", b: "'Bàn làm việc' của AI: mọi thứ trong cuộc trò chuyện. Có giới hạn, quá dài thì AI quên phần đầu." },
+  { f: "Giới hạn kiến thức (knowledge cutoff)", b: "Thời điểm AI ngừng được huấn luyện; chuyện sau đó nó không biết nếu không tìm web." },
+  { f: "Mẹo khi chat quá dài", b: "Nhờ AI tóm tắt quyết định và việc còn dở, rồi dán sang cuộc trò chuyện mới." }
+]
+},
+
+{
+id: 3, week: 1, ready: true,
+title: "AI \"bịa\": nhận biết và kiểm tra",
+goal: "Nhận ra dấu hiệu AI bịa và nắm 6 cách kiểm tra trước khi dùng kết quả.",
+practice: "Bắt AI trả lời chỉ dựa trên văn bản bạn đưa, và kiểm tra một câu trả lời có số hiệu văn bản.",
+content: `
+## "Bịa" (hallucination) là gì?
+Là khi AI đưa ra thông tin **sai nhưng trình bày rất tự tin**, câu chữ trơn tru như thật. Tiếng Anh gọi là hallucination (ảo giác).
+
+Những thứ AI hay bịa nhất:
+- **Số hiệu văn bản, điều, khoản**: ví dụ "Theo khoản 3 Điều 12 Thông tư số ..." nhưng điều khoản đó không tồn tại hoặc nói chuyện khác.
+- **Con số, tỷ lệ, thống kê** không có nguồn.
+- **Tên người, chức vụ, tên đơn vị.**
+- **Trích dẫn** câu nói, bài báo.
+- **Hàm Excel, thư viện lập trình** không có thật.
+- **Đường link** dẫn tới trang không tồn tại.
+
+## Vì sao AI bịa?
+Nhớ lại buổi 1: AI viết chữ **hợp lý nhất**, không phải chữ **đúng nhất**. Một số hiệu văn bản có hình thức "xx/2025/TT-BCA" trông rất hợp lý, nên AI có thể viết ra dù không có văn bản đó.
+
+## Dấu hiệu cảnh báo
+- Có số liệu, số hiệu rất cụ thể nhưng **không có nguồn**.
+- Hỏi lại cùng câu, **mỗi lần ra một đáp án khác**.
+- Câu trả lời **quá đúng ý bạn**, không có chỗ nào "không chắc".
+- Bạn hỏi "nguồn ở đâu?" thì AI **xin lỗi và đổi đáp án**.
+
+## 6 cách kiểm tra
+1. **Yêu cầu nêu nguồn, rồi tự mở nguồn.** Không mở được nguồn = chưa được dùng.
+2. **Dán văn bản gốc vào** và ra lệnh: chỉ trả lời dựa trên văn bản này.
+3. **Cho phép AI nói "không biết"**: "Nếu không chắc chắn, hãy ghi Không chắc chắn, đừng đoán."
+4. **Con số thì tính bằng code hoặc Excel**, không tin số tính nhẩm.
+5. **Hỏi lại theo cách khác**, hoặc hỏi một công cụ AI thứ hai để đối chiếu.
+6. **Tự đối chiếu trước khi ký, nộp, gửi.** Người ký là bạn, không phải AI.
+
+## Mẫu prompt "chống bịa" dùng hằng ngày
+~~~prompt
+Chỉ dựa trên văn bản tôi dán bên dưới để trả lời. Quy tắc:
+- Mỗi ý trả lời phải ghi rõ lấy từ điều/khoản/đoạn nào của văn bản.
+- Nếu văn bản không đề cập, ghi đúng câu: "Văn bản không đề cập".
+- Không dùng kiến thức bên ngoài, không suy đoán.
+
+Câu hỏi: [câu hỏi của bạn]
+
+Văn bản:
+[dán văn bản vào đây]
+~~~
+
+## Áp dụng vào công việc kế toán
+> Quy tắc vàng: **Con số và căn cứ pháp lý luôn phải kiểm tra.** AI được dùng để soạn nhanh, sắp xếp, gợi ý; còn số tiền, định mức, số hiệu văn bản thì bạn đối chiếu với chứng từ và văn bản gốc.
+
+## Áp dụng vào trading
+Nếu AI nói "vàng tuần sau khả năng cao sẽ tăng", đó chỉ là **một đoạn chữ nghe hợp lý**, không phải dự báo có cơ sở. AI không biết tương lai. Ở Tuần 4 bạn sẽ học cách dùng AI đúng chỗ trong trading: phân tích **chính bạn** (nhật ký, kỷ luật), không phải đoán giá.
+`,
+summary: [
+  "AI hay bịa số hiệu văn bản, con số, tên người, hàm Excel, đường link, và vẫn viết rất tự tin.",
+  "Chống bịa: yêu cầu nguồn và tự mở, dán văn bản gốc, cho phép nói 'không biết', tính số bằng code.",
+  "Con số và căn cứ pháp lý luôn tự đối chiếu; AI không biết tương lai giá cả."
+],
+practiceDetail: `
+### Bài 1 – Bắt AI chỉ dựa vào văn bản
+Lấy một văn bản công khai bạn có (quy chế, hướng dẫn không mật). Dùng mẫu prompt "chống bịa" ở trên, hỏi 3 câu: 2 câu có trong văn bản, 1 câu chắc chắn **không có**. Kiểm tra xem AI có trả lời "Văn bản không đề cập" ở câu thứ 3 không.
+
+### Bài 2 – Kiểm tra số hiệu văn bản
+~~~prompt
+Liệt kê 3 văn bản quy phạm pháp luật quy định về tiêu chuẩn định lượng ăn của người cai nghiện ma túy. Với mỗi văn bản ghi: số hiệu, ngày ban hành, cơ quan ban hành, đường link nguồn. Nếu không chắc chắn về bất kỳ thông tin nào, ghi "Không chắc chắn".
+~~~
+Tự tra từng số hiệu trên trang chính thức (ví dụ cổng văn bản pháp luật của Chính phủ hoặc thư viện pháp luật). Đánh dấu cái nào đúng, cái nào sai vào Ghi chú.
+
+### Bài 3 – Hàm Excel có thật không?
+~~~prompt
+Viết công thức Excel để cộng cột Thành tiền (cột F) cho các dòng có Tên hàng (cột B) là "Thịt heo" và Ngày (cột A) trong tháng 10/2026. Giải thích từng hàm dùng trong công thức.
+~~~
+Dán công thức vào Excel thật để thử. Chạy đúng mới tính là đúng.
+`,
+quiz: [
+  { q: "Điều nào sau đây là dấu hiệu AI có thể đang bịa?", a: ["Có ghi rõ nguồn và link mở được", "Đưa số hiệu văn bản rất cụ thể nhưng không có nguồn", "Nói 'tôi không chắc chắn'", "Trả lời ngắn gọn"], c: 1, e: "Chi tiết cụ thể không nguồn là dấu hiệu cảnh báo hàng đầu." },
+  { q: "Câu lệnh nào giúp giảm bịa tốt nhất?", a: ["'Hãy trả lời thật hay'", "'Chỉ dựa trên văn bản tôi dán; nếu không có thì ghi Văn bản không đề cập'", "'Trả lời nhanh lên'", "'Bạn là chuyên gia giỏi nhất'"], c: 1, e: "Giới hạn nguồn và cho phép nói 'không có' là cách chống bịa hiệu quả." },
+  { q: "AI trả lời 'giá vàng tuần sau khả năng cao sẽ tăng'. Bạn nên hiểu là:", a: ["Dự báo đáng tin, nên vào lệnh", "Một đoạn chữ nghe hợp lý, không phải thông tin về tương lai", "AI có nguồn tin nội bộ", "Chắc chắn sai"], c: 1, e: "AI không biết tương lai; câu đó chỉ là văn bản hợp lý." },
+  { q: "Ai chịu trách nhiệm cuối cùng với văn bản bạn nộp có dùng AI hỗ trợ?", a: ["Công ty làm ra AI", "AI", "Bạn, người ký và nộp", "Không ai"], c: 2, e: "AI là công cụ; người ký chịu trách nhiệm." }
+],
+cards: [
+  { f: "Hallucination (AI bịa)", b: "AI đưa thông tin sai nhưng trình bày tự tin, trơn tru như thật." },
+  { f: "AI hay bịa những gì?", b: "Số hiệu văn bản, điều khoản, con số, tên người, trích dẫn, hàm Excel, đường link." },
+  { f: "Quy tắc vàng cho kế toán", b: "Con số và căn cứ pháp lý luôn tự đối chiếu với chứng từ, văn bản gốc." },
+  { f: "Câu thần chú chống bịa", b: "\"Chỉ dựa trên văn bản tôi đưa. Nếu không có, ghi: Văn bản không đề cập. Không suy đoán.\"" }
+]
+},
+
+{
+id: 4, week: 1, ready: true,
+title: "Các công cụ AI phổ biến và cách chọn",
+goal: "Biết các nhóm công cụ AI, tiêu chí chọn, và chọn 1 công cụ chính để dùng thành thạo.",
+practice: "Cùng một prompt, thử trên 2 công cụ và chấm điểm theo bảng tiêu chí.",
+content: `
+## Các nhóm công cụ AI
+> Lưu ý: tên gói, tính năng và giá của các công cụ AI **thay đổi rất nhanh**. Thông tin dưới đây là khung để hiểu; giá và tính năng cụ thể **cần kiểm tra lại** trên trang chính thức.
+
+| Nhóm | Ví dụ | Dùng để |
+| Trợ lý trò chuyện | Claude (Anthropic), ChatGPT (OpenAI), Gemini (Google), Copilot (Microsoft) | Hỏi đáp, soạn văn bản, phân tích file, viết code |
+| AI trong công cụ văn phòng | AI tích hợp trong Word/Excel/Google Docs/Sheets | Làm việc ngay trong file đang mở |
+| AI lập trình | Các công cụ viết code tự động (ví dụ Claude Code) | Làm app, script tự động hóa |
+| AI tạo ảnh, video, giọng nói | Các công cụ tạo ảnh/video | Thiết kế, video tuyên truyền |
+| AI tìm kiếm | Trợ lý có tìm web và trích nguồn | Tra cứu thông tin mới |
+
+## Tiêu chí chọn công cụ cho bạn
+1. **Tiếng Việt tốt**: hiểu đúng ý, viết văn hành chính tự nhiên.
+2. **Đọc được file**: Excel, Word, PDF bạn đưa vào.
+3. **Chạy code / tạo file**: tính toán chính xác, xuất file Excel/Word.
+4. **Tìm web có nguồn**: cho thông tin mới.
+5. **Bảo mật**: có cài đặt không dùng dữ liệu của bạn để huấn luyện hay không; chính sách lưu trữ.
+6. **Giá và giới hạn**: bản miễn phí thường giới hạn số lượt và model yếu hơn.
+
+## Miễn phí hay trả phí?
+- **Miễn phí**: đủ để học và làm việc nhẹ. Hay bị giới hạn lượt, file, tính năng.
+- **Trả phí**: model mạnh hơn, nhiều lượt hơn, có Project, đọc file lớn, chạy code.
+- Nguyên tắc: **dùng miễn phí đến khi thấy rõ mình bị giới hạn ở đâu**, rồi mới trả phí cho đúng thứ cần.
+
+## Lời khuyên: 1 chính, 1 phụ
+- Chọn **1 công cụ chính** và học dùng thật thành thạo (Project, bộ nhớ, đọc file, chạy code). Thành thạo một công cụ giá trị hơn biết sơ sơ năm công cụ.
+- Giữ **1 công cụ phụ** để đối chiếu khi gặp câu trả lời quan trọng hoặc đáng ngờ.
+
+## Bảo mật khi chọn công cụ
+Dù dùng công cụ nào, **không đưa lên AI**: thông tin mật của cơ quan, dữ liệu cá nhân người cai nghiện (họ tên, ngày sinh, hồ sơ), văn bản nội bộ chưa công khai, số tài khoản, mật khẩu. Buổi 20 sẽ học cách **ẩn danh hóa** dữ liệu trước khi nhờ AI.
+`,
+summary: [
+  "Có 5 nhóm công cụ: trợ lý trò chuyện, AI trong văn phòng, AI lập trình, AI tạo ảnh/video, AI tìm kiếm.",
+  "Chọn theo: tiếng Việt, đọc file, chạy code, tìm web có nguồn, bảo mật, giá; giá và tính năng cần kiểm tra lại.",
+  "Thành thạo 1 công cụ chính + 1 công cụ phụ để đối chiếu; không đưa dữ liệu mật lên AI."
+],
+practiceDetail: `
+### Bài thực hành – So sánh 2 công cụ
+Dùng cùng một prompt dưới đây trên 2 công cụ AI khác nhau:
+~~~prompt
+Bạn là kế toán đơn vị hành chính sự nghiệp. Lập mẫu "Bảng kê mua thực phẩm hằng ngày" dạng bảng gồm các cột: STT, Ngày, Tên hàng, Đơn vị tính, Số lượng, Đơn giá, Thành tiền, Ghi chú. Điền 5 dòng ví dụ với số liệu giả định, tính dòng Tổng cộng, và đọc số tổng thành chữ.
+~~~
+Chấm điểm 1–5 cho mỗi tiêu chí, ghi vào Ghi chú:
+| Tiêu chí | Công cụ A | Công cụ B |
+| Hiểu đúng yêu cầu | | |
+| Tiếng Việt tự nhiên | | |
+| Tính đúng tổng | | |
+| Đọc số thành chữ đúng | | |
+| Trình bày dễ dùng | | |
+
+Tự kiểm tra lại tổng bằng máy tính. Công cụ nào sai số?
+`,
+quiz: [
+  { q: "Tiêu chí nào quan trọng NHẤT khi bạn muốn AI tính đúng số liệu bảng kê?", a: ["Giao diện đẹp", "Có khả năng chạy code/tạo file", "Có nhiều màu", "Tên nổi tiếng"], c: 1, e: "Chạy code giúp phép tính được thực hiện thật." },
+  { q: "Nên dùng bao nhiêu công cụ AI?", a: ["Càng nhiều càng tốt", "1 công cụ chính thành thạo + 1 công cụ phụ để đối chiếu", "Chỉ dùng bản miễn phí của tất cả", "Không cần dùng"], c: 1, e: "Thành thạo sâu một công cụ hiệu quả hơn biết sơ nhiều công cụ." },
+  { q: "Dữ liệu nào KHÔNG được đưa lên AI?", a: ["Mẫu bảng kê trống", "Họ tên, hồ sơ người cai nghiện", "Câu hỏi về công thức Excel", "Văn bản pháp luật đã công khai"], c: 1, e: "Dữ liệu cá nhân và thông tin nội bộ phải được bảo vệ." },
+  { q: "Giá và tính năng các gói AI nên lấy từ đâu?", a: ["Nhớ từ năm ngoái", "Trang chính thức, vì thay đổi rất nhanh", "Hỏi AI là đủ", "Bạn bè kể"], c: 1, e: "Thông tin này thay đổi liên tục, cần kiểm tra lại tại nguồn chính thức." }
+],
+cards: [
+  { f: "5 nhóm công cụ AI", b: "Trợ lý trò chuyện; AI trong văn phòng; AI lập trình; AI tạo ảnh/video; AI tìm kiếm." },
+  { f: "6 tiêu chí chọn công cụ", b: "Tiếng Việt, đọc file, chạy code/tạo file, tìm web có nguồn, bảo mật, giá và giới hạn." },
+  { f: "Nguyên tắc 1 chính 1 phụ", b: "Thành thạo một công cụ chính; dùng công cụ phụ để đối chiếu câu trả lời quan trọng." }
+]
+},
+
+{
+id: 5, week: 1, ready: true,
+title: "Viết prompt 5 phần: Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng",
+goal: "Viết được prompt rõ ràng theo công thức 5 phần, biết đưa ví dụ mẫu và chia nhỏ việc.",
+practice: "Viết lại 3 prompt 'xấu' thành prompt tốt và so sánh kết quả.",
+content: `
+## Prompt là gì?
+**Prompt** là câu lệnh, yêu cầu bạn gửi cho AI. Chất lượng câu trả lời phụ thuộc rất lớn vào chất lượng prompt. Giống như giao việc cho nhân viên mới: giao mơ hồ thì nhận về kết quả mơ hồ.
+
+## Công thức 5 phần (nhớ: V-B-N-R-Đ)
+| Phần | Trả lời câu hỏi | Ví dụ |
+| **V**ai trò | AI nên đóng vai ai? | "Bạn là kế toán đơn vị sự nghiệp công lập có 15 năm kinh nghiệm." |
+| **B**ối cảnh | Tình huống, đối tượng, dữ liệu sẵn có? | "Tôi làm ở cơ sở cai nghiện, phụ trách nuôi ăn. Đây là số liệu tháng 10..." |
+| **N**hiệm vụ | Cụ thể cần làm gì? | "Lập biên bản giao nhận thực phẩm ngày 15/10." |
+| **R**àng buộc | Giới hạn, điều cấm, tiêu chuẩn? | "Dùng thuật ngữ 'người cai nghiện'. Không tự thêm số liệu. Tối đa 1 trang." |
+| **Đ**ịnh dạng | Kết quả trình bày ra sao? | "Dạng bảng, có dòng tổng cộng, số tiền ghi bằng chữ." |
+
+Không phải lúc nào cũng cần đủ 5 phần. Việc đơn giản chỉ cần Nhiệm vụ + Định dạng. Việc quan trọng thì dùng đủ.
+
+## So sánh prompt xấu và prompt tốt
+### Ví dụ 1 – Văn bản
+| Xấu | Tốt |
+| "Viết biên bản giao nhận." | "Bạn là kế toán cơ sở cai nghiện. Lập biên bản giao nhận thực phẩm ngày 15/10/2026 giữa nhà cung cấp và bộ phận bếp, gồm 3 mặt hàng tôi liệt kê bên dưới. Có phần thành phần tham dự, bảng hàng hóa (tên, ĐVT, số lượng, đơn giá, thành tiền), tổng tiền bằng số và chữ, phần ký của 3 bên. Không tự thêm mặt hàng." |
+
+### Ví dụ 2 – Excel
+| Xấu | Tốt |
+| "Công thức Excel tính tổng." | "Trong Excel, cột A là Ngày, cột B là Tên hàng, cột F là Thành tiền (dòng 2 đến 500). Viết công thức tính tổng Thành tiền của 'Gạo' trong tháng 10/2026. Giải thích từng phần công thức bằng tiếng Việt đơn giản." |
+
+### Ví dụ 3 – Trading
+| Xấu | Tốt |
+| "Vàng có nên mua không?" | "Đóng vai người giám sát kỷ luật giao dịch. Đây là kế hoạch giao dịch của tôi và lệnh tôi định vào. Hãy kiểm tra lệnh này có vi phạm điều nào trong kế hoạch không. Không đưa ý kiến mua hay bán." |
+
+## 3 kỹ thuật nâng cao dễ dùng
+### 1. Đưa ví dụ mẫu
+AI bắt chước rất giỏi. Thay vì mô tả dài, **dán một mẫu bạn đã làm đúng** và nói: "Làm theo đúng mẫu này cho tháng 11."
+
+### 2. Chia nhỏ việc
+Việc lớn chia thành bước: "Bước 1: lập dàn ý. Chờ tôi duyệt rồi mới viết chi tiết." Mỗi bước kiểm tra một lần, sai thì sửa sớm.
+
+### 3. Sửa từng phần, không làm lại từ đầu
+Kết quả gần đúng thì góp ý cụ thể: "Giữ nguyên tất cả, chỉ sửa mục 3: thay 'học viên' bằng 'người cai nghiện' và rút gọn còn 5 dòng." Góp ý càng cụ thể, AI sửa càng trúng.
+
+## Mẫu khung prompt để dùng lại
+~~~prompt
+VAI TRÒ: Bạn là [chuyên gia gì].
+BỐI CẢNH: [Tôi là ai, đang làm gì, dữ liệu có sẵn].
+NHIỆM VỤ: [Việc cụ thể cần làm].
+RÀNG BUỘC:
+- [Điều bắt buộc]
+- [Điều cấm]
+- Nếu thiếu thông tin, hỏi tôi tối đa 3 câu trước khi làm.
+ĐỊNH DẠNG: [Bảng / văn bản / gạch đầu dòng, độ dài, ngôn ngữ].
+~~~
+`,
+summary: [
+  "Prompt tốt có 5 phần: Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng (V-B-N-R-Đ).",
+  "Đưa ví dụ mẫu và chia nhỏ việc giúp AI làm đúng ý hơn nhiều so với mô tả dài.",
+  "Kết quả gần đúng thì góp ý cụ thể từng phần, không bắt làm lại từ đầu."
+],
+practiceDetail: `
+### Viết lại 3 prompt xấu
+Với mỗi prompt xấu dưới đây: (1) gửi nguyên văn cho AI, (2) viết lại theo khung 5 phần rồi gửi, (3) so sánh hai kết quả, ghi nhận xét vào Ghi chú.
+
+1. "Làm báo cáo tháng."
+2. "Viết công thức đếm số người."
+3. "Lập kế hoạch trading."
+
+Gợi ý cho câu 2:
+~~~prompt
+VAI TRÒ: Bạn là chuyên gia Excel.
+BỐI CẢNH: Tôi có danh sách trong Excel, cột C là Phân khu (A, B, C), cột E là Trạng thái ("Đang cai nghiện" hoặc "Đã chấp hành xong").
+NHIỆM VỤ: Viết công thức đếm số người "Đang cai nghiện" của Phân khu B.
+RÀNG BUỘC: Dùng hàm có trong Excel 2016 trở lên. Giải thích bằng tiếng Việt đơn giản.
+ĐỊNH DẠNG: Công thức trên 1 dòng, sau đó giải thích từng phần bằng gạch đầu dòng.
+~~~
+Sau bài này, vào mục **Prompt** của app, bấm "Thêm prompt của tôi" và lưu prompt tốt nhất bạn viết được.
+`,
+quiz: [
+  { q: "5 phần của công thức prompt là:", a: ["Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng", "Chào hỏi – Hỏi – Cảm ơn – Đánh giá – Lưu", "Tiêu đề – Nội dung – Kết luận – Ký – Đóng dấu", "Mở – Thân – Kết – Phụ lục – Nguồn"], c: 0, e: "V-B-N-R-Đ." },
+  { q: "'Không tự thêm mặt hàng' thuộc phần nào?", a: ["Vai trò", "Bối cảnh", "Ràng buộc", "Định dạng"], c: 2, e: "Đây là điều cấm, thuộc phần Ràng buộc." },
+  { q: "Cách nhanh nhất để AI làm đúng mẫu biên bản quen thuộc của bạn:", a: ["Mô tả thật dài", "Dán một mẫu đã làm đúng và bảo làm theo", "Viết chữ in hoa", "Hỏi nhiều công cụ"], c: 1, e: "AI bắt chước ví dụ mẫu rất tốt." },
+  { q: "Kết quả AI đúng 90%, chỉ sai mục 3. Bạn nên:", a: ["Xóa chat, viết lại từ đầu", "Góp ý cụ thể: giữ nguyên, chỉ sửa mục 3 như sau...", "Chấp nhận luôn", "Chuyển công cụ khác"], c: 1, e: "Góp ý cụ thể từng phần tiết kiệm thời gian và giữ được phần đúng." }
+],
+cards: [
+  { f: "Công thức prompt V-B-N-R-Đ", b: "Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng." },
+  { f: "Few-shot (đưa ví dụ mẫu)", b: "Dán mẫu đã làm đúng để AI bắt chước, thay vì mô tả dài." },
+  { f: "Chia nhỏ việc", b: "Bước 1 làm dàn ý, chờ duyệt rồi mới làm chi tiết; sai thì sửa sớm." },
+  { f: "Câu ràng buộc nên có sẵn", b: "\"Nếu thiếu thông tin, hỏi tôi tối đa 3 câu trước khi làm.\"" }
+]
+},
+
+{
+id: 6, week: 1, ready: true,
+title: "Kiểm soát AI làm đúng ý mình",
+goal: "Dùng hướng dẫn cố định (master prompt), Project, bộ nhớ, skill; bắt AI hỏi lại, lập kế hoạch và tự kiểm tra.",
+practice: "Viết master prompt cho công việc kế toán của bạn và tạo một Project dùng nó.",
+content: `
+## Từ "hỏi đáp" sang "điều khiển"
+Ở buổi 5 bạn học viết từng prompt. Buổi này học cách **dựng khuôn** để AI lần nào cũng làm theo ý bạn mà không phải dặn lại.
+
+## 4 công cụ kiểm soát
+| Công cụ | Giống như | Dùng khi |
+| **Master prompt / hướng dẫn cố định** | Bản quy chế làm việc giao cho nhân viên | Muốn AI luôn theo một cách làm (ví dụ: luôn viết câu lệnh trước, chờ lệnh mới làm) |
+| **Project (dự án)** | Tủ hồ sơ + quy chế riêng cho từng mảng việc | Một mảng việc lặp lại: nuôi ăn, chấm công, học AI |
+| **Bộ nhớ (memory)** | Sổ tay AI ghi về bạn | Thông tin cố định: bạn là ai, thuật ngữ đúng, cách trình bày ưa thích |
+| **Skill (kỹ năng)** | Quy trình mẫu đóng gói sẵn | Việc có quy trình chuẩn: soạn văn bản theo thể thức, làm phim... |
+
+> Bạn đã dùng cả 4 thứ này rồi! Chính cách bạn yêu cầu AI "viết câu lệnh trước, khi tôi gõ HÃY THỰC THI PROMPT NÀY mới làm" là một **master prompt** đặt trong **Project**. App bạn đang học được tạo ra theo đúng quy trình đó.
+
+Tên gọi và cách bật các tính năng này khác nhau giữa các công cụ AI, cần xem hướng dẫn của công cụ bạn dùng.
+
+## 5 câu lệnh kiểm soát nên thuộc lòng
+### 1. Bắt AI hỏi lại trước khi làm
+~~~prompt
+Trước khi làm, hãy hỏi tôi tối đa 3 câu để làm rõ yêu cầu. Chỉ bắt đầu khi tôi trả lời.
+~~~
+### 2. Bắt AI lập kế hoạch, chờ duyệt
+~~~prompt
+Đừng làm ngay. Liệt kê các bước bạn định làm và kết quả mỗi bước. Chờ tôi gõ "Duyệt" rồi mới làm.
+~~~
+### 3. Khóa phạm vi
+~~~prompt
+Chỉ sửa đúng phần tôi chỉ định. Giữ nguyên toàn bộ phần còn lại, kể cả định dạng.
+~~~
+### 4. Bắt AI tự kiểm tra
+~~~prompt
+Trước khi gửi kết quả, hãy tự rà lại theo danh sách sau và sửa lỗi:
+1. Tổng tiền có khớp tổng các dòng không?
+2. Có dùng từ "học viên" không? (phải là "người cai nghiện")
+3. Có số liệu nào tôi không cung cấp mà bạn tự thêm không?
+Ghi rõ kết quả rà soát ở cuối.
+~~~
+### 5. Bắt AI nói rõ chỗ không chắc
+~~~prompt
+Đánh dấu [CẦN KIỂM TRA] ở bất kỳ chỗ nào bạn không chắc chắn 100%.
+~~~
+
+## Vòng lặp làm việc với AI
+1. **Giao việc** bằng prompt 5 phần (+ câu kiểm soát).
+2. **Xem** kết quả, đối chiếu.
+3. **Góp ý cụ thể** từng phần.
+4. **Lưu lại** prompt tốt vào thư viện (mục Prompt trong app) hoặc vào Project.
+Lần sau chỉ việc lấy ra dùng. Làm vài lần, bạn có cả bộ "công thức" riêng: đó chính là tài sản để làm nhanh hơn và để **kiếm tiền** sau này.
+
+## Giới hạn của sự kiểm soát
+- AI vẫn có thể bỏ sót một quy tắc, nhất là khi danh sách quá dài. Quy tắc quan trọng nên đặt **ở đầu và nhắc lại ở cuối**.
+- Không có câu lệnh nào thay thế được **bước bạn tự kiểm tra**.
+`,
+summary: [
+  "Kiểm soát AI bằng 4 công cụ: master prompt, Project, bộ nhớ, skill; dựng khuôn một lần, dùng nhiều lần.",
+  "5 câu lệnh kiểm soát: hỏi lại trước, lập kế hoạch chờ duyệt, khóa phạm vi, tự kiểm tra, đánh dấu chỗ không chắc.",
+  "Vòng lặp: Giao việc → Xem → Góp ý cụ thể → Lưu prompt tốt; bước tự kiểm tra không bao giờ bỏ."
+],
+practiceDetail: `
+### Viết master prompt cho mảng việc của bạn
+Dùng AI để viết giúp, bằng prompt sau:
+~~~prompt
+Giúp tôi viết "hướng dẫn cố định" (master prompt) để đặt vào một Project tên "Kế toán nuôi ăn". Thông tin về tôi:
+- Kế toán cơ sở cai nghiện ma túy công lập thuộc Công an, phụ trách nuôi ăn và trang cấp cho người cai nghiện.
+- Luôn dùng thuật ngữ "người cai nghiện", không dùng "học viên".
+- Văn bản theo thể thức hành chính; số tiền ghi cả bằng số và bằng chữ.
+- Không bao giờ tự thêm số liệu; thiếu số liệu thì hỏi tôi.
+- Kết quả có số liệu phải kèm phần tự kiểm tra tổng cộng.
+Yêu cầu: viết hướng dẫn ngắn gọn, dạng gạch đầu dòng, tối đa 20 dòng. Sau đó hỏi tôi tối đa 3 câu để hoàn thiện.
+~~~
+Tạo một Project mới trong công cụ AI của bạn, dán hướng dẫn vào phần hướng dẫn (instructions) của Project. Thử giao một việc thật (không dùng dữ liệu mật) và xem AI có tuân thủ không. Lưu master prompt vào mục **Prompt** của app.
+`,
+quiz: [
+  { q: "Muốn AI luôn làm theo một quy trình cho cả mảng việc nuôi ăn, nên dùng:", a: ["Gõ lại yêu cầu mỗi lần", "Project kèm hướng dẫn cố định", "Đổi công cụ AI", "Viết chữ in hoa"], c: 1, e: "Project + hướng dẫn cố định là cách dựng khuôn một lần dùng nhiều lần." },
+  { q: "Câu lệnh nào giúp tránh việc AI làm ngay một việc lớn theo hướng sai?", a: ["'Làm nhanh lên'", "'Liệt kê các bước, chờ tôi gõ Duyệt rồi mới làm'", "'Bạn giỏi nhất'", "'Trả lời bằng tiếng Anh'"], c: 1, e: "Lập kế hoạch và chờ duyệt giúp sửa hướng sớm." },
+  { q: "Quy tắc rất quan trọng trong một danh sách dài nên đặt ở đâu?", a: ["Chỉ ở giữa", "Ở đầu và nhắc lại ở cuối", "Không cần ghi", "Trong ngoặc đơn"], c: 1, e: "AI có thể bỏ sót quy tắc trong danh sách dài; nhắc lại giúp giảm sót." },
+  { q: "Điều gì KHÔNG thể thay thế dù prompt tốt đến đâu?", a: ["Bước tự kiểm tra của bạn", "Chọn phông chữ", "Đặt tên chat", "Chế độ tối"], c: 0, e: "Bạn luôn là người kiểm tra cuối cùng." }
+],
+cards: [
+  { f: "Master prompt", b: "Hướng dẫn cố định đặt sẵn để AI luôn làm theo một cách làm, không phải dặn lại." },
+  { f: "Project", b: "Không gian làm việc riêng cho một mảng việc: có tài liệu nền và hướng dẫn chung." },
+  { f: "Skill", b: "Quy trình mẫu đóng gói sẵn để AI làm một loại việc theo chuẩn." },
+  { f: "Vòng lặp làm việc với AI", b: "Giao việc → Xem → Góp ý cụ thể → Lưu prompt tốt." },
+  { f: "Câu lệnh tự kiểm tra", b: "\"Trước khi gửi, tự rà theo danh sách sau và ghi rõ kết quả rà soát ở cuối.\"" }
+]
+},
+
+{
+id: 7, week: 1, ready: true, review: true,
+title: "Ôn tập & kiểm tra Tuần 1",
+goal: "Hệ thống lại kiến thức Tuần 1 và áp dụng vào một việc thật trong tuần tới.",
+practice: "Viết 1 prompt hoàn chỉnh (5 phần + câu kiểm soát) cho một việc thật bạn sẽ làm tuần tới.",
+content: `
+## Bản đồ Tuần 1
+| Buổi | Ý quan trọng nhất |
+| 1. AI là gì | AI viết chữ hợp lý, không phải cỗ máy biết sự thật |
+| 2. Token, ngữ cảnh | Mỗi việc một chat; quy định mới phải tìm web hoặc dán văn bản |
+| 3. AI bịa | Con số và căn cứ pháp lý luôn tự kiểm tra |
+| 4. Công cụ | Thành thạo 1 công cụ chính, 1 công cụ phụ để đối chiếu |
+| 5. Prompt 5 phần | Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng |
+| 6. Kiểm soát AI | Master prompt, Project, bộ nhớ, skill + 5 câu lệnh kiểm soát |
+
+## Tự đánh giá
+Đánh dấu vào Ghi chú những câu bạn trả lời "Có":
+- Tôi giải thích được cho đồng nghiệp vì sao AI có thể bịa.
+- Tôi có thói quen mở chat mới cho mỗi việc.
+- Tôi đã tự kiểm tra ít nhất 1 số hiệu văn bản AI đưa ra.
+- Tôi viết được prompt 5 phần mà không cần nhìn mẫu.
+- Tôi đã lưu ít nhất 2 prompt tốt vào thư viện.
+- Tôi có 1 Project với hướng dẫn cố định.
+
+Câu nào "Chưa", hãy xem lại buổi tương ứng trước khi sang Tuần 2.
+
+## Chuẩn bị cho Tuần 2
+Tuần 2 bạn sẽ học **lập trình vừa đủ hiểu** và cài Python, VS Code trên máy Windows. Nếu có thể, hãy kiểm tra trước: máy có quyền cài phần mềm không (máy cơ quan thường bị khóa, nên dùng máy cá nhân).
+`,
+summary: [
+  "AI viết chữ hợp lý; bạn phải kiểm tra con số và căn cứ pháp lý.",
+  "Prompt 5 phần + câu lệnh kiểm soát + Project giúp AI làm đúng ý ổn định.",
+  "Tuần 2: lập trình vừa đủ hiểu; chuẩn bị máy tính cá nhân có quyền cài phần mềm."
+],
+practiceDetail: `
+### Bài tập tổng hợp
+Chọn một việc thật bạn sẽ làm trong tuần tới (biên bản, bảng kê, báo cáo, tờ trình...). Viết prompt theo khung:
+~~~prompt
+VAI TRÒ:
+BỐI CẢNH:
+NHIỆM VỤ:
+RÀNG BUỘC:
+- Nếu thiếu thông tin, hỏi tôi tối đa 3 câu trước khi làm.
+- Đánh dấu [CẦN KIỂM TRA] ở chỗ không chắc chắn.
+- Trước khi gửi, tự rà soát: [danh sách tiêu chí của bạn].
+ĐỊNH DẠNG:
+~~~
+Nhớ: thay mọi dữ liệu cá nhân bằng dữ liệu giả trước khi gửi. Dùng thử, chỉnh sửa, rồi lưu bản cuối vào mục Prompt.
+`,
+quiz: [
+  { q: "Câu nào mô tả đúng nhất cách AI tạo câu trả lời?", a: ["Tra đáp án có sẵn", "Viết từng mẩu chữ hợp lý nhất", "Copy từ Google", "Hỏi người thật"], c: 1, e: "Ý cốt lõi của buổi 1." },
+  { q: "Cuộc trò chuyện đã rất dài và AI bắt đầu nhầm số liệu tháng 9 với tháng 10. Bạn nên:", a: ["Tiếp tục hỏi", "Nhờ AI tóm tắt quyết định, mở chat mới và dán tóm tắt vào", "Tắt máy", "Đổi sang tiếng Anh"], c: 1, e: "Cửa sổ ngữ cảnh có giới hạn; chuyển sang chat mới với bản tóm tắt." },
+  { q: "AI đưa ra 'khoản 2 Điều 8 Thông tư ...' nhưng không có link. Bạn làm gì?", a: ["Đưa thẳng vào tờ trình", "Tự tra văn bản gốc trên nguồn chính thức trước khi dùng", "Hỏi AI 'có chắc không' rồi tin", "Bỏ qua"], c: 1, e: "Căn cứ pháp lý luôn tự đối chiếu." },
+  { q: "Chữ 'R' trong V-B-N-R-Đ là:", a: ["Rõ ràng", "Ràng buộc", "Rà soát", "Rút gọn"], c: 1, e: "Ràng buộc: điều bắt buộc, điều cấm, tiêu chuẩn." },
+  { q: "Thông tin nào cần 'cần kiểm tra lại' trên trang chính thức?", a: ["Định nghĩa token", "Giá và tính năng các gói AI", "Công thức V-B-N-R-Đ", "Ý nghĩa của Project"], c: 1, e: "Giá và tính năng thay đổi rất nhanh." },
+  { q: "Câu lệnh 'Chỉ sửa đúng phần tôi chỉ định, giữ nguyên phần còn lại' thuộc nhóm:", a: ["Khóa phạm vi", "Vai trò", "Bối cảnh", "Tìm web"], c: 0, e: "Một trong 5 câu lệnh kiểm soát." },
+  { q: "Cách tốt nhất để AI viết biên bản đúng mẫu quen thuộc của cơ sở:", a: ["Mô tả bằng lời thật dài", "Đưa mẫu đã làm đúng (đã bỏ dữ liệu thật) và yêu cầu làm theo", "Nhờ AI tự sáng tạo", "Hỏi 3 công cụ"], c: 1, e: "Đưa ví dụ mẫu (few-shot)." },
+  { q: "Bạn muốn AI không làm ngay mà trình bày các bước trước. Câu lệnh phù hợp:", a: ["'Liệt kê các bước, chờ tôi gõ Duyệt rồi mới làm'", "'Làm ngay'", "'Cố gắng lên'", "'Trả lời ngắn'"], c: 0, e: "Lập kế hoạch và chờ duyệt." },
+  { q: "Dữ liệu nào an toàn để đưa lên AI?", a: ["Danh sách họ tên người cai nghiện", "Mẫu bảng kê với số liệu giả định", "Mật khẩu tài khoản", "Văn bản mật"], c: 1, e: "Chỉ dùng dữ liệu giả hoặc đã ẩn danh." },
+  { q: "Vì sao nên lưu prompt tốt vào thư viện?", a: ["Cho đẹp", "Để dùng lại nhanh, dần thành bộ công thức riêng có thể kiếm tiền", "Vì AI bắt buộc", "Không có lý do"], c: 1, e: "Prompt tốt là tài sản làm việc." }
+],
+cards: [
+  { f: "Ý cốt lõi Tuần 1", b: "AI là cỗ máy viết chữ hợp lý; bạn cầm lái bằng prompt tốt, công cụ kiểm soát và bước tự kiểm tra." }
+]
+},
+
+/* ============================ TUẦN 2 ============================ */
+{ id: 8,  week: 2, ready: false, title: "Biến và kiểu dữ liệu", goal: "Hiểu biến như 'ô Excel có tên'; phân biệt số, chữ, đúng/sai, danh sách.", practice: "Nhờ AI viết đoạn Python tính thành tiền = số lượng × đơn giá và đọc hiểu từng dòng." },
+{ id: 9,  week: 2, ready: false, title: "Điều kiện if – 'nếu… thì…'", goal: "Hiểu lệnh if giống hàm IF trong Excel; đọc được code có điều kiện.", practice: "Viết đoạn code cảnh báo khi định lượng vượt định mức." },
+{ id: 10, week: 2, ready: false, title: "Vòng lặp – làm lặp lại tự động", goal: "Hiểu vòng lặp for: làm một việc cho từng dòng của bảng kê.", practice: "Cộng tổng cột Thành tiền và tính tỷ lệ thắng từ danh sách lệnh giao dịch." },
+{ id: 11, week: 2, ready: false, title: "Hàm – đóng gói một việc để dùng lại", goal: "Hiểu hàm (function) như 'công thức tự đặt tên'; tách việc lớn thành hàm nhỏ.", practice: "Viết hàm tính khối lượng lệnh từ vốn, % rủi ro và khoảng dừng lỗ." },
+{ id: 12, week: 2, ready: false, title: "Cài Python + VS Code, chạy script đầu tiên", goal: "Tự cài môi trường trên Windows và chạy được một file .py.", practice: "Cài Python, VS Code; chạy script in ra bảng kê mẫu." },
+{ id: 13, week: 2, ready: false, title: "Đọc thông báo lỗi và nhờ AI sửa", goal: "Không sợ lỗi: đọc dòng lỗi quan trọng, chép đúng cách cho AI sửa.", practice: "Cố tình tạo 3 lỗi phổ biến, dùng quy trình mô tả → chạy → báo lỗi → sửa." },
+{ id: 14, week: 2, ready: false, review: true, title: "Ôn tập & kiểm tra Tuần 2", goal: "Đọc hiểu một script hoàn chỉnh AI viết.", practice: "Đọc và chú thích từng dòng một script tự động hóa ngắn." },
+
+/* ============================ TUẦN 3 ============================ */
+{ id: 15, week: 3, ready: false, title: "Trang web và ứng dụng: HTML, CSS, JavaScript", goal: "Hiểu 3 lớp của một trang web: khung, trang trí, hành động.", practice: "Mở mã nguồn chính app này, nhận diện phần HTML, CSS, JavaScript." },
+{ id: 16, week: 3, ready: false, title: "App offline: PWA, service worker, localStorage", goal: "Hiểu vì sao app này chạy không cần mạng và dữ liệu nằm ở đâu.", practice: "Mổ xẻ app Sổ tay học AI và app Sổ tay cai nghiện; thử sao lưu/khôi phục dữ liệu." },
+{ id: 17, week: 3, ready: false, title: "API và AI Agent là gì", goal: "Hiểu API như 'cửa giao dịch giữa hai phần mềm', Agent là AI tự dùng công cụ làm nhiều bước.", practice: "Vẽ sơ đồ một quy trình công việc có thể giao cho Agent." },
+{ id: 18, week: 3, ready: false, title: "Python đọc/ghi Excel", goal: "Hiểu cách script đọc bảng Excel, tính toán và ghi kết quả.", practice: "Mổ xẻ script tạo biên bản tự động; nhờ AI thêm một cột mới." },
+{ id: 19, week: 3, ready: false, title: "Tạo Word hàng loạt, gộp và tách file", goal: "Tự động tạo nhiều văn bản từ một mẫu và một bảng dữ liệu.", practice: "Tạo 5 biên bản Word từ 1 file Excel dữ liệu giả." },
+{ id: 20, week: 3, ready: false, title: "Bảo mật và ẩn danh hóa dữ liệu", goal: "Biết dữ liệu nào tuyệt đối không đưa lên AI và cách thay bằng dữ liệu giả.", practice: "Ẩn danh một bảng dữ liệu mẫu trước khi nhờ AI phân tích." },
+{ id: 21, week: 3, ready: false, review: true, title: "Ôn tập Tuần 3 + thống kê lịch sử giao dịch bằng Python", goal: "Tổng hợp Tuần 3; dùng Python thống kê file lịch sử xuất từ MetaTrader.", practice: "Xuất lịch sử từ MetaTrader, chạy script thống kê, so sánh với tab Giao dịch của app." },
+
+/* ============================ TUẦN 4 ============================ */
+{ id: 22, week: 4, ready: false, title: "Sự thật về trading, AI và các kiểu lừa đảo", goal: "Hiểu vì sao AI không đoán được giá, rủi ro pháp lý và các chiêu lừa 'bot AI lãi chắc'.", practice: "Nhờ AI liệt kê dấu hiệu lừa đảo và tự đối chiếu với các lời mời bạn từng nhận." },
+{ id: 23, week: 4, ready: false, title: "Lot, pip, đòn bẩy, ký quỹ, stop out, spread, swap", goal: "Hiểu chính xác mỗi lệnh có thể làm mất bao nhiêu tiền.", practice: "Dùng máy tính khối lượng lệnh trong app với 5 tình huống." },
+{ id: 24, week: 4, ready: false, title: "Lỗi 1: Vào lệnh theo cảm xúc", goal: "Nhận ra trạng thái cảm xúc nguy hiểm; dùng bảng kiểm trước lệnh.", practice: "Dùng bảng kiểm trước mọi lệnh demo trong 1 tuần, ghi điểm cảm xúc." },
+{ id: 25, week: 4, ready: false, title: "Lỗi 2: Gồng lỗ và dời dừng lỗ", goal: "Đặt SL ngay khi vào lệnh, không dời SL xa hơn, không nhồi lệnh khi đang lỗ.", practice: "Thống kê các lệnh đã dời SL trong nhật ký và kết quả của chúng." },
+{ id: 26, week: 4, ready: false, title: "Lỗi 3: Thiếu kỷ luật – kế hoạch giao dịch", goal: "Viết kế hoạch giao dịch 1 trang và các quy tắc dừng.", practice: "Hoàn thiện mục Kế hoạch trong tab Giao dịch; in ra dán cạnh máy tính." },
+{ id: 27, week: 4, ready: false, title: "Lỗi 4: Vào lệnh quá lớn – quản lý vốn", goal: "Rủi ro tối đa 1% vốn/lệnh; tính khối lượng từ khoảng dừng lỗ; hiểu sụt vốn.", practice: "Mô phỏng 20 lệnh thua liên tiếp ở mức rủi ro 1% và 10% để so sánh." },
+{ id: 28, week: 4, ready: false, title: "AI phân tích nhật ký giao dịch & backtest nhập môn", goal: "Dùng AI tìm mẫu hình thua lỗ của chính mình; hiểu giới hạn của backtest.", practice: "Xuất nhật ký từ app cho AI phân tích; lập lộ trình demo 30 ngày." },
+{ id: 29, week: 4, ready: false, title: "Kiếm tiền từ AI: hướng hợp với kế toán", goal: "Chọn 1 hướng: công cụ Excel, dịch vụ sổ sách, app nhỏ, bán mẫu, dạy lại; cách tìm khách, báo giá; lưu ý quy định làm thêm của cán bộ.", practice: "Viết bản giới thiệu dịch vụ và bảng báo giá mẫu cho 1 hướng đã chọn." },
+{ id: 30, week: 4, ready: false, review: true, title: "Dự án cuối khóa & kiểm tra tổng kết", goal: "Hoàn thành một công cụ nhỏ có thể dùng cho công việc hoặc để bán.", practice: "Làm dự án cuối khóa theo quy trình đã học; làm bài kiểm tra tổng kết." }
+];
+
+/* ---------------- TỪ ĐIỂN THUẬT NGỮ ---------------- */
+const GLOSSARY = [
+  // AI
+  { en: "AI (Artificial Intelligence)", vi: "Trí tuệ nhân tạo", d: "Máy tính làm những việc thường cần trí tuệ con người: hiểu ngôn ngữ, nhận dạng hình ảnh, ra quyết định.", g: "AI" },
+  { en: "LLM (Large Language Model)", vi: "Mô hình ngôn ngữ lớn", d: "Loại AI học từ lượng văn bản khổng lồ, trả lời bằng cách viết từng mẩu chữ hợp lý nhất. Claude, ChatGPT, Gemini thuộc loại này.", g: "AI" },
+  { en: "Model", vi: "Mô hình", d: "Chương trình AI đã được huấn luyện. Mỗi công cụ có nhiều model mạnh/yếu khác nhau.", g: "AI" },
+  { en: "Training", vi: "Huấn luyện", d: "Giai đoạn AI đọc dữ liệu và tự tập đoán chữ tiếp theo, sai thì chỉnh.", g: "AI" },
+  { en: "Token", vi: "Mẩu chữ", d: "Đơn vị nhỏ AI cắt văn bản ra để đọc; giới hạn sử dụng thường tính theo token.", g: "AI" },
+  { en: "Context window", vi: "Cửa sổ ngữ cảnh", d: "Toàn bộ nội dung AI 'nhìn thấy' trong một cuộc trò chuyện; có giới hạn.", g: "AI" },
+  { en: "Knowledge cutoff", vi: "Giới hạn kiến thức", d: "Thời điểm AI ngừng được huấn luyện; chuyện sau đó nó không biết nếu không tìm web.", g: "AI" },
+  { en: "Prompt", vi: "Câu lệnh", d: "Yêu cầu bạn gửi cho AI.", g: "AI" },
+  { en: "System prompt / Instructions", vi: "Hướng dẫn hệ thống", d: "Hướng dẫn cố định đặt sẵn, AI đọc trước mọi câu hỏi (ví dụ trong Project).", g: "AI" },
+  { en: "Master prompt", vi: "Câu lệnh gốc", d: "Bộ quy tắc làm việc bạn tự đặt để AI luôn làm theo một cách.", g: "AI" },
+  { en: "Few-shot", vi: "Đưa ví dụ mẫu", d: "Kèm vài ví dụ đúng để AI bắt chước.", g: "AI" },
+  { en: "Hallucination", vi: "AI bịa", d: "AI đưa thông tin sai nhưng trình bày tự tin như thật.", g: "AI" },
+  { en: "Memory", vi: "Bộ nhớ", d: "Tính năng AI ghi lại thông tin về bạn để dùng ở các cuộc trò chuyện sau.", g: "AI" },
+  { en: "Project", vi: "Dự án", d: "Không gian làm việc riêng có tài liệu nền và hướng dẫn chung.", g: "AI" },
+  { en: "Skill", vi: "Kỹ năng", d: "Quy trình mẫu đóng gói sẵn để AI làm một loại việc theo chuẩn.", g: "AI" },
+  { en: "Agent", vi: "Tác tử AI", d: "AI tự dùng công cụ (tìm web, chạy code, đọc file) để làm việc nhiều bước.", g: "AI" },
+  { en: "Multimodal", vi: "Đa phương thức", d: "AI xử lý được nhiều loại dữ liệu: chữ, ảnh, âm thanh, file.", g: "AI" },
+  { en: "Chatbot", vi: "Trợ lý trò chuyện", d: "Chương trình trả lời qua khung chat.", g: "AI" },
+  // Lập trình
+  { en: "Code", vi: "Mã lệnh", d: "Các câu lệnh viết bằng ngôn ngữ lập trình để máy tính làm theo.", g: "Lập trình" },
+  { en: "Variable", vi: "Biến", d: "Một 'ô có tên' để chứa giá trị, giống ô Excel được đặt tên.", g: "Lập trình" },
+  { en: "Data type", vi: "Kiểu dữ liệu", d: "Loại giá trị: số, chữ, đúng/sai, danh sách...", g: "Lập trình" },
+  { en: "String", vi: "Chuỗi chữ", d: "Dữ liệu dạng chữ, đặt trong dấu nháy: \"Gạo\".", g: "Lập trình" },
+  { en: "Number (int/float)", vi: "Số (nguyên/thập phân)", d: "Dữ liệu dạng số để tính toán.", g: "Lập trình" },
+  { en: "Boolean", vi: "Đúng/Sai", d: "Kiểu chỉ có 2 giá trị: True (đúng) hoặc False (sai).", g: "Lập trình" },
+  { en: "List / Array", vi: "Danh sách / Mảng", d: "Nhiều giá trị xếp theo thứ tự, giống một cột Excel.", g: "Lập trình" },
+  { en: "Dictionary / Object", vi: "Từ điển / Đối tượng", d: "Nhóm dữ liệu có tên từng phần, giống một dòng Excel có tiêu đề cột.", g: "Lập trình" },
+  { en: "If / else", vi: "Nếu / ngược lại", d: "Lệnh rẽ nhánh theo điều kiện, giống hàm IF trong Excel.", g: "Lập trình" },
+  { en: "Loop (for/while)", vi: "Vòng lặp", d: "Lặp lại một việc cho từng phần tử, ví dụ từng dòng bảng kê.", g: "Lập trình" },
+  { en: "Function", vi: "Hàm", d: "Một đoạn code có tên, nhận đầu vào và trả kết quả; giống công thức tự đặt tên.", g: "Lập trình" },
+  { en: "Bug", vi: "Lỗi", d: "Chỗ sai làm chương trình chạy không đúng.", g: "Lập trình" },
+  { en: "Debug", vi: "Gỡ lỗi", d: "Tìm và sửa lỗi.", g: "Lập trình" },
+  { en: "Error message", vi: "Thông báo lỗi", d: "Dòng chữ máy báo khi gặp lỗi; chép nguyên văn cho AI để sửa.", g: "Lập trình" },
+  { en: "Library", vi: "Thư viện", d: "Bộ code có sẵn người khác viết để dùng lại, ví dụ thư viện đọc Excel.", g: "Lập trình" },
+  { en: "Python", vi: "Ngôn ngữ Python", d: "Ngôn ngữ lập trình dễ đọc, rất hợp để tự động hóa Excel, Word.", g: "Lập trình" },
+  { en: "Script", vi: "Kịch bản lệnh", d: "Một file code ngắn làm một việc tự động.", g: "Lập trình" },
+  { en: "Terminal", vi: "Cửa sổ dòng lệnh", d: "Cửa sổ gõ lệnh cho máy tính (trên Windows: PowerShell/Command Prompt).", g: "Lập trình" },
+  { en: "VS Code", vi: "Trình soạn code", d: "Phần mềm miễn phí để viết và chạy code.", g: "Lập trình" },
+  { en: "HTML", vi: "Ngôn ngữ khung trang web", d: "Phần 'khung xương' của trang web: tiêu đề, đoạn văn, nút bấm.", g: "Ứng dụng" },
+  { en: "CSS", vi: "Ngôn ngữ trang trí", d: "Phần màu sắc, cỡ chữ, bố cục của trang web.", g: "Ứng dụng" },
+  { en: "JavaScript", vi: "Ngôn ngữ hành động", d: "Phần làm trang web 'sống': bấm nút, tính toán, lưu dữ liệu.", g: "Ứng dụng" },
+  { en: "PWA", vi: "Ứng dụng web cài được", d: "Trang web có thể cài lên màn hình chính và chạy offline như app.", g: "Ứng dụng" },
+  { en: "Service worker", vi: "Bộ lưu đệm offline", d: "Đoạn code chạy nền, lưu sẵn các file để app mở được khi không có mạng.", g: "Ứng dụng" },
+  { en: "localStorage", vi: "Bộ nhớ trình duyệt", d: "Chỗ lưu dữ liệu nhỏ ngay trong trình duyệt của máy; xóa dữ liệu trình duyệt là mất.", g: "Ứng dụng" },
+  { en: "JSON", vi: "Định dạng dữ liệu JSON", d: "Cách ghi dữ liệu dạng văn bản có cấu trúc, dùng để lưu và trao đổi dữ liệu.", g: "Ứng dụng" },
+  { en: "CSV", vi: "File bảng phân cách dấu phẩy", d: "File bảng dạng chữ, mỗi dòng là một hàng, các cột cách nhau bằng dấu phẩy; Excel mở được.", g: "Ứng dụng" },
+  { en: "API", vi: "Giao diện lập trình", d: "'Cửa giao dịch' để phần mềm này gọi phần mềm khác làm việc.", g: "Ứng dụng" },
+  { en: "Backup", vi: "Sao lưu", d: "Tạo bản sao dữ liệu để khôi phục khi mất.", g: "Ứng dụng" },
+  { en: "Anonymize", vi: "Ẩn danh hóa", d: "Thay thông tin nhận diện (tên, số giấy tờ) bằng mã hoặc dữ liệu giả trước khi đưa lên AI.", g: "Ứng dụng" },
+  // Trading
+  { en: "CFD", vi: "Hợp đồng chênh lệch", d: "Sản phẩm phái sinh: bạn không sở hữu tài sản thật, chỉ ăn/thua phần chênh lệch giá.", g: "Trading" },
+  { en: "Lot", vi: "Lô (khối lượng)", d: "Đơn vị khối lượng lệnh. Với forex, 1 lot chuẩn thường = 100.000 đơn vị tiền cơ sở; với vàng thường = 100 oz (đối chiếu thông số hợp đồng trên sàn).", g: "Trading" },
+  { en: "Pip", vi: "Đơn vị biến động giá", d: "Bước giá nhỏ dùng để đo lãi/lỗ. Với EURUSD, 1 pip = 0,0001.", g: "Trading" },
+  { en: "Leverage", vi: "Đòn bẩy", d: "Vay thêm từ sàn để mở lệnh lớn hơn vốn; khuếch đại cả lãi lẫn LỖ.", g: "Trading" },
+  { en: "Margin", vi: "Ký quỹ", d: "Số tiền bị 'giữ' để duy trì lệnh đang mở.", g: "Trading" },
+  { en: "Margin call", vi: "Cảnh báo ký quỹ", d: "Mức sàn cảnh báo tài khoản sắp không đủ ký quỹ.", g: "Trading" },
+  { en: "Stop out", vi: "Cắt lệnh bắt buộc", d: "Mức sàn tự động đóng lệnh của bạn vì không đủ ký quỹ, thường ở mức lỗ rất nặng.", g: "Trading" },
+  { en: "Spread", vi: "Chênh lệch giá mua/bán", d: "Chi phí ẩn mỗi lần vào lệnh.", g: "Trading" },
+  { en: "Swap", vi: "Phí qua đêm", d: "Phí (hoặc tiền nhận) khi giữ lệnh qua đêm.", g: "Trading" },
+  { en: "Stop loss (SL)", vi: "Dừng lỗ", d: "Mức giá tự động đóng lệnh để giới hạn lỗ. Đặt ngay khi vào lệnh, không dời xa hơn.", g: "Trading" },
+  { en: "Take profit (TP)", vi: "Chốt lời", d: "Mức giá tự động đóng lệnh khi đạt lãi mục tiêu.", g: "Trading" },
+  { en: "Risk per trade", vi: "Rủi ro mỗi lệnh", d: "Số tiền tối đa chấp nhận mất ở một lệnh, thường tính theo % vốn (ví dụ 1%).", g: "Trading" },
+  { en: "Risk:Reward (R:R)", vi: "Tỷ lệ rủi ro : lợi nhuận", d: "So sánh khoảng dừng lỗ với khoảng chốt lời. 1:2 nghĩa là chấp nhận mất 1 để có cơ hội được 2.", g: "Trading" },
+  { en: "Drawdown", vi: "Sụt giảm vốn", d: "Mức vốn giảm từ đỉnh xuống đáy. Mất 50% vốn cần lãi 100% mới về lại.", g: "Trading" },
+  { en: "Win rate", vi: "Tỷ lệ thắng", d: "Số lệnh thắng / tổng số lệnh. Tỷ lệ thắng cao vẫn có thể thua nếu lỗ lớn hơn lãi.", g: "Trading" },
+  { en: "Backtest", vi: "Kiểm tra trên dữ liệu quá khứ", d: "Chạy thử chiến lược trên dữ liệu cũ; kết quả đẹp không bảo đảm tương lai.", g: "Trading" },
+  { en: "Demo account", vi: "Tài khoản thử", d: "Tài khoản tiền ảo để luyện tập, không mất tiền thật.", g: "Trading" },
+  { en: "FOMO", vi: "Sợ lỡ cơ hội", d: "Cảm giác vội vào lệnh vì sợ giá chạy mất.", g: "Trading" },
+  { en: "Revenge trading", vi: "Giao dịch gỡ / trả thù", d: "Vào lệnh để gỡ lại lệnh vừa thua; nguyên nhân phổ biến gây cháy tài khoản.", g: "Trading" },
+  { en: "Overtrading", vi: "Giao dịch quá nhiều", d: "Vào quá nhiều lệnh ngoài kế hoạch.", g: "Trading" }
+];
+
+/* ---------------- THƯ VIỆN PROMPT MẪU ---------------- */
+const PROMPTS = [
+  { g: "Gốc", t: "Master prompt: viết câu lệnh trước, làm sau", x: `Nhiệm vụ của bạn từ bây giờ: Khi tôi đưa một ý tưởng hoặc yêu cầu ngắn gọn, bạn KHÔNG làm ngay. Hãy đóng vai chuyên gia, viết một CÂU LỆNH chi tiết, đầy đủ vai trò, bối cảnh, nhiệm vụ, ràng buộc và định dạng, đặt trong khối code để tôi sao chép. Sau đó hỏi tôi tối đa 3 câu ngắn nếu cần thêm thông tin.
+Khi tôi gõ "HÃY THỰC THI PROMPT NÀY", bạn mới làm bài hoàn chỉnh.` },
+  { g: "Gốc", t: "Khung prompt 5 phần", x: `VAI TRÒ: Bạn là [chuyên gia gì].
+BỐI CẢNH: [Tôi là ai, đang làm gì, dữ liệu có sẵn].
+NHIỆM VỤ: [Việc cụ thể].
+RÀNG BUỘC:
+- [Điều bắt buộc] / [Điều cấm]
+- Nếu thiếu thông tin, hỏi tôi tối đa 3 câu trước khi làm.
+- Đánh dấu [CẦN KIỂM TRA] ở chỗ không chắc chắn.
+ĐỊNH DẠNG: [Bảng / văn bản / độ dài].` },
+  { g: "Văn bản", t: "Chỉ trả lời dựa trên văn bản (chống bịa)", x: `Chỉ dựa trên văn bản tôi dán bên dưới để trả lời.
+- Mỗi ý ghi rõ lấy từ điều/khoản/đoạn nào.
+- Nếu văn bản không đề cập, ghi đúng câu: "Văn bản không đề cập".
+- Không dùng kiến thức bên ngoài, không suy đoán.
+Câu hỏi: [...]
+Văn bản:
+[...]` },
+  { g: "Văn bản", t: "Tóm tắt văn bản dài", x: `Tóm tắt văn bản dưới đây cho người bận rộn:
+1. Mục đích văn bản (1 câu).
+2. 5 điểm quan trọng nhất (gạch đầu dòng, mỗi ý 1 dòng, ghi điều/khoản).
+3. Việc tôi (kế toán) cần làm theo văn bản này.
+4. Thời hạn, mốc thời gian (nếu có).
+Không thêm thông tin ngoài văn bản.
+[dán văn bản]` },
+  { g: "Văn bản", t: "Sửa lỗi chính tả, văn phong hành chính", x: `Rà soát đoạn văn bản dưới đây:
+- Sửa lỗi chính tả, dấu câu, lặp từ.
+- Chuyển sang văn phong hành chính, ngắn gọn, rõ nghĩa.
+- Dùng "người cai nghiện", không dùng "học viên".
+- KHÔNG thay đổi số liệu, tên riêng, số hiệu văn bản.
+Trình bày: bản đã sửa, sau đó bảng liệt kê các chỗ đã sửa (cũ → mới).
+[dán đoạn văn]` },
+  { g: "Excel", t: "Viết công thức Excel", x: `Tôi dùng Excel [phiên bản]. Dữ liệu: cột [A] là [..], cột [B] là [..], dữ liệu từ dòng [2] đến [500].
+Cần: [mô tả kết quả muốn có].
+Hãy viết công thức, giải thích từng phần bằng tiếng Việt đơn giản, và cho 1 ví dụ kết quả với 3 dòng dữ liệu giả.` },
+  { g: "Excel", t: "Giải thích công thức có sẵn", x: `Giải thích công thức Excel sau cho người mới, từng phần một, kèm ví dụ:
+[dán công thức]
+Sau đó chỉ ra lỗi có thể gặp và cách sửa.` },
+  { g: "Excel", t: "Tự động hóa Excel bằng Python", x: `Tôi là người mới học lập trình, dùng Windows, đã cài Python.
+Tôi có file Excel [tên file] với các cột: [liệt kê].
+Cần script Python để: [mô tả việc].
+Yêu cầu: dùng thư viện openpyxl hoặc pandas; chú thích tiếng Việt từng đoạn; hướng dẫn cài thư viện và cách chạy từng bước; không ghi đè file gốc, lưu kết quả ra file mới.` },
+  { g: "Sửa lỗi code", t: "Báo lỗi cho AI sửa", x: `Tôi chạy đoạn code dưới đây thì bị lỗi.
+- Tôi muốn code làm: [mục đích].
+- Tôi đã làm: [các bước].
+- Thông báo lỗi (chép nguyên văn):
+[dán lỗi]
+- Code:
+[dán code]
+Hãy giải thích lỗi bằng tiếng Việt đơn giản, chỉ ra dòng sai, và đưa code đã sửa hoàn chỉnh.` },
+  { g: "Sửa lỗi code", t: "Giải thích code từng dòng", x: `Giải thích đoạn code sau cho người mới học, từng dòng một, dùng ví dụ về sổ sách kế toán khi có thể. Cuối cùng tóm tắt đoạn code làm gì trong 3 câu.
+[dán code]` },
+  { g: "Làm app", t: "Mô tả app offline cần làm", x: `Bạn là lập trình viên PWA. Làm cho tôi ứng dụng [tên] chạy offline trên iPhone và Windows.
+- Người dùng: [ai].
+- Chức năng: [liệt kê].
+- Dữ liệu lưu trên máy (localStorage), có sao lưu/khôi phục JSON.
+- Một file HTML, không thư viện ngoài, kèm manifest và service worker.
+- Giao diện tiếng Việt, dễ dùng trên điện thoại.
+Trước khi làm, hỏi tôi tối đa 3 câu.` },
+  { g: "Làm app", t: "Thêm tính năng vào app đã có", x: `Đây là mã nguồn app hiện tại của tôi. Hãy thêm tính năng: [mô tả].
+Ràng buộc: giữ nguyên toàn bộ chức năng và dữ liệu cũ; chỉ sửa những phần cần thiết; liệt kê rõ đã sửa những chỗ nào.
+[dán mã nguồn hoặc đính kèm file]` },
+  { g: "Học", t: "Giải thích như cho người mới", x: `Giải thích [khái niệm] cho tôi, một kế toán chưa biết gì về công nghệ.
+- Dùng 1 ví dụ đời thường và 1 ví dụ về sổ sách kế toán.
+- Tối đa 200 chữ.
+- Cuối cùng cho 3 câu hỏi trắc nghiệm để tôi tự kiểm tra (có đáp án ở cuối).` },
+  { g: "Trading", t: "Giám sát kỷ luật trước khi vào lệnh", x: `Đóng vai người giám sát kỷ luật giao dịch, nghiêm khắc và trung thực.
+Kế hoạch giao dịch của tôi: [dán kế hoạch].
+Lệnh tôi định vào: cặp [..], mua/bán, giá vào [..], SL [..], TP [..], khối lượng [..] lot, lý do [..], cảm xúc hiện tại [1–5].
+Hãy kiểm tra lệnh này vi phạm điều nào trong kế hoạch. Tính số tiền sẽ mất nếu chạm SL và % so với vốn [..].
+TUYỆT ĐỐI không đưa ý kiến giá sẽ lên hay xuống, không khuyên mua hay bán.` },
+  { g: "Trading", t: "Phân tích lệnh thua sau khi đóng", x: `Tôi vừa thua một lệnh. Thông tin: [cặp, giá vào/ra, SL/TP ban đầu, có dời SL không, khối lượng, lý do vào lệnh, cảm xúc trước và trong lệnh].
+Hãy giúp tôi: 1) xác định lệnh này thua do thị trường bình thường hay do tôi vi phạm kỷ luật; 2) chỉ ra vi phạm cụ thể (nếu có); 3) đề xuất 1 quy tắc cụ thể để tránh lặp lại. Không phân tích dự đoán giá.` },
+  { g: "Trading", t: "Viết kế hoạch giao dịch 1 trang", x: `Giúp tôi viết kế hoạch giao dịch 1 trang để tập trên tài khoản demo. Thông tin: vốn [..], cặp giao dịch [..], thời gian rảnh [..], các lỗi tôi hay mắc: vào lệnh theo cảm xúc, gồng lỗ, thiếu kỷ luật, vào lệnh quá lớn.
+Kế hoạch phải có: rủi ro tối đa mỗi lệnh (% vốn), số lệnh tối đa/ngày, mức lỗ tối đa ngày/tuần, quy tắc đặt SL, quy tắc dừng sau chuỗi thua, điều kiện vào lệnh viết thành danh sách kiểm tra. Không hứa hẹn lợi nhuận.` },
+  { g: "Kiếm tiền", t: "Ý tưởng công cụ Excel để bán", x: `Tôi là kế toán, biết dùng AI để làm file Excel và app nhỏ chạy offline. Gợi ý 10 công cụ Excel/app nhỏ tôi có thể làm và bán cho cửa hàng, quán ăn, doanh nghiệp nhỏ ở Việt Nam.
+Với mỗi ý: khách hàng là ai, vấn đề họ gặp, công cụ giải quyết thế nào, mức độ khó (1–5), cách tìm 3 khách đầu tiên. Không bịa số liệu thị trường.` },
+  { g: "Kiếm tiền", t: "Viết báo giá dịch vụ", x: `Viết báo giá ngắn gọn, chuyên nghiệp cho dịch vụ: [mô tả]. Khách hàng: [ai]. Gồm: phạm vi công việc, những gì KHÔNG bao gồm, thời gian làm, số lần sửa miễn phí, giá [..], điều kiện thanh toán, bảo hành. Văn phong lịch sự, dễ hiểu.` }
+];
+
+</script>
+
+<!-- ================= PHẦN 4: XỬ LÝ (JavaScript) ================= -->
+<script>
+/* =====================================================================
+   PHẦN XỬ LÝ (JavaScript) — SỔ TAY HỌC AI
+   Đọc kèm Tuần 3, buổi 15–16: đây chính là "phần hành động" của app.
+   ===================================================================== */
+'use strict';
+
+/* ---------- 1. LƯU DỮ LIỆU TRÊN MÁY (localStorage) ----------
+   Mọi dữ liệu của bạn (đã học buổi nào, điểm, ghi chú, nhật ký giao dịch)
+   được lưu ngay trong trình duyệt của máy, không gửi đi đâu cả.
+   Tên mỗi mục đều bắt đầu bằng "sthai." để dễ sao lưu. */
+const PREFIX = 'sthai.';
+const store = {
+  get(key, macDinh) {
+    try { const v = localStorage.getItem(PREFIX + key); return v == null ? macDinh : JSON.parse(v); }
+    catch (e) { return macDinh; }
+  },
+  set(key, value) {
+    try { localStorage.setItem(PREFIX + key, JSON.stringify(value)); return true; }
+    catch (e) {
+      // Thường do bộ nhớ trình duyệt đầy hoặc đang ở chế độ duyệt riêng tư
+      toast('⚠️ Không lưu được dữ liệu: bộ nhớ trình duyệt đã đầy hoặc bị chặn. Hãy vào Thêm → Sao lưu, rồi xóa bớt dữ liệu cũ.', 6000);
+      return false;
+    }
+  }
+};
+
+/* ---------- 2. HÀM TIỆN ÍCH NHỎ ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const pad = n => String(n).padStart(2, '0');
+const ymd = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const today = () => ymd(new Date());
+const addDays = (s, n) => { const d = new Date(s + 'T00:00:00'); d.setDate(d.getDate() + n); return ymd(d); };
+const daysBetween = (a, b) => Math.round((new Date(b + 'T00:00:00') - new Date(a + 'T00:00:00')) / 86400000);
+const nowLocal = () => { const d = new Date(); return ymd(d) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isNaN(n) ? null : n; };
+const money = n => (n == null || isNaN(n)) ? '—' : (n < 0 ? '-' : '') + '$' + Math.abs(n).toLocaleString('vi-VN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const pct = n => (n == null || isNaN(n)) ? '—' : n.toLocaleString('vi-VN', { maximumFractionDigits: 1 }) + '%';
+const vnDate = s => { if (!s) return ''; const [d, t] = s.split('T'); const p = d.split('-'); return p[2] + '/' + p[1] + '/' + p[0] + (t ? ' ' + t.slice(0, 5) : ''); };
+const bo_dau = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+
+let toastTimer;
+function toast(msg, ms) {
+  let t = $('toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), ms || 2200);
+}
+
+function copyText(text) {
+  const fallback = () => {
+    const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try { document.execCommand('copy'); toast('Đã sao chép ✓'); } catch (e) { toast('Không sao chép được, hãy chọn chữ và copy thủ công'); }
+    ta.remove();
+  };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(() => toast('Đã sao chép ✓'), fallback);
+  else fallback();
+}
+
+/* ---------- 3. ĐỌC "MARKDOWN ĐƠN GIẢN" THÀNH GIAO DIỆN ----------
+   Nội dung bài học viết dạng chữ thường có ký hiệu (##, -, >, |, ~~~).
+   Hàm md() đọc từng dòng và đổi thành HTML để hiển thị. */
+function inline(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+function codeBox(code, lang) {
+  const label = lang === 'prompt' ? '📋 Prompt mẫu' : (lang ? '💻 ' + lang : '💻 Code');
+  return '<div class="codebox"><div class="bar"><span>' + esc(label) + '</span><button class="btn sm" data-act="copybox">Sao chép</button></div><pre>' + esc(code) + '</pre></div>';
+}
+function mdTable(rows) {
+  rows = rows.filter(r => !/^\|?[\s|:\-]+\|?$/.test(r));
+  const cells = r => r.replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+  let h = '<table><thead><tr>' + cells(rows[0]).map(c => '<th>' + inline(c) + '</th>').join('') + '</tr></thead><tbody>';
+  rows.slice(1).forEach(r => { h += '<tr>' + cells(r).map(c => '<td>' + inline(c) + '</td>').join('') + '</tr>'; });
+  return h + '</tbody></table>';
+}
+function md(src) {
+  const lines = String(src || '').replace(/\r/g, '').split('\n');
+  const out = []; let i = 0;
+  const isSpecial = t => /^(~~~|##|>|\||- |\d+\. )/.test(t);
+  while (i < lines.length) {
+    const t = lines[i].trim();
+    if (!t) { i++; continue; }
+    if (t.startsWith('~~~')) {                       // khối code / prompt
+      const lang = t.slice(3).trim(); const buf = []; i++;
+      while (i < lines.length && !lines[i].trim().startsWith('~~~')) { buf.push(lines[i]); i++; }
+      i++; out.push(codeBox(buf.join('\n'), lang)); continue;
+    }
+    if (t.startsWith('### ')) { out.push('<h4>' + inline(t.slice(4)) + '</h4>'); i++; continue; }
+    if (t.startsWith('## ')) { out.push('<h3>' + inline(t.slice(3)) + '</h3>'); i++; continue; }
+    if (t.startsWith('>')) {
+      const b = []; while (i < lines.length && lines[i].trim().startsWith('>')) { b.push(lines[i].trim().replace(/^>\s?/, '')); i++; }
+      out.push('<blockquote>' + inline(b.join(' ')) + '</blockquote>'); continue;
+    }
+    if (t.startsWith('|')) {
+      const r = []; while (i < lines.length && lines[i].trim().startsWith('|')) { r.push(lines[i].trim()); i++; }
+      out.push(mdTable(r)); continue;
+    }
+    if (t.startsWith('- ')) {
+      const b = []; while (i < lines.length && lines[i].trim().startsWith('- ')) { b.push('<li>' + inline(lines[i].trim().slice(2)) + '</li>'); i++; }
+      out.push('<ul>' + b.join('') + '</ul>'); continue;
+    }
+    if (/^\d+\. /.test(t)) {
+      const b = []; while (i < lines.length && /^\d+\. /.test(lines[i].trim())) { b.push('<li>' + inline(lines[i].trim().replace(/^\d+\. /, '')) + '</li>'); i++; }
+      out.push('<ol>' + b.join('') + '</ol>'); continue;
+    }
+    const b = [t]; i++;                               // đoạn văn thường
+    while (i < lines.length && lines[i].trim() && !isSpecial(lines[i].trim())) { b.push(lines[i].trim()); i++; }
+    out.push('<p>' + inline(b.join(' ')) + '</p>');
+  }
+  return out.join('');
+}
+
+/* ---------- 4. TIẾN ĐỘ HỌC ---------- */
+const getDone = () => store.get('done', {});              // { số buổi: ngày học xong }
+const getDays = () => store.get('days', []);              // danh sách ngày có học
+function markStudyDay() {
+  const d = getDays(); const t = today();
+  if (!d.includes(t)) { d.push(t); store.set('days', d); }
+}
+function streak() {
+  const set = new Set(getDays()); let d = today();
+  if (!set.has(d)) d = addDays(d, -1);
+  let n = 0; while (set.has(d)) { n++; d = addDays(d, -1); }
+  return n;
+}
+function nextSession() { const done = getDone(); return SESSIONS.find(s => !done[s.id]) || SESSIONS[SESSIONS.length - 1]; }
+function progressPct() { return Math.round(Object.keys(getDone()).length / SESSIONS.length * 100); }
+
+/* ---------- 5. ĐỒNG HỒ 60 PHÚT (15 đọc – 35 thực hành – 10 ôn) ---------- */
+const STAGES = [{ n: 'Đọc bài', m: 15 }, { n: 'Thực hành', m: 35 }, { n: 'Ôn tập', m: 10 }];
+let T = store.get('timer', { stage: 0, left: 15 * 60, run: false, end: 0 });
+const timerLeft = () => T.run ? Math.max(0, Math.round((T.end - Date.now()) / 1000)) : T.left;
+const saveTimer = () => store.set('timer', T);
+function timerTick() {
+  if (T.run && timerLeft() <= 0) {
+    if (navigator.vibrate) navigator.vibrate([300, 150, 300]);
+    if (T.stage < 2) {
+      T.stage++; T.left = STAGES[T.stage].m * 60; T.end = Date.now() + T.left * 1000;
+      toast('⏰ Chuyển sang: ' + STAGES[T.stage].n, 4000);
+    } else {
+      T.run = false; T.left = 0; markStudyDay(); toast('🎉 Hoàn thành 60 phút học hôm nay!', 5000);
+    }
+    saveTimer(); if (route().page === 'hom-nay') render();
+  }
+  const el = $('timerTxt');
+  if (el) { const s = timerLeft(); el.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60); }
+}
+setInterval(timerTick, 1000);
+
+/* ---------- 6. THẺ GHI NHỚ – ÔN LẶP LẠI NGẮT QUÃNG ----------
+   Thẻ "Nhớ rồi" lên hộp cao hơn và lâu mới hiện lại; thẻ "Chưa nhớ" về hộp 1, hiện lại ngay. */
+const INTERVALS = [1, 2, 4, 7, 15];  // số ngày chờ theo hộp 1..5
+function allCards() {
+  const done = getDone(); const out = [];
+  SESSIONS.forEach(s => (s.cards || []).forEach((c, i) => out.push({ id: 's' + s.id + '-' + i, sid: s.id, f: c.f, b: c.b, learned: !!done[s.id] })));
+  return out;
+}
+function cardPool() { const all = allCards(); const learned = all.filter(c => c.learned); return learned.length ? learned : all.filter(c => c.sid === 1); }
+function dueCards() { const cs = store.get('cards', {}); const t = today(); return cardPool().filter(c => !cs[c.id] || cs[c.id].due <= t); }
+function rateCard(id, ok) {
+  const cs = store.get('cards', {}); const c = cs[id] || { box: 1, due: today() };
+  if (ok) { c.box = Math.min(5, c.box + 1); c.due = addDays(today(), INTERVALS[c.box - 1]); }
+  else { c.box = 1; c.due = today(); }
+  cs[id] = c; store.set('cards', cs); markStudyDay();
+}
+
+/* ---------- 7. GIAO DỊCH: KẾ HOẠCH, NHẬT KÝ, TRẠNG THÁI KỶ LUẬT ---------- */
+const DEFAULT_PLAN = {
+  capital: 1000, account: 'Demo', riskPct: 1, maxTrades: 3, dayLossPct: 3, weekLossPct: 6,
+  stopAfterLosses: 2, minRR: 1.5, pairs: 'XAUUSD, EURUSD', hours: '19:00 – 22:00',
+  rules: 'Chỉ vào lệnh khi đủ TẤT CẢ điều kiện:\n1. ...\n2. ...\n3. ...'
+};
+const getPlan = () => Object.assign({}, DEFAULT_PLAN, store.get('plan', {}));
+const getTrades = () => store.get('trades', []);
+const weekStart = () => { const d = new Date(); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return ymd(d); };
+function tradeStatus() {
+  const p = getPlan(), tr = getTrades(), t = today(), ws = weekStart();
+  const todayTr = tr.filter(x => (x.time || '').slice(0, 10) === t).sort((a, b) => a.time < b.time ? -1 : 1);
+  const weekTr = tr.filter(x => (x.time || '').slice(0, 10) >= ws);
+  const sum = arr => arr.reduce((s, x) => s + (num(x.pl) || 0), 0);
+  const dayPL = sum(todayTr), weekPL = sum(weekTr);
+  let lossStreak = 0; for (let i = todayTr.length - 1; i >= 0; i--) { if ((num(todayTr[i].pl) || 0) < 0) lossStreak++; else break; }
+  const cap = num(p.capital) || 0, reasons = [];
+  if (todayTr.length >= p.maxTrades) reasons.push('Đã vào ' + todayTr.length + '/' + p.maxTrades + ' lệnh tối đa hôm nay.');
+  if (cap && dayPL <= -cap * p.dayLossPct / 100) reasons.push('Lỗ hôm nay ' + money(dayPL) + ' đã chạm giới hạn ' + p.dayLossPct + '% vốn (' + money(-cap * p.dayLossPct / 100) + ').');
+  if (cap && weekPL <= -cap * p.weekLossPct / 100) reasons.push('Lỗ tuần này ' + money(weekPL) + ' đã chạm giới hạn ' + p.weekLossPct + '% vốn. Nghỉ đến hết tuần.');
+  if (lossStreak >= p.stopAfterLosses) reasons.push('Đã thua ' + lossStreak + ' lệnh liên tiếp hôm nay (quy tắc: dừng sau ' + p.stopAfterLosses + ').');
+  return { stop: reasons.length > 0, reasons, count: todayTr.length, dayPL, weekPL, lossStreak, plan: p };
+}
+function calcStats(list) {
+  const tr = list.filter(x => num(x.pl) != null).sort((a, b) => a.time < b.time ? -1 : 1);
+  const n = tr.length, w = tr.filter(x => num(x.pl) > 0), l = tr.filter(x => num(x.pl) < 0);
+  const sum = a => a.reduce((s, x) => s + num(x.pl), 0);
+  let cur = 0, maxStreak = 0; tr.forEach(x => { if (num(x.pl) < 0) { cur++; maxStreak = Math.max(maxStreak, cur); } else cur = 0; });
+  const avgWin = w.length ? sum(w) / w.length : null, avgLoss = l.length ? sum(l) / l.length : null;
+  return {
+    n, wins: w.length, losses: l.length, winRate: n ? w.length / n * 100 : null, total: sum(tr),
+    avgWin, avgLoss, rr: (avgWin != null && avgLoss) ? avgWin / Math.abs(avgLoss) : null,
+    maxLoss: l.length ? Math.min(...l.map(x => num(x.pl))) : null, maxStreak, perTrade: n ? sum(tr) / n : null
+  };
+}
+
+/* ---------- 8. ĐIỀU HƯỚNG GIỮA CÁC MÀN HÌNH ----------
+   Địa chỉ dạng #/lo-trinh, #/bai/3, #/giao-dich/nhat-ky ... */
+function route() {
+  const h = location.hash.replace(/^#\/?/, '');
+  const [page, sub] = h.split('/');
+  return { page: page || 'hom-nay', sub: sub || '' };
+}
+const NAV = [
+  ['hom-nay', '🏠', 'Hôm nay'], ['lo-trinh', '🗺️', 'Lộ trình'], ['on-tap', '🧠', 'Ôn tập'],
+  ['prompt', '📋', 'Prompt'], ['giao-dich', '📈', 'Giao dịch'], ['them', '☰', 'Thêm']
+];
+const TITLES = { 'hom-nay': 'Sổ tay học AI', 'lo-trinh': 'Lộ trình 30 buổi', 'bai': 'Bài học', 'on-tap': 'Ôn tập', 'tu-dien': 'Từ điển thuật ngữ', 'prompt': 'Thư viện prompt', 'giao-dich': 'Kỷ luật giao dịch', 'them': 'Thêm', 'tim-kiem': 'Tìm kiếm' };
+
+function render() {
+  const r = route();
+  const views = { 'hom-nay': vToday, 'lo-trinh': vRoadmap, 'bai': vLesson, 'on-tap': vReview, 'tu-dien': vGlossary, 'prompt': vPrompts, 'giao-dich': vTrading, 'them': vMore, 'tim-kiem': vSearch };
+  const fn = views[r.page] || vToday;
+  $('pageTitle').textContent = TITLES[r.page] || 'Sổ tay học AI';
+  const navKey = { 'bai': 'lo-trinh', 'tu-dien': 'on-tap', 'tim-kiem': 'them' }[r.page] || r.page;
+  $('nav').innerHTML = NAV.map(n => '<a href="#/' + n[0] + '" class="' + (n[0] === navKey ? 'on' : '') + '"><span class="i">' + n[1] + '</span><span>' + n[2] + '</span></a>').join('');
+  $('main').innerHTML = fn(r);
+  if (r.page === 'giao-dich') afterTradingRender(r);
+  timerTick();
+}
+window.addEventListener('hashchange', () => { render(); window.scrollTo(0, 0); });
+
+/* ====================== MÀN HÌNH: HÔM NAY ====================== */
+function vToday() {
+  const s = nextSession(), done = getDone(), days = getDays(), p = progressPct();
+  let h = '';
+  // Nhắc nhở khi bỏ buổi
+  if (days.length) {
+    const last = days.slice().sort().pop(); const gap = daysBetween(last, today());
+    if (gap >= 2) h += '<div class="alert warn"><b>Bạn đã nghỉ ' + (gap - 1) + ' ngày.</b> Không sao, quan trọng là quay lại. Học tiếp buổi ' + s.id + ' ngay hôm nay nhé!</div>';
+  } else {
+    h += '<div class="alert ok"><b>Chào bạn!</b> Lộ trình gồm 30 buổi, mỗi buổi 60 phút. Bắt đầu từ buổi 1 bên dưới.</div>';
+  }
+  h += '<div class="card"><div class="row" style="justify-content:space-between"><b>Tiến độ khóa học</b><span class="pill">' + p + '%</span></div>' +
+    '<div class="progress" style="margin:10px 0"><div style="width:' + p + '%"></div></div>' +
+    '<div class="stats"><div class="stat"><b>' + Object.keys(done).length + '/30</b><span>buổi đã học</span></div>' +
+    '<div class="stat"><b>🔥 ' + streak() + '</b><span>ngày học liên tục</span></div>' +
+    '<div class="stat"><b>' + dueCards().length + '</b><span>thẻ cần ôn hôm nay</span></div></div></div>';
+  // Buổi học hôm nay
+  h += '<div class="card"><span class="pill">Tuần ' + s.week + ' · Buổi ' + s.id + '</span>' + (done[s.id] ? ' <span class="pill ok">Đã học</span>' : '') +
+    '<h2>' + esc(s.title) + '</h2><p class="muted">🎯 ' + esc(s.goal) + '</p><p class="small">💻 <b>Thực hành:</b> ' + esc(s.practice) + '</p>' +
+    (s.ready ? '' : '<p class="small muted">Buổi này mới có khung, nội dung đầy đủ sẽ được bổ sung.</p>') +
+    '<a class="btn pri block" href="#/bai/' + s.id + '">Vào học buổi ' + s.id + ' →</a></div>';
+  // Đồng hồ
+  h += '<div class="card"><b>⏱️ Đồng hồ 60 phút</b><div class="stages" style="margin:10px 0">' +
+    STAGES.map((st, i) => '<div class="' + (i === T.stage ? 'on' : '') + '">' + st.n + '<br>' + st.m + ' phút</div>').join('') + '</div>' +
+    '<div class="timer" id="timerTxt">--:--</div><div class="row" style="justify-content:center;margin-top:8px">' +
+    (T.run ? '<button class="btn" data-act="tPause">⏸ Tạm dừng</button>' : '<button class="btn pri" data-act="tStart">▶ Bắt đầu</button>') +
+    '<button class="btn" data-act="tSkip">⏭ Chặng tiếp</button><button class="btn" data-act="tReset">↺ Làm lại</button></div></div>';
+  // Gợi ý mỗi ngày: 1 thẻ ghi nhớ
+  const due = dueCards();
+  if (due.length) {
+    const c = due[new Date().getDate() % due.length];
+    h += '<div class="card"><b>🧠 Thẻ ghi nhớ hôm nay</b><p style="font-size:1.1rem;margin:.6em 0">' + esc(c.f) + '</p>' +
+      '<a class="btn block" href="#/on-tap">Lật thẻ và ôn ' + due.length + ' thẻ →</a></div>';
+  }
+  // Tình trạng giao dịch
+  const st = tradeStatus();
+  if (getTrades().length || store.get('plan', null)) {
+    h += '<div class="card"><b>📈 Kỷ luật giao dịch hôm nay</b><p class="small">Đã vào ' + st.count + '/' + st.plan.maxTrades + ' lệnh · Lãi/lỗ hôm nay: <b>' + money(st.dayPL) + '</b></p>' +
+      (st.stop ? '<div class="alert bad"><b>⛔ DỪNG GIAO DỊCH HÔM NAY</b><br>' + st.reasons.map(esc).join('<br>') + '</div>' : '<span class="pill ok">Trong giới hạn kế hoạch</span>') + '</div>';
+  }
+  return h;
+}
+
+/* ====================== MÀN HÌNH: LỘ TRÌNH ====================== */
+function vRoadmap() {
+  const done = getDone(); const quiz = store.get('quiz', {});
+  return '<div class="card"><div class="row" style="justify-content:space-between"><b>Hoàn thành</b><span class="pill">' + progressPct() + '%</span></div><div class="progress" style="margin-top:8px"><div style="width:' + progressPct() + '%"></div></div></div>' +
+    WEEKS.map(w => {
+      const ss = SESSIONS.filter(s => s.week === w.id);
+      const d = ss.filter(s => done[s.id]).length;
+      return '<div class="card"><h2>' + esc(w.title) + '</h2><p class="muted">' + esc(w.goal) + ' · ' + d + '/' + ss.length + ' buổi</p><ul class="list">' +
+        ss.map(s => '<li data-act="go" data-href="#/bai/' + s.id + '"><div class="num ' + (done[s.id] ? 'done' : '') + '">' + (done[s.id] ? '✓' : s.id) + '</div>' +
+          '<div class="grow"><div class="t">' + esc(s.title) + '</div><div class="muted small">' + esc(s.goal) + '</div></div>' +
+          (quiz[s.id] != null ? '<span class="pill ok">' + quiz[s.id] + '%</span>' : (s.ready ? '' : '<span class="pill warn">Khung</span>')) + '</li>').join('') +
+        '</ul></div>';
+    }).join('');
+}
+
+/* ====================== MÀN HÌNH: BÀI HỌC ====================== */
+let quizState = {};   // câu trả lời đang làm: { 'buổi': { 'câu': lựa chọn } }
+function vLesson(r) {
+  const id = parseInt(r.sub, 10); const s = SESSIONS.find(x => x.id === id);
+  if (!s) return '<div class="card">Không tìm thấy buổi học.</div>';
+  const done = getDone(), notes = store.get('notes', {});
+  const prev = SESSIONS.find(x => x.id === id - 1), next = SESSIONS.find(x => x.id === id + 1);
+  let h = '<p><a href="#/lo-trinh">← Lộ trình</a></p><span class="pill">Tuần ' + s.week + ' · Buổi ' + s.id + '</span> ' +
+    (done[id] ? '<span class="pill ok">Đã học ' + vnDate(done[id]) + '</span>' : '') +
+    '<h1>' + esc(s.title) + '</h1><p class="muted">🎯 ' + esc(s.goal) + '</p>';
+  if (!s.ready) {
+    h += '<div class="card"><h3>Buổi này mới có khung</h3><p>💻 <b>Thực hành dự kiến:</b> ' + esc(s.practice) + '</p>' +
+      '<p class="small muted">Nội dung đầy đủ sẽ được bổ sung. Khi cần, hãy nhắn cho AI trong Project "Master prompt":</p>' +
+      codeBox('Làm tiếp nội dung đầy đủ cho Tuần ' + s.week + ' của app Sổ tay học AI (từ buổi ' + SESSIONS.filter(x => x.week === s.week)[0].id + '), cùng định dạng dữ liệu với Tuần 1, và gửi lại file index.html hoàn chỉnh.', 'prompt') + '</div>';
+  } else {
+    h += '<div class="card lesson"><h3 style="margin-top:0">📖 Đọc bài (15 phút)</h3>' + md(s.content) + '</div>';
+    if (s.practiceDetail) h += '<div class="card lesson"><h3 style="margin-top:0">💻 Thực hành trên máy tính (35 phút)</h3>' + md(s.practiceDetail) + '</div>';
+    h += '<div class="card"><h3 style="margin-top:0">📝 Tóm tắt 3 dòng</h3><ol>' + (s.summary || []).map(x => '<li>' + esc(x) + '</li>').join('') + '</ol></div>';
+    h += '<div class="card"><h3 style="margin-top:0">✅ Trắc nghiệm (10 phút)</h3><div id="quiz">' + quizHtml(s) + '</div></div>';
+    if (s.cards && s.cards.length) h += '<div class="card"><h3 style="margin-top:0">🧠 Thẻ ghi nhớ của buổi</h3><p class="small muted">Các thẻ này sẽ vào mục Ôn tập sau khi bạn đánh dấu học xong.</p><ul>' +
+      s.cards.map(c => '<li><b>' + esc(c.f) + '</b>: ' + esc(c.b) + '</li>').join('') + '</ul></div>';
+  }
+  h += '<div class="card"><h3 style="margin-top:0">🗒️ Ghi chú của tôi</h3><textarea id="note" data-sid="' + id + '" placeholder="Ghi lại nhận xét, kết quả thực hành, điều cần nhớ... (tự động lưu)">' + esc(notes[id] || '') + '</textarea></div>';
+  h += '<button class="btn ' + (done[id] ? '' : 'ok') + ' block" data-act="toggleDone" data-id="' + id + '">' + (done[id] ? '✓ Đã học xong (bấm để bỏ đánh dấu)' : '✔ Đánh dấu đã học xong buổi này') + '</button>';
+  h += '<div class="row" style="justify-content:space-between;margin-top:14px">' + (prev ? '<a class="btn" href="#/bai/' + prev.id + '">← Buổi ' + prev.id + '</a>' : '<span></span>') + (next ? '<a class="btn" href="#/bai/' + next.id + '">Buổi ' + next.id + ' →</a>' : '') + '</div>';
+  return h;
+}
+function quizHtml(s) {
+  const st = quizState[s.id] || {}; const best = store.get('quiz', {})[s.id];
+  let answered = 0, right = 0;
+  let h = (s.quiz || []).map((q, qi) => {
+    const chosen = st[qi];
+    if (chosen != null) { answered++; if (chosen === q.c) right++; }
+    return '<div class="q"><b>Câu ' + (qi + 1) + '.</b> ' + esc(q.q) + q.a.map((a, oi) => {
+      let cls = 'opt';
+      if (chosen != null) { if (oi === q.c) cls += ' right'; else if (oi === chosen) cls += ' wrong'; }
+      return '<button class="' + cls + '" data-act="ans" data-s="' + s.id + '" data-q="' + qi + '" data-o="' + oi + '">' + String.fromCharCode(65 + oi) + '. ' + esc(a) + '</button>';
+    }).join('') + (chosen != null ? '<div class="exp">' + (chosen === q.c ? '✅ Đúng. ' : '❌ Chưa đúng. ') + esc(q.e) + '</div>' : '') + '</div>';
+  }).join('');
+  const total = (s.quiz || []).length;
+  if (answered === total && total) {
+    h += '<div class="alert ' + (right / total >= .7 ? 'ok' : 'warn') + '"><b>Kết quả: ' + right + '/' + total + ' (' + Math.round(right / total * 100) + '%)</b>' +
+      (right / total >= .7 ? ' – Tốt lắm!' : ' – Nên đọc lại bài rồi làm lại.') + '</div><button class="btn" data-act="quizReset" data-s="' + s.id + '">↺ Làm lại</button>';
+  } else if (best != null) h += '<p class="small muted">Điểm cao nhất trước đây: ' + best + '%</p>';
+  return h;
+}
+
+/* ====================== MÀN HÌNH: ÔN TẬP (THẺ GHI NHỚ) ====================== */
+let flipped = false;
+function vReview() {
+  const due = dueCards(), pool = cardPool(), learnedAny = allCards().some(c => c.learned);
+  let h = '<div class="tabs"><a href="#/on-tap" class="on">🧠 Thẻ ghi nhớ</a><a href="#/tu-dien">📚 Từ điển thuật ngữ</a></div>';
+  if (!learnedAny) h += '<div class="alert warn small">Bạn chưa đánh dấu học xong buổi nào, nên đang ôn thử thẻ của buổi 1.</div>';
+  h += '<div class="card"><div class="row" style="justify-content:space-between"><b>Cần ôn hôm nay: ' + due.length + ' thẻ</b><span class="muted small">Tổng: ' + pool.length + ' thẻ</span></div></div>';
+  if (!due.length) return h + '<div class="card" style="text-align:center"><h2>🎉 Đã ôn hết thẻ hôm nay</h2><p class="muted">Quay lại vào ngày mai, hoặc học buổi mới để có thêm thẻ.</p></div>';
+  const c = due[0];
+  h += '<div class="flash ' + (flipped ? 'back' : '') + '" data-act="flip">' + (flipped ? esc(c.b) : esc(c.f) + '<br><span class="muted small">(chạm để lật)</span>') + '</div>' +
+    '<p class="muted small" style="text-align:center">Thẻ của buổi ' + c.sid + '</p>' +
+    (flipped ? '<div class="grid2"><button class="btn bad" data-act="rate" data-id="' + c.id + '" data-ok="0">✗ Chưa nhớ</button><button class="btn ok" data-act="rate" data-id="' + c.id + '" data-ok="1">✓ Nhớ rồi</button></div>' : '<button class="btn pri block" data-act="flip">Lật thẻ</button>');
+  return h;
+}
+function vGlossary() {
+  const groups = ['Tất cả', ...new Set(GLOSSARY.map(g => g.g))];
+  return '<div class="tabs"><a href="#/on-tap">🧠 Thẻ ghi nhớ</a><a href="#/tu-dien" class="on">📚 Từ điển thuật ngữ</a></div>' +
+    '<div class="card"><input id="gq" placeholder="Tìm thuật ngữ (Anh hoặc Việt)..." data-input="gloss"><div class="seg" style="margin-top:8px" id="gseg">' +
+    groups.map((g, i) => '<button class="' + (i === 0 ? 'on' : '') + '" data-act="gfilter" data-g="' + esc(g) + '">' + esc(g) + '</button>').join('') + '</div></div>' +
+    '<div class="card" id="glist">' + glossList('', 'Tất cả') + '</div>';
+}
+let gFilter = 'Tất cả';
+function glossList(q, g) {
+  const nq = bo_dau(q);
+  const items = GLOSSARY.filter(x => (g === 'Tất cả' || x.g === g) && (!nq || bo_dau(x.en + ' ' + x.vi + ' ' + x.d).includes(nq)));
+  if (!items.length) return '<p class="muted">Không tìm thấy.</p>';
+  return items.map(x => '<div class="trade"><b>' + esc(x.en) + '</b> – <span style="color:var(--pri)">' + esc(x.vi) + '</span> <span class="pill">' + esc(x.g) + '</span><div class="small">' + esc(x.d) + '</div></div>').join('');
+}
+
+/* ====================== MÀN HÌNH: THƯ VIỆN PROMPT ====================== */
+let pGroup = 'Tất cả';
+function allPrompts() { return PROMPTS.map((p, i) => ({ ...p, id: 'b' + i })).concat(store.get('myPrompts', []).map(p => ({ ...p, mine: true }))); }
+function vPrompts() {
+  const ps = allPrompts();
+  const groups = ['Tất cả', ...new Set(PROMPTS.map(p => p.g)), 'Của tôi'];
+  const list = ps.filter(p => pGroup === 'Tất cả' || (pGroup === 'Của tôi' ? p.mine : p.g === pGroup));
+  return '<div class="tabs">' + groups.map(g => '<a href="javascript:void 0" data-act="pgroup" data-g="' + esc(g) + '" class="' + (g === pGroup ? 'on' : '') + '">' + esc(g) + '</a>').join('') + '</div>' +
+    '<details class="card"><summary><b>＋ Thêm prompt của tôi</b></summary><label>Tên prompt</label><input id="np_t"><label>Nhóm</label><input id="np_g" value="Của tôi" list="pglist"><datalist id="pglist">' +
+    groups.slice(1).map(g => '<option value="' + esc(g) + '">').join('') + '</datalist><label>Nội dung</label><textarea id="np_x" style="min-height:150px"></textarea><button class="btn pri" style="margin-top:10px" data-act="addPrompt">Lưu prompt</button></details>' +
+    (list.length ? list.map(p => '<div class="card"><div class="row" style="justify-content:space-between"><b>' + esc(p.t) + '</b><span class="pill">' + esc(p.mine ? 'Của tôi' : p.g) + '</span></div>' + codeBox(p.x, 'prompt') +
+      (p.mine ? '<button class="btn sm bad" data-act="delPrompt" data-id="' + p.id + '">Xóa</button>' : '') + '</div>').join('') : '<div class="card muted">Chưa có prompt nào trong nhóm này.</div>');
+}
+
+/* ====================== MÀN HÌNH: GIAO DỊCH ====================== */
+const TTABS = [['', 'Tổng quan'], ['khoi-luong', 'Khối lượng lệnh'], ['nhat-ky', 'Nhật ký'], ['thong-ke', 'Thống kê'], ['ke-hoach', 'Kế hoạch']];
+let checklist = {}, editingTrade = null, prefill = null;
+const CHECK_Q = [
+  ['pair', 'Cặp/mã này nằm trong danh sách được phép giao dịch của kế hoạch?', 'Có'],
+  ['hour', 'Đang trong khung giờ được phép giao dịch?', 'Có'],
+  ['rule', 'Điểm vào lệnh đáp ứng ĐỦ điều kiện đã viết trong kế hoạch?', 'Có'],
+  ['sl', 'Đã xác định mức dừng lỗ (SL) và sẽ đặt SL NGAY khi vào lệnh?', 'Có'],
+  ['lot', 'Khối lượng lấy đúng từ "Máy tính khối lượng lệnh"?', 'Có'],
+  ['rr', 'Khoảng chốt lời / khoảng dừng lỗ ≥ mức R:R tối thiểu của kế hoạch?', 'Có'],
+  ['revenge', 'Bạn có đang muốn GỠ LẠI lệnh thua trước đó không?', 'Không'],
+  ['fomo', 'Bạn có đang VỘI vì sợ lỡ mất cơ hội (FOMO) không?', 'Không']
+];
+const EMO = ['', '1 – Rất bình tĩnh', '2 – Bình tĩnh', '3 – Hơi hồi hộp', '4 – Nóng vội', '5 – Cay cú / kích động'];
+function seg(target, options, value) {
+  return '<input type="hidden" id="' + target + '" value="' + esc(value == null ? '' : value) + '"><div class="seg">' +
+    options.map(o => '<button type="button" class="' + (String(o[0]) === String(value) ? 'on' : '') + '" data-act="seg" data-target="' + target + '" data-val="' + esc(o[0]) + '">' + esc(o[1]) + '</button>').join('') + '</div>';
+}
+function vTrading(r) {
+  const tabs = '<div class="tabs">' + TTABS.map(t => '<a href="#/giao-dich' + (t[0] ? '/' + t[0] : '') + '" class="' + (r.sub === t[0] ? 'on' : '') + '">' + t[1] + '</a>').join('') + '</div>';
+  const f = { '': tOverview, 'khoi-luong': tCalc, 'nhat-ky': tJournal, 'thong-ke': tStats, 'ke-hoach': tPlan }[r.sub] || tOverview;
+  return tabs + f();
+}
+function legalBox() {
+  return '<details class="alert warn small"><summary><b>⚠️ Lưu ý pháp lý và rủi ro (bấm để đọc)</b></summary>' +
+    '<p>Theo thông tin Ngân hàng Nhà nước được báo chí đưa tin (05/2025): đến nay chưa có sàn forex nào được cấp phép tại Việt Nam; việc thanh toán, chuyển tiền ra nước ngoài cho các sàn forex là giao dịch không được phép; người tham gia có thể bị xử phạt hành chính. Tên miền exness.vn đã bị chặn theo yêu cầu của cơ quan công an. <b>Cần kiểm tra lại văn bản mới nhất.</b></p>' +
+    '<p>Là cán bộ Công an, bạn cần tìm hiểu kỹ quy định của ngành trước khi giao dịch bằng tiền thật. Phần này được thiết kế để <b>rèn kỷ luật trên tài khoản DEMO</b>. Đây là kiến thức, không phải tư vấn đầu tư.</p></details>';
+}
+function tOverview() {
+  const st = tradeStatus(), p = st.plan;
+  let h = legalBox();
+  if (!store.get('plan', null)) h += '<div class="alert warn"><b>Bước đầu tiên:</b> vào tab <a href="#/giao-dich/ke-hoach">Kế hoạch</a> để nhập vốn và các giới hạn của bạn.</div>';
+  if (st.stop) {
+    h += '<div class="card stopscreen alert bad"><div class="big">⛔ DỪNG GIAO DỊCH HÔM NAY</div><p>' + st.reasons.map(esc).join('<br>') + '</p>' +
+      '<p><b>Đóng phần mềm giao dịch. Ghi nhật ký. Quay lại vào phiên sau.</b><br><span class="small">Thị trường luôn còn đó; vốn mất rồi thì không còn cơ hội.</span></p></div>';
+  } else {
+    h += '<div class="alert ok"><b>✅ Hôm nay vẫn trong giới hạn kế hoạch.</b> Còn được vào tối đa ' + Math.max(0, p.maxTrades - st.count) + ' lệnh, và chỉ khi qua được bảng kiểm bên dưới.</div>';
+  }
+  h += '<div class="stats" style="margin-bottom:14px"><div class="stat"><b>' + st.count + '/' + p.maxTrades + '</b><span>lệnh hôm nay</span></div><div class="stat"><b>' + money(st.dayPL) + '</b><span>lãi/lỗ hôm nay</span></div>' +
+    '<div class="stat"><b>' + money(st.weekPL) + '</b><span>lãi/lỗ tuần này</span></div><div class="stat"><b>' + st.lossStreak + '</b><span>lệnh thua liên tiếp</span></div></div>';
+  h += '<div class="card"><h3>📌 5 quy tắc giữ vốn</h3><ol>' +
+    '<li>Rủi ro tối đa <b>' + p.riskPct + '% vốn</b> mỗi lệnh. Khối lượng lấy từ máy tính, không ước lượng.</li>' +
+    '<li>Đặt <b>dừng lỗ ngay khi vào lệnh</b>. Không dời SL xa hơn. Không nhồi thêm lệnh khi đang lỗ.</li>' +
+    '<li>Tối đa <b>' + p.maxTrades + ' lệnh/ngày</b>; thua <b>' + p.stopAfterLosses + ' lệnh liên tiếp</b> là nghỉ.</li>' +
+    '<li>Cảm xúc từ <b>4/5 trở lên</b> (nóng vội, cay cú) thì không vào lệnh.</li>' +
+    '<li>Mọi lệnh đều ghi nhật ký; cuối tuần xuất nhật ký cho AI phân tích.</li></ol></div>';
+  // Bảng kiểm trước khi vào lệnh
+  h += '<div class="card"><h3>🧾 Bảng kiểm TRƯỚC khi vào lệnh</h3><p class="small muted">Trả lời trung thực. Chỉ một câu sai là không vào lệnh.</p>' +
+    CHECK_Q.map(q => '<div style="margin:12px 0"><div>' + esc(q[1]) + '</div><div class="seg" style="margin-top:6px">' +
+      ['Có', 'Không'].map(v => '<button type="button" class="' + (checklist[q[0]] === v ? 'on' : '') + '" data-act="ck" data-k="' + q[0] + '" data-v="' + v + '">' + v + '</button>').join('') + '</div></div>').join('') +
+    '<div style="margin:12px 0"><div>Cảm xúc của bạn lúc này?</div><div class="seg" style="margin-top:6px">' +
+    [1, 2, 3, 4, 5].map(v => '<button type="button" class="' + (checklist.emo === v ? 'on' : '') + '" data-act="ck" data-k="emo" data-v="' + v + '">' + v + '</button>').join('') + '</div>' +
+    '<div class="small muted">' + EMO.slice(1).join(' · ') + '</div></div>' +
+    '<button class="btn pri block" data-act="ckRun">Kiểm tra</button><button class="btn block" style="margin-top:8px" data-act="ckClear">Xóa câu trả lời</button><div id="ckResult" style="margin-top:12px"></div></div>';
+  return h;
+}
+function checklistResult() {
+  const st = tradeStatus(), bad = [];
+  if (st.stop) st.reasons.forEach(x => bad.push('Kế hoạch: ' + x));
+  CHECK_Q.forEach(q => { if (checklist[q[0]] == null) bad.push('Chưa trả lời: ' + q[1]); else if (checklist[q[0]] !== q[2]) bad.push(q[1] + ' → bạn trả lời "' + checklist[q[0]] + '"'); });
+  if (checklist.emo == null) bad.push('Chưa chấm điểm cảm xúc.'); else if (checklist.emo >= 4) bad.push('Cảm xúc ' + EMO[checklist.emo] + ': không vào lệnh khi nóng vội hoặc cay cú.');
+  if (bad.length) return '<div class="alert bad"><h3>⛔ KHÔNG VÀO LỆNH</h3><ul>' + bad.map(b => '<li>' + esc(b) + '</li>').join('') + '</ul><p class="small">Bỏ qua một lệnh không làm bạn mất tiền. Vào lệnh sai kế hoạch mới làm mất tiền.</p></div>';
+  return '<div class="alert ok"><h3>✅ Đủ điều kiện theo kế hoạch</h3><p>Vào đúng khối lượng đã tính, <b>đặt SL ngay</b>, không dời SL. Đóng lệnh xong thì ghi nhật ký.</p><button class="btn ok" data-act="ckToJournal">Ghi lệnh này vào nhật ký →</button></div>';
+}
+
+/* --- Máy tính khối lượng lệnh --- */
+function tCalc() {
+  const p = getPlan(), c = store.get('calc', { inst: 'fx', sl: '', pipv: 10, myLot: '', tp: '' });
+  return '<div class="card"><h3>🧮 Máy tính khối lượng lệnh</h3><p class="small muted">Tính khối lượng sao cho nếu chạm dừng lỗ, bạn chỉ mất đúng % vốn đã định.</p>' +
+    '<div class="grid2"><div><label>Vốn tài khoản ($)</label><input id="c_cap" inputmode="decimal" value="' + esc(p.capital) + '" data-input="calc"></div>' +
+    '<div><label>Rủi ro mỗi lệnh (% vốn)</label><input id="c_risk" inputmode="decimal" value="' + esc(p.riskPct) + '" data-input="calc"></div></div>' +
+    '<label>Loại sản phẩm</label><select id="c_inst" data-input="calc">' +
+    [['fx', 'Cặp tiền có USD đứng sau (EURUSD, GBPUSD, AUDUSD...) – 1 pip/1 lot ≈ $10'], ['xau', 'Vàng XAUUSD – dừng lỗ nhập theo khoảng giá ($), 1 lot = 100 oz'], ['custom', 'Khác – tự nhập giá trị 1 pip cho 1 lot']]
+      .map(o => '<option value="' + o[0] + '"' + (c.inst === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select>' +
+    '<div id="c_pipbox" style="display:' + (c.inst === 'custom' ? 'block' : 'none') + '"><label>Giá trị 1 pip cho 1 lot ($)</label><input id="c_pipv" inputmode="decimal" value="' + esc(c.pipv) + '" data-input="calc"></div>' +
+    '<div class="grid2"><div><label id="c_sllabel">' + (c.inst === 'xau' ? 'Khoảng dừng lỗ (theo giá, ví dụ 5.00 $)' : 'Khoảng dừng lỗ (pip)') + '</label><input id="c_sl" inputmode="decimal" value="' + esc(c.sl) + '" data-input="calc"></div>' +
+    '<div><label>Khoảng chốt lời (cùng đơn vị, không bắt buộc)</label><input id="c_tp" inputmode="decimal" value="' + esc(c.tp) + '" data-input="calc"></div></div>' +
+    '<label>Khối lượng bạn ĐỊNH vào (lot, không bắt buộc – để so sánh)</label><input id="c_my" inputmode="decimal" value="' + esc(c.myLot) + '" data-input="calc">' +
+    '<div id="c_out" style="margin-top:14px"></div>' +
+    '<p class="small muted">⚠️ Giá trị pip và kích thước hợp đồng khác nhau theo loại tài khoản (ví dụ tài khoản Cent hiển thị bằng cent). Đối chiếu trên MetaTrader: chuột phải mã → Đặc tả (Specification). Cần kiểm tra lại cho đúng tài khoản của bạn.</p></div>';
+}
+function calcUpdate() {
+  if (!$('c_out')) return;
+  const inst = $('c_inst').value, cap = num($('c_cap').value), risk = num($('c_risk').value), sl = num($('c_sl').value), tp = num($('c_tp').value), my = num($('c_my').value);
+  const pipv = inst === 'fx' ? 10 : inst === 'xau' ? 100 : num($('c_pipv').value);
+  $('c_pipbox').style.display = inst === 'custom' ? 'block' : 'none';
+  $('c_sllabel').textContent = inst === 'xau' ? 'Khoảng dừng lỗ (theo giá, ví dụ 5.00 $)' : 'Khoảng dừng lỗ (pip)';
+  store.set('calc', { inst, sl: $('c_sl').value, tp: $('c_tp').value, pipv: $('c_pipv').value, myLot: $('c_my').value });
+  if (!cap || !risk || !sl || !pipv) { $('c_out').innerHTML = '<p class="muted">Nhập vốn, % rủi ro và khoảng dừng lỗ để xem kết quả.</p>'; return; }
+  const riskUsd = cap * risk / 100, lossPerLot = sl * pipv, lot = Math.floor(riskUsd / lossPerLot * 100) / 100;
+  let h = '<div class="stats"><div class="stat"><b>' + money(riskUsd) + '</b><span>số tiền tối đa được mất</span></div>' +
+    '<div class="stat"><b>' + (lot >= 0.01 ? lot.toFixed(2) : '—') + ' lot</b><span>khối lượng tối đa</span></div>' +
+    '<div class="stat"><b>' + money(lot * lossPerLot) + '</b><span>mất nếu chạm SL (' + pct(lot * lossPerLot / cap * 100) + ')</span></div>' +
+    (tp ? '<div class="stat"><b>1 : ' + (tp / sl).toFixed(2) + '</b><span>tỷ lệ rủi ro : lợi nhuận</span></div>' : '') + '</div>';
+  if (lot < 0.01) h += '<div class="alert bad" style="margin-top:10px"><b>Dừng lỗ quá xa so với vốn.</b> Ngay cả 0,01 lot cũng mất ' + money(0.01 * lossPerLot) + ' (' + pct(0.01 * lossPerLot / cap * 100) + ' vốn), vượt mức ' + risk + '%. Không vào lệnh này.</div>';
+  if (tp && tp / sl < getPlan().minRR) h += '<div class="alert warn" style="margin-top:10px">Tỷ lệ R:R 1:' + (tp / sl).toFixed(2) + ' thấp hơn mức tối thiểu 1:' + getPlan().minRR + ' trong kế hoạch.</div>';
+  if (my) {
+    const myLoss = my * lossPerLot, myPct = myLoss / cap * 100;
+    h += '<div class="alert ' + (myPct > risk + 1e-9 ? 'bad' : 'ok') + '" style="margin-top:10px"><b>Nếu bạn vào ' + my + ' lot:</b> chạm SL sẽ mất <b>' + money(myLoss) + '</b> = <b>' + pct(myPct) + ' vốn</b>' +
+      (myPct > risk + 1e-9 ? '. Gấp ' + (myPct / risk).toFixed(1) + ' lần mức cho phép. ⛔ Giảm khối lượng về ' + (lot >= 0.01 ? lot.toFixed(2) : '0') + ' lot.' : '. Trong giới hạn.') +
+      ' Thua ' + getPlan().stopAfterLosses + ' lệnh liên tiếp như vậy mất ' + pct(myPct * getPlan().stopAfterLosses) + ' vốn.</div>';
+  }
+  $('c_out').innerHTML = h;
+}
+
+/* --- Nhật ký giao dịch --- */
+function tJournal() {
+  const tr = getTrades().slice().sort((a, b) => a.time < b.time ? 1 : -1);
+  const e = editingTrade ? getTrades().find(x => x.id === editingTrade) : null;
+  const v = e || Object.assign({ time: nowLocal(), sym: '', side: '', entry: '', exit: '', sl: '', tp: '', lot: '', reason: '', emo: '', plan: '', moved: '', pl: '', lesson: '' }, prefill || {});
+  let h = '<details class="card" ' + (e || prefill ? 'open' : '') + '><summary><b>' + (e ? '✏️ Sửa lệnh' : '＋ Ghi lệnh mới') + '</b></summary>' +
+    '<div class="grid2"><div><label>Thời gian vào lệnh</label><input type="datetime-local" id="j_time" value="' + esc(v.time) + '"></div><div><label>Cặp / mã</label><input id="j_sym" value="' + esc(v.sym) + '" placeholder="XAUUSD"></div></div>' +
+    '<label>Chiều lệnh</label>' + seg('j_side', [['Mua', 'Mua (Buy)'], ['Bán', 'Bán (Sell)']], v.side) +
+    '<div class="grid2"><div><label>Giá vào</label><input id="j_entry" inputmode="decimal" value="' + esc(v.entry) + '"></div><div><label>Giá ra</label><input id="j_exit" inputmode="decimal" value="' + esc(v.exit) + '"></div>' +
+    '<div><label>Dừng lỗ (SL)</label><input id="j_sl" inputmode="decimal" value="' + esc(v.sl) + '"></div><div><label>Chốt lời (TP)</label><input id="j_tp" inputmode="decimal" value="' + esc(v.tp) + '"></div>' +
+    '<div><label>Khối lượng (lot)</label><input id="j_lot" inputmode="decimal" value="' + esc(v.lot) + '"></div><div><label>Lãi/lỗ thực tế ($, lỗ ghi số âm)</label><input id="j_pl" inputmode="decimal" value="' + esc(v.pl) + '" placeholder="-25.5"></div></div>' +
+    '<label>Lý do vào lệnh</label><input id="j_reason" value="' + esc(v.reason) + '">' +
+    '<label>Cảm xúc trước khi vào lệnh</label>' + seg('j_emo', [1, 2, 3, 4, 5].map(n => [n, n]), v.emo) + '<div class="small muted">' + EMO.slice(1).join(' · ') + '</div>' +
+    '<label>Lệnh có đúng kế hoạch không?</label>' + seg('j_plan', [['Có', 'Đúng kế hoạch'], ['Không', 'Sai kế hoạch']], v.plan) +
+    '<label>Có dời dừng lỗ ra xa hơn / gồng lỗ không?</label>' + seg('j_moved', [['Không', 'Không'], ['Có', 'Có']], v.moved) +
+    '<label>Bài học rút ra</label><textarea id="j_lesson">' + esc(v.lesson) + '</textarea>' +
+    '<div class="row" style="margin-top:10px"><button class="btn pri" data-act="saveTrade">💾 Lưu lệnh</button>' + (e || prefill ? '<button class="btn" data-act="cancelTrade">Hủy</button>' : '') + '</div></details>';
+  h += '<div class="card"><div class="row"><button class="btn" data-act="exportAI">🤖 Xuất dữ liệu cho AI phân tích</button><label class="btn" style="margin:0;color:var(--text)">📥 Nhập file CSV từ MetaTrader<input type="file" accept=".csv,text/csv" id="mt5file" style="display:none"></label></div><div id="aiBox"></div></div>';
+  h += '<div class="card"><h3>📒 Lịch sử (' + tr.length + ' lệnh)</h3>' + (tr.length ? tr.map(t => {
+    const pl = num(t.pl);
+    return '<div class="trade"><div class="row" style="justify-content:space-between"><b>' + esc(t.sym || '?') + ' · ' + esc(t.side || '') + ' · ' + esc(t.lot || '?') + ' lot</b><b style="color:' + (pl > 0 ? 'var(--ok)' : pl < 0 ? 'var(--bad)' : 'inherit') + '">' + money(pl) + '</b></div>' +
+      '<div class="small muted">' + vnDate(t.time) + (t.entry ? ' · vào ' + esc(t.entry) : '') + (t.exit ? ' → ra ' + esc(t.exit) : '') + (t.sl ? ' · SL ' + esc(t.sl) : '') + (t.src ? ' · nguồn ' + esc(t.src) : '') + '</div>' +
+      '<div class="row small" style="margin-top:4px">' + (t.emo ? '<span class="pill ' + (t.emo >= 4 ? 'bad' : '') + '">Cảm xúc ' + t.emo + '</span>' : '') +
+      (t.plan === 'Không' ? '<span class="pill bad">Sai kế hoạch</span>' : t.plan === 'Có' ? '<span class="pill ok">Đúng kế hoạch</span>' : '') + (t.moved === 'Có' ? '<span class="pill bad">Dời SL</span>' : '') + '</div>' +
+      (t.reason ? '<div class="small">Lý do: ' + esc(t.reason) + '</div>' : '') + (t.lesson ? '<div class="small">Bài học: ' + esc(t.lesson) + '</div>' : '') +
+      '<div class="row" style="margin-top:6px"><button class="btn sm" data-act="editTrade" data-id="' + t.id + '">Sửa</button><button class="btn sm" data-act="delTrade" data-id="' + t.id + '">Xóa</button></div></div>';
+  }).join('') : '<p class="muted">Chưa có lệnh nào. Hãy ghi lại mọi lệnh, kể cả lệnh thua.</p>') + '</div>';
+  return h;
+}
+function saveTrade() {
+  const g = id => $(id).value.trim();
+  const t = { time: g('j_time'), sym: g('j_sym').toUpperCase(), side: g('j_side'), entry: g('j_entry'), exit: g('j_exit'), sl: g('j_sl'), tp: g('j_tp'), lot: g('j_lot'), pl: g('j_pl'), reason: g('j_reason'), emo: g('j_emo') ? parseInt(g('j_emo'), 10) : '', plan: g('j_plan'), moved: g('j_moved'), lesson: g('j_lesson') };
+  if (!t.time || !t.sym) return toast('Cần nhập thời gian và cặp/mã.');
+  if (num(t.pl) == null) return toast('Cần nhập lãi/lỗ thực tế (số, lỗ ghi số âm).');
+  const all = getTrades();
+  if (editingTrade) { const i = all.findIndex(x => x.id === editingTrade); if (i >= 0) all[i] = Object.assign(all[i], t); }
+  else { t.id = 't' + Date.now(); all.push(t); }
+  if (store.set('trades', all)) { toast('Đã lưu lệnh ✓'); editingTrade = null; prefill = null; render(); }
+}
+function tradesCsv(list) {
+  const cols = ['time', 'sym', 'side', 'entry', 'exit', 'sl', 'tp', 'lot', 'pl', 'emo', 'plan', 'moved', 'reason', 'lesson'];
+  const head = ['Thời gian', 'Mã', 'Chiều', 'Giá vào', 'Giá ra', 'SL', 'TP', 'Lot', 'Lãi/lỗ $', 'Cảm xúc 1-5', 'Đúng kế hoạch', 'Dời SL', 'Lý do', 'Bài học'];
+  const q = v => { v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  return [head.join(',')].concat(list.map(t => cols.map(c => q(t[c])).join(','))).join('\n');
+}
+function exportForAI() {
+  const p = getPlan(), tr = getTrades().slice().sort((a, b) => a.time < b.time ? -1 : 1);
+  const text = 'Đóng vai người huấn luyện kỷ luật giao dịch và quản trị rủi ro, nói thẳng, không khen xã giao.\n' +
+    'Tôi tự nhận mình hay: vào lệnh theo cảm xúc, gồng lỗ, thiếu kỷ luật, vào lệnh quá lớn.\n\n' +
+    'KẾ HOẠCH CỦA TÔI: vốn ' + p.capital + '$, rủi ro ' + p.riskPct + '%/lệnh, tối đa ' + p.maxTrades + ' lệnh/ngày, lỗ tối đa ngày ' + p.dayLossPct + '%, tuần ' + p.weekLossPct + '%, dừng sau ' + p.stopAfterLosses + ' lệnh thua liên tiếp, R:R tối thiểu 1:' + p.minRR + ', mã được phép: ' + p.pairs + ', giờ: ' + p.hours + '.\n' +
+    'Điều kiện vào lệnh: ' + p.rules.replace(/\n/g, ' | ') + '\n\n' +
+    'YÊU CẦU:\n1. Tính lại các chỉ số: tỷ lệ thắng, lãi TB, lỗ TB, R:R thực tế, chuỗi thua dài nhất (dùng code để tính, không tính nhẩm).\n' +
+    '2. Tìm 3 mẫu hình thua lỗ lặp lại (theo giờ, mã, mức cảm xúc, lệnh sai kế hoạch, lệnh dời SL, khối lượng).\n' +
+    '3. Chỉ ra các lệnh vi phạm kế hoạch và số tiền đã mất vì vi phạm.\n4. Đề xuất đúng 3 quy tắc cụ thể, đo được, cho tuần tới.\n' +
+    '5. KHÔNG dự đoán giá, KHÔNG khuyên mua/bán, KHÔNG hứa lợi nhuận.\n\nNHẬT KÝ (CSV):\n' + tradesCsv(tr);
+  $('aiBox').innerHTML = '<p class="small muted" style="margin-top:10px">Dữ liệu chỉ gồm lệnh, không có số tài khoản. Sao chép rồi dán vào AI:</p>' + codeBox(text, 'prompt') +
+    '<button class="btn sm" data-act="dlCsv">⬇️ Tải file CSV nhật ký</button>';
+}
+/* Đọc file CSV (xử lý dấu phẩy hoặc chấm phẩy, có ngoặc kép) */
+function parseCsv(text) {
+  text = text.replace(/^\uFEFF/, '');
+  const first = text.split('\n')[0]; const d = (first.split(';').length > first.split(',').length) ? ';' : (first.includes('\t') ? '\t' : ',');
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (q) { if (ch === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += ch; }
+    else if (ch === '"') q = true;
+    else if (ch === d) { row.push(cell); cell = ''; }
+    else if (ch === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; }
+    else if (ch !== '\r') cell += ch;
+  }
+  if (cell || row.length) { row.push(cell); rows.push(row); }
+  return rows;
+}
+/* Nhập lịch sử MetaTrader 5: tìm dòng tiêu đề có Symbol/Type/Volume/Profit */
+function importMt5(text) {
+  const rows = parseCsv(text);
+  const hi = rows.findIndex(r => { const s = r.map(c => c.trim().toLowerCase()); return s.includes('symbol') && s.includes('profit') && (s.includes('volume') || s.includes('size')); });
+  if (hi < 0) return toast('Không nhận ra file. Cần có các cột Symbol, Type, Volume, Profit (xem Hướng dẫn).', 5000);
+  const H = rows[hi].map(c => c.trim().toLowerCase());
+  const idx = name => H.indexOf(name), all = (name) => H.map((h, i) => h === name ? i : -1).filter(i => i >= 0);
+  const times = all('time'), prices = all('price');
+  const iSym = idx('symbol'), iType = idx('type'), iVol = idx('volume') >= 0 ? idx('volume') : idx('size'), iSL = idx('s / l') >= 0 ? idx('s / l') : idx('s/l'), iTP = idx('t / p') >= 0 ? idx('t / p') : idx('t/p');
+  const iProfit = idx('profit'), iComm = idx('commission'), iSwap = idx('swap');
+  const existing = getTrades(), keys = new Set(existing.map(t => t.time + t.sym + t.entry + t.pl));
+  let added = 0;
+  for (let r = hi + 1; r < rows.length; r++) {
+    const c = rows[r]; if (!c || c.length < H.length - 2) break;           // hết bảng Positions
+    const type = (c[iType] || '').trim().toLowerCase();
+    if (type !== 'buy' && type !== 'sell') continue;
+    const n = v => num(String(v || '').replace(/\s/g, '')) || 0;
+    const pl = n(c[iProfit]) + (iComm >= 0 ? n(c[iComm]) : 0) + (iSwap >= 0 ? n(c[iSwap]) : 0);
+    const tRaw = (c[times[0]] || '').trim().replace(/\./g, '-').replace(' ', 'T').slice(0, 16);
+    const t = { id: 'm' + Date.now() + '_' + r, time: tRaw, sym: (c[iSym] || '').trim().toUpperCase(), side: type === 'buy' ? 'Mua' : 'Bán', entry: (c[prices[0]] || '').trim(), exit: prices[1] != null ? (c[prices[1]] || '').trim() : '', sl: iSL >= 0 ? (c[iSL] || '').trim() : '', tp: iTP >= 0 ? (c[iTP] || '').trim() : '', lot: (c[iVol] || '').trim(), pl: String(Math.round(pl * 100) / 100), emo: '', plan: '', moved: '', reason: '', lesson: '', src: 'MT5' };
+    const k = t.time + t.sym + t.entry + t.pl; if (keys.has(k)) continue;
+    keys.add(k); existing.push(t); added++;
+  }
+  if (store.set('trades', existing)) { toast('Đã nhập ' + added + ' lệnh mới. Hãy bổ sung cảm xúc, đúng/sai kế hoạch cho từng lệnh.', 5000); render(); }
+}
+
+/* --- Thống kê --- */
+function groupTable(title, list, keyFn, labels) {
+  const groups = {}; list.forEach(t => { const k = keyFn(t); if (k === '' || k == null) return; (groups[k] = groups[k] || []).push(t); });
+  const ks = Object.keys(groups).sort(); if (!ks.length) return '';
+  return '<h4>' + title + '</h4><table class="tbl"><thead><tr><th>Nhóm</th><th>Số lệnh</th><th>Tỷ lệ thắng</th><th>Tổng lãi/lỗ</th></tr></thead><tbody>' +
+    ks.map(k => { const s = calcStats(groups[k]); return '<tr><td>' + esc(labels ? (labels[k] || k) : k) + '</td><td>' + s.n + '</td><td>' + pct(s.winRate) + '</td><td style="color:' + (s.total < 0 ? 'var(--bad)' : 'var(--ok)') + '">' + money(s.total) + '</td></tr>'; }).join('') + '</tbody></table>';
+}
+function tStats() {
+  const tr = getTrades(), s = calcStats(tr);
+  if (!s.n) return '<div class="card muted">Chưa có dữ liệu. Ghi nhật ký hoặc nhập file từ MetaTrader trước.</div>';
+  let h = '<div class="card"><h3>📊 Tổng quan (' + s.n + ' lệnh)</h3><div class="stats">' +
+    '<div class="stat"><b>' + pct(s.winRate) + '</b><span>tỷ lệ thắng (' + s.wins + 'T/' + s.losses + 'B)</span></div>' +
+    '<div class="stat"><b style="color:' + (s.total < 0 ? 'var(--bad)' : 'var(--ok)') + '">' + money(s.total) + '</b><span>tổng lãi/lỗ</span></div>' +
+    '<div class="stat"><b>' + money(s.avgWin) + '</b><span>lãi trung bình</span></div><div class="stat"><b>' + money(s.avgLoss) + '</b><span>lỗ trung bình</span></div>' +
+    '<div class="stat"><b>' + (s.rr != null ? '1 : ' + s.rr.toFixed(2) : '—') + '</b><span>R:R thực tế (lãi TB/lỗ TB)</span></div>' +
+    '<div class="stat"><b>' + money(s.maxLoss) + '</b><span>lệnh lỗ lớn nhất</span></div><div class="stat"><b>' + s.maxStreak + '</b><span>chuỗi thua dài nhất</span></div>' +
+    '<div class="stat"><b>' + money(s.perTrade) + '</b><span>trung bình mỗi lệnh</span></div></div></div>';
+  const tips = [];
+  if (s.rr != null && s.rr < 1) tips.push('Lỗ trung bình lớn hơn lãi trung bình: dấu hiệu điển hình của <b>gồng lỗ</b> và chốt lời quá sớm.');
+  const cap = num(getPlan().capital); if (cap && s.maxLoss != null && -s.maxLoss > cap * getPlan().riskPct / 100 * 1.5) tips.push('Lệnh lỗ lớn nhất ' + money(s.maxLoss) + ' vượt xa mức rủi ro ' + getPlan().riskPct + '% vốn (' + money(cap * getPlan().riskPct / 100) + '): dấu hiệu <b>vào lệnh quá lớn</b> hoặc không đặt SL.');
+  const badPlan = calcStats(tr.filter(t => t.plan === 'Không')), goodPlan = calcStats(tr.filter(t => t.plan === 'Có'));
+  if (badPlan.n) tips.push('Lệnh <b>sai kế hoạch</b>: ' + badPlan.n + ' lệnh, tổng ' + money(badPlan.total) + '. Lệnh đúng kế hoạch: ' + goodPlan.n + ' lệnh, tổng ' + money(goodPlan.total) + '.');
+  const hot = calcStats(tr.filter(t => t.emo >= 4)); if (hot.n) tips.push('Lệnh vào khi <b>cảm xúc 4–5</b>: ' + hot.n + ' lệnh, tổng ' + money(hot.total) + '.');
+  const mv = calcStats(tr.filter(t => t.moved === 'Có')); if (mv.n) tips.push('Lệnh có <b>dời SL</b>: ' + mv.n + ' lệnh, tổng ' + money(mv.total) + '.');
+  const noTag = tr.filter(t => !t.emo || !t.plan).length; if (noTag) tips.push(noTag + ' lệnh chưa ghi cảm xúc hoặc đúng/sai kế hoạch. Bổ sung để thống kê chính xác hơn.');
+  if (tips.length) h += '<div class="card"><h3>🔎 Điều số liệu đang nói</h3><ul>' + tips.map(t => '<li>' + t + '</li>').join('') + '</ul></div>';
+  h += '<div class="card">' + groupTable('Theo mức cảm xúc', tr, t => t.emo, { 1: '1 – Rất bình tĩnh', 2: '2 – Bình tĩnh', 3: '3 – Hơi hồi hộp', 4: '4 – Nóng vội', 5: '5 – Cay cú' }) +
+    groupTable('Đúng / sai kế hoạch', tr, t => t.plan, { 'Có': 'Đúng kế hoạch', 'Không': 'Sai kế hoạch' }) +
+    groupTable('Có dời dừng lỗ không', tr, t => t.moved, { 'Có': 'Có dời SL', 'Không': 'Không dời SL' }) +
+    groupTable('Theo mã', tr, t => t.sym) +
+    groupTable('Theo khung giờ vào lệnh', tr, t => (t.time || '').slice(11, 13) ? (t.time.slice(11, 13) + 'h') : '') + '</div>';
+  return h;
+}
+
+/* --- Kế hoạch giao dịch --- */
+function tPlan() {
+  const p = getPlan(); const f = (id, label, val, extra) => '<div><label>' + label + '</label><input id="' + id + '" value="' + esc(val) + '" ' + (extra || '') + '></div>';
+  return legalBox() + '<div class="card"><h3>📝 Kế hoạch giao dịch của tôi</h3><p class="small muted">Viết khi đầu óc bình tĩnh. Khi đang giao dịch thì chỉ làm theo, không sửa.</p>' +
+    '<div class="grid2">' + f('p_cap', 'Vốn tài khoản ($)', p.capital, 'inputmode="decimal"') + f('p_acc', 'Loại tài khoản', p.account) +
+    f('p_risk', 'Rủi ro tối đa mỗi lệnh (% vốn)', p.riskPct, 'inputmode="decimal"') + f('p_max', 'Số lệnh tối đa mỗi ngày', p.maxTrades, 'inputmode="numeric"') +
+    f('p_day', 'Lỗ tối đa trong ngày (% vốn)', p.dayLossPct, 'inputmode="decimal"') + f('p_week', 'Lỗ tối đa trong tuần (% vốn)', p.weekLossPct, 'inputmode="decimal"') +
+    f('p_stop', 'Dừng sau mấy lệnh thua liên tiếp', p.stopAfterLosses, 'inputmode="numeric"') + f('p_rr', 'R:R tối thiểu (1 : ?)', p.minRR, 'inputmode="decimal"') +
+    f('p_pairs', 'Mã được phép giao dịch', p.pairs) + f('p_hours', 'Khung giờ được phép', p.hours) + '</div>' +
+    '<label>Điều kiện vào lệnh (mỗi dòng một điều)</label><textarea id="p_rules" style="min-height:140px">' + esc(p.rules) + '</textarea>' +
+    '<div class="row" style="margin-top:10px"><button class="btn pri" data-act="savePlan">💾 Lưu kế hoạch</button><button class="btn" data-act="copyPlan">📋 Sao chép để in / gửi AI</button></div></div>' +
+    '<div class="card small"><b>Gợi ý cho người mới đang thua lỗ:</b><ul><li>Tạm dừng tiền thật. Tập trên tài khoản demo 30 ngày liên tục mà không vi phạm kế hoạch.</li><li>Rủi ro 0,5–1%/lệnh, tối đa 2–3 lệnh/ngày.</li><li>Sau 30 ngày, xuất nhật ký cho AI phân tích rồi mới cân nhắc bước tiếp theo.</li></ul></div>';
+}
+function planText() {
+  const p = getPlan();
+  return 'KẾ HOẠCH GIAO DỊCH (' + p.account + ')\n- Vốn: ' + p.capital + '$\n- Rủi ro tối đa mỗi lệnh: ' + p.riskPct + '% vốn\n- Tối đa ' + p.maxTrades + ' lệnh/ngày\n- Lỗ tối đa ngày: ' + p.dayLossPct + '% · tuần: ' + p.weekLossPct + '%\n- Thua ' + p.stopAfterLosses + ' lệnh liên tiếp: nghỉ hết ngày\n- R:R tối thiểu 1:' + p.minRR + '\n- Mã được phép: ' + p.pairs + '\n- Giờ được phép: ' + p.hours + '\n- Đặt SL ngay khi vào lệnh, không dời SL xa hơn, không nhồi lệnh khi đang lỗ\n- Cảm xúc 4/5 trở lên: không vào lệnh\n\nĐIỀU KIỆN VÀO LỆNH:\n' + p.rules;
+}
+function afterTradingRender(r) { if (r.sub === 'khoi-luong') calcUpdate(); }
+
+/* ====================== MÀN HÌNH: THÊM ====================== */
+function vMore() {
+  const notes = store.get('notes', {}); const ids = Object.keys(notes).filter(k => notes[k] && notes[k].trim());
+  const theme = store.get('theme', 'auto');
+  return '<div class="card"><h3>🔍 Tìm kiếm toàn bộ nội dung</h3><div class="row"><input id="sq" placeholder="Ví dụ: token, prompt, dừng lỗ..." style="flex:1"><a class="btn pri" data-act="doSearch">Tìm</a></div></div>' +
+    '<div class="card"><h3>🗒️ Ghi chú của tôi (' + ids.length + ')</h3>' + (ids.length ? ids.sort((a, b) => a - b).map(id => { const s = SESSIONS.find(x => x.id == id); return '<div class="trade"><a href="#/bai/' + id + '"><b>Buổi ' + id + ': ' + esc(s ? s.title : '') + '</b></a><div class="small" style="white-space:pre-wrap">' + esc(notes[id].slice(0, 300)) + (notes[id].length > 300 ? '…' : '') + '</div></div>'; }).join('') : '<p class="muted">Chưa có ghi chú. Ghi chú nằm cuối mỗi buổi học.</p>') + '</div>' +
+    '<div class="card"><h3>💾 Sao lưu & khôi phục</h3><p class="small muted">Dữ liệu chỉ nằm trên máy này. iPhone và máy tính là hai nơi riêng: muốn chuyển, sao lưu ở máy này rồi khôi phục ở máy kia. Nên sao lưu mỗi tuần.</p>' +
+    '<div class="row"><button class="btn pri" data-act="backup">⬇️ Sao lưu (tải file .json)</button><label class="btn" style="margin:0;color:var(--text)">⬆️ Khôi phục từ file<input type="file" accept=".json,application/json" id="restoreFile" style="display:none"></label></div></div>' +
+    '<div class="card"><h3>🎨 Giao diện</h3>' + seg('themeSel', [['auto', 'Theo máy'], ['light', 'Sáng'], ['dark', 'Tối']], theme) + '</div>' +
+    '<div class="card small"><h3>📲 Cài lên màn hình chính</h3><p><b>iPhone:</b> mở app bằng Safari → nút Chia sẻ → "Thêm vào MH chính".<br><b>Windows:</b> mở bằng Edge hoặc Chrome → biểu tượng "Cài đặt ứng dụng" trên thanh địa chỉ (hoặc menu ⋯ → Ứng dụng → Cài đặt).</p><p class="muted">Xem chi tiết trong file HUONG_DAN.md đi kèm.</p></div>' +
+    '<div class="card"><h3>🗑️ Xóa dữ liệu</h3><button class="btn bad" data-act="wipe">Xóa toàn bộ dữ liệu học và giao dịch</button></div>' +
+    '<p class="muted small" style="text-align:center">Sổ tay học AI · phiên bản ' + APP_VERSION + ' · chạy offline, dữ liệu lưu trên máy</p>';
+}
+function vSearch(r) {
+  const q = decodeURIComponent(r.sub || ''); const nq = bo_dau(q);
+  let h = '<p><a href="#/them">← Thêm</a></p><div class="card"><div class="row"><input id="sq" value="' + esc(q) + '" style="flex:1"><a class="btn pri" data-act="doSearch">Tìm</a></div></div>';
+  if (!nq) return h;
+  const snip = (text) => { const t = String(text).replace(/[#>|~*]/g, ' ').replace(/\s+/g, ' '); const i = bo_dau(t).indexOf(nq); if (i < 0) return ''; const s = Math.max(0, i - 60); return (s ? '…' : '') + esc(t.slice(s, i)) + '<span class="hl">' + esc(t.slice(i, i + q.length)) + '</span>' + esc(t.slice(i + q.length, i + q.length + 80)) + '…'; };
+  const res = [];
+  SESSIONS.forEach(s => { const all = s.title + ' ' + s.goal + ' ' + (s.content || '') + ' ' + (s.practiceDetail || ''); if (bo_dau(all).includes(nq)) res.push('<div class="trade"><a href="#/bai/' + s.id + '"><b>Buổi ' + s.id + ': ' + esc(s.title) + '</b></a><div class="small">' + snip(all) + '</div></div>'); });
+  GLOSSARY.forEach(g => { const all = g.en + ' ' + g.vi + ' ' + g.d; if (bo_dau(all).includes(nq)) res.push('<div class="trade"><a href="#/tu-dien"><b>📚 ' + esc(g.en) + ' – ' + esc(g.vi) + '</b></a><div class="small">' + esc(g.d) + '</div></div>'); });
+  allPrompts().forEach(p => { const all = p.t + ' ' + p.x; if (bo_dau(all).includes(nq)) res.push('<div class="trade"><a href="#/prompt"><b>📋 ' + esc(p.t) + '</b></a><div class="small">' + snip(all) + '</div></div>'); });
+  const notes = store.get('notes', {}); Object.keys(notes).forEach(id => { if (bo_dau(notes[id]).includes(nq)) res.push('<div class="trade"><a href="#/bai/' + id + '"><b>🗒️ Ghi chú buổi ' + id + '</b></a><div class="small">' + snip(notes[id]) + '</div></div>'); });
+  return h + '<div class="card"><h3>' + res.length + ' kết quả</h3>' + (res.join('') || '<p class="muted">Không tìm thấy.</p>') + '</div>';
+}
+
+/* ---------- 9. SAO LƯU / KHÔI PHỤC ---------- */
+function downloadFile(name, text, type) {
+  const blob = new Blob([text], { type: type || 'application/json' });
+  const file = typeof File === 'function' ? new File([blob], name, { type: blob.type }) : null;
+  // Trên iPhone: mở bảng Chia sẻ để lưu vào Tệp / gửi qua Zalo, email...
+  if (file && navigator.canShare && /iPhone|iPad|iPod/.test(navigator.userAgent) && navigator.canShare({ files: [file] })) {
+    navigator.share({ files: [file], title: name }).catch(() => {}); return;
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+function backup() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.startsWith(PREFIX)) data[k] = localStorage.getItem(k); }
+  const out = { app: 'so-tay-hoc-ai', version: APP_VERSION, exportedAt: new Date().toISOString(), data };
+  downloadFile('sotay-hoc-ai-saoluu-' + today() + '.json', JSON.stringify(out, null, 1));
+  store.set('lastBackup', today());
+}
+function restore(text) {
+  let obj; try { obj = JSON.parse(text); } catch (e) { return toast('File không hợp lệ.'); }
+  if (!obj || obj.app !== 'so-tay-hoc-ai' || !obj.data) return toast('Đây không phải file sao lưu của Sổ tay học AI.');
+  if (!confirm('Khôi phục sẽ GHI ĐÈ dữ liệu hiện tại trên máy này bằng dữ liệu trong file (sao lưu ngày ' + vnDate((obj.exportedAt || '').slice(0, 10)) + '). Tiếp tục?')) return;
+  try {
+    Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => localStorage.removeItem(k));
+    Object.keys(obj.data).forEach(k => { if (k.startsWith(PREFIX)) localStorage.setItem(k, obj.data[k]); });
+  } catch (e) { return toast('Không khôi phục được: bộ nhớ đầy.'); }
+  toast('Đã khôi phục ✓'); setTimeout(() => location.reload(), 600);
+}
+
+/* ---------- 10. XỬ LÝ BẤM NÚT (một chỗ cho toàn app) ---------- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el) return;
+  const a = el.dataset.act;
+  const R = () => render();
+  switch (a) {
+    case 'go': location.hash = el.dataset.href; break;
+    case 'copybox': copyText(el.closest('.codebox').querySelector('pre').textContent); break;
+    case 'tStart': T.end = Date.now() + T.left * 1000; T.run = true; saveTimer(); markStudyDay(); R(); break;
+    case 'tPause': T.left = timerLeft(); T.run = false; saveTimer(); R(); break;
+    case 'tSkip': T.stage = (T.stage + 1) % 3; T.left = STAGES[T.stage].m * 60; if (T.run) T.end = Date.now() + T.left * 1000; saveTimer(); R(); break;
+    case 'tReset': T = { stage: 0, left: 15 * 60, run: false, end: 0 }; saveTimer(); R(); break;
+    case 'toggleDone': {
+      const d = getDone(), id = el.dataset.id;
+      if (d[id]) delete d[id]; else { d[id] = today(); markStudyDay(); toast('🎉 Hoàn thành buổi ' + id + '!'); }
+      store.set('done', d); R(); break;
+    }
+    case 'ans': {
+      const s = +el.dataset.s, q = +el.dataset.q, o = +el.dataset.o;
+      quizState[s] = quizState[s] || {}; if (quizState[s][q] != null) break;
+      quizState[s][q] = o;
+      const ses = SESSIONS.find(x => x.id === s), st = quizState[s];
+      if (Object.keys(st).length === ses.quiz.length) {
+        const score = Math.round(ses.quiz.filter((qq, i) => st[i] === qq.c).length / ses.quiz.length * 100);
+        const qz = store.get('quiz', {}); qz[s] = Math.max(qz[s] || 0, score); store.set('quiz', qz); markStudyDay();
+      }
+      $('quiz').innerHTML = quizHtml(ses); break;
+    }
+    case 'quizReset': { const s = +el.dataset.s; quizState[s] = {}; $('quiz').innerHTML = quizHtml(SESSIONS.find(x => x.id === s)); break; }
+    case 'flip': flipped = !flipped; R(); break;
+    case 'rate': rateCard(el.dataset.id, el.dataset.ok === '1'); flipped = false; R(); break;
+    case 'gfilter': gFilter = el.dataset.g; document.querySelectorAll('#gseg button').forEach(b => b.classList.toggle('on', b === el)); $('glist').innerHTML = glossList($('gq').value, gFilter); break;
+    case 'pgroup': pGroup = el.dataset.g; R(); break;
+    case 'addPrompt': {
+      const t = $('np_t').value.trim(), x = $('np_x').value.trim();
+      if (!t || !x) { toast('Cần nhập tên và nội dung prompt.'); break; }
+      const my = store.get('myPrompts', []); my.push({ id: 'm' + Date.now(), t, g: $('np_g').value.trim() || 'Của tôi', x });
+      if (store.set('myPrompts', my)) { toast('Đã lưu prompt ✓'); pGroup = 'Của tôi'; R(); } break;
+    }
+    case 'delPrompt': if (confirm('Xóa prompt này?')) { store.set('myPrompts', store.get('myPrompts', []).filter(p => p.id !== el.dataset.id)); R(); } break;
+    case 'seg': {
+      $(el.dataset.target).value = el.dataset.val;
+      el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el));
+      if (el.dataset.target === 'themeSel') { store.set('theme', el.dataset.val); applyTheme(); }
+      break;
+    }
+    case 'ck': checklist[el.dataset.k] = el.dataset.k === 'emo' ? +el.dataset.v : el.dataset.v; el.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === el)); break;
+    case 'ckRun': $('ckResult').innerHTML = checklistResult(); break;
+    case 'ckClear': checklist = {}; R(); break;
+    case 'ckToJournal': prefill = { emo: checklist.emo, plan: 'Có', moved: 'Không' }; editingTrade = null; location.hash = '#/giao-dich/nhat-ky'; break;
+    case 'saveTrade': saveTrade(); break;
+    case 'cancelTrade': editingTrade = null; prefill = null; R(); break;
+    case 'editTrade': editingTrade = el.dataset.id; prefill = null; R(); window.scrollTo(0, 0); break;
+    case 'delTrade': if (confirm('Xóa lệnh này khỏi nhật ký?')) { store.set('trades', getTrades().filter(t => t.id !== el.dataset.id)); R(); } break;
+    case 'exportAI': exportForAI(); break;
+    case 'dlCsv': downloadFile('nhat-ky-giao-dich-' + today() + '.csv', '\uFEFF' + tradesCsv(getTrades()), 'text/csv'); break;
+    case 'savePlan': {
+      const g = id => $(id).value.trim(), n = (id, d) => { const v = num(g(id)); return v == null ? d : v; };
+      const p = { capital: n('p_cap', 0), account: g('p_acc'), riskPct: n('p_risk', 1), maxTrades: Math.round(n('p_max', 3)), dayLossPct: n('p_day', 3), weekLossPct: n('p_week', 6), stopAfterLosses: Math.round(n('p_stop', 2)), minRR: n('p_rr', 1.5), pairs: g('p_pairs'), hours: g('p_hours'), rules: $('p_rules').value };
+      if (p.riskPct > 2) toast('⚠️ Rủi ro trên 2%/lệnh là rất cao với người đang thua lỗ. Cân nhắc giảm về 0,5–1%.', 6000);
+      if (store.set('plan', p)) toast('Đã lưu kế hoạch ✓'); break;
+    }
+    case 'copyPlan': copyText(planText()); break;
+    case 'doSearch': location.hash = '#/tim-kiem/' + encodeURIComponent($('sq').value.trim()); break;
+    case 'backup': backup(); break;
+    case 'wipe':
+      if (confirm('Xóa TOÀN BỘ dữ liệu (tiến độ, ghi chú, prompt riêng, nhật ký giao dịch)? Nên sao lưu trước.') && confirm('Chắc chắn xóa? Không thể hoàn tác.')) {
+        Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => localStorage.removeItem(k)); location.reload();
+      } break;
+    case 'theme': { const cur = document.documentElement.dataset.theme; store.set('theme', cur === 'dark' ? 'light' : 'dark'); applyTheme(); break; }
+  }
+});
+/* Gõ chữ: ghi chú tự lưu, máy tính tự tính, từ điển tự lọc */
+let noteTimer;
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id === 'note') { clearTimeout(noteTimer); noteTimer = setTimeout(() => { const n = store.get('notes', {}); n[el.dataset.sid] = el.value; store.set('notes', n); }, 400); }
+  else if (el.dataset.input === 'calc') calcUpdate();
+  else if (el.dataset.input === 'gloss') $('glist').innerHTML = glossList(el.value, gFilter);
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.dataset.input === 'calc') calcUpdate();
+  if ((el.id === 'restoreFile' || el.id === 'mt5file') && el.files && el.files[0]) {
+    const rd = new FileReader();
+    rd.onload = () => el.id === 'restoreFile' ? restore(rd.result) : importMt5(rd.result);
+    rd.readAsText(el.files[0]); el.value = '';
+  }
+});
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'sq') location.hash = '#/tim-kiem/' + encodeURIComponent(e.target.value.trim()); });
+
+/* ---------- 11. GIAO DIỆN SÁNG / TỐI ---------- */
+function applyTheme() {
+  const t = store.get('theme', 'auto');
+  const dark = t === 'dark' || (t === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+}
+
+/* ---------- 12. KHỞI ĐỘNG APP ---------- */
+const APP_VERSION = '1.0 (Tuần 1)';
+applyTheme();
+render();
+/* Đăng ký service worker để chạy offline (chỉ khi mở qua địa chỉ http/https, không chạy khi mở file trực tiếp) */
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+}
+
+</script>
+</body>
+</html>

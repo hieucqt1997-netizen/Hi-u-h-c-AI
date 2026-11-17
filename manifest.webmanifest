@@ -1,0 +1,16 @@
+{
+  "name": "Sổ tay học AI",
+  "short_name": "Học AI",
+  "description": "Học AI và lập trình vừa đủ hiểu trong 30 buổi, kèm công cụ kỷ luật giao dịch. Chạy offline.",
+  "lang": "vi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f6f8",
+  "theme_color": "#0b6e6e",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
