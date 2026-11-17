@@ -163,9 +163,10 @@ hr{border:none;border-top:1px solid var(--line);margin:14px 0}
    Phần này CHỈ chứa nội dung. Muốn thêm/sửa bài học, chỉ sửa ở đây,
    không cần đụng tới phần giao diện bên dưới.
 
-   Mỗi buổi học là một đối tượng { ... } trong mảng SESSIONS:
-     id       : số thứ tự buổi (1..30)
-     week     : thuộc tuần mấy (1..4)
+   Mỗi buổi học là một đối tượng { ... } trong mảng SESSIONS.
+   Tuần 1 nằm ngay bên dưới; Tuần 2–6 được thêm bằng SESSIONS.push(...) ở các khối tiếp theo.
+     id       : số thứ tự buổi (1..44)
+     week     : thuộc tuần mấy (1..6; 5–6 là phần Nâng cao)
      title    : tên buổi
      goal     : mục tiêu (1 câu)
      practice : bài thực hành trên máy tính (tóm tắt 1 câu)
@@ -191,7 +192,9 @@ const WEEKS = [
   { id: 1, title: "Tuần 1 – Hiểu AI và nói chuyện với AI", goal: "Biết AI hoạt động ra sao, hay sai ở đâu, và giao việc cho AI đúng cách." },
   { id: 2, title: "Tuần 2 – Lập trình vừa đủ hiểu", goal: "Đọc hiểu code AI viết, chạy được script Python đầu tiên, biết báo lỗi cho AI sửa." },
   { id: 3, title: "Tuần 3 – Ứng dụng chạy thế nào & tự động hóa văn phòng", goal: "Hiểu app offline, API, Agent; tự động hóa Excel/Word; bảo mật dữ liệu." },
-  { id: 4, title: "Tuần 4 – AI với trading và kiếm tiền", goal: "Dùng AI để giữ kỷ luật và quản lý rủi ro; chọn hướng kiếm tiền hợp với kế toán." }
+  { id: 4, title: "Tuần 4 – AI với trading và kiếm tiền", goal: "Dùng AI để giữ kỷ luật và quản lý rủi ro; chọn hướng kiếm tiền hợp với kế toán." },
+  { id: 5, adv: true, title: "Nâng cao 1 – Excel chuyên sâu & phần mềm nội bộ", goal: "Làm Excel tự động, thiết kế và làm phần mềm nội bộ nhỏ bằng AI, bảo trì an toàn." },
+  { id: 6, adv: true, title: "Nâng cao 2 – Video AI, API, trading nâng cao & tự động hóa", goal: "Làm video AI nhanh hơn, gọi AI bằng code, kiểm chứng chiến lược bằng dữ liệu, tự động hóa quy trình." }
 ];
 
 const SESSIONS = [
@@ -772,36 +775,7 @@ quiz: [
 cards: [
   { f: "Ý cốt lõi Tuần 1", b: "AI là cỗ máy viết chữ hợp lý; bạn cầm lái bằng prompt tốt, công cụ kiểm soát và bước tự kiểm tra." }
 ]
-},
-
-/* ============================ TUẦN 2 ============================ */
-{ id: 8,  week: 2, ready: false, title: "Biến và kiểu dữ liệu", goal: "Hiểu biến như 'ô Excel có tên'; phân biệt số, chữ, đúng/sai, danh sách.", practice: "Nhờ AI viết đoạn Python tính thành tiền = số lượng × đơn giá và đọc hiểu từng dòng." },
-{ id: 9,  week: 2, ready: false, title: "Điều kiện if – 'nếu… thì…'", goal: "Hiểu lệnh if giống hàm IF trong Excel; đọc được code có điều kiện.", practice: "Viết đoạn code cảnh báo khi định lượng vượt định mức." },
-{ id: 10, week: 2, ready: false, title: "Vòng lặp – làm lặp lại tự động", goal: "Hiểu vòng lặp for: làm một việc cho từng dòng của bảng kê.", practice: "Cộng tổng cột Thành tiền và tính tỷ lệ thắng từ danh sách lệnh giao dịch." },
-{ id: 11, week: 2, ready: false, title: "Hàm – đóng gói một việc để dùng lại", goal: "Hiểu hàm (function) như 'công thức tự đặt tên'; tách việc lớn thành hàm nhỏ.", practice: "Viết hàm tính khối lượng lệnh từ vốn, % rủi ro và khoảng dừng lỗ." },
-{ id: 12, week: 2, ready: false, title: "Cài Python + VS Code, chạy script đầu tiên", goal: "Tự cài môi trường trên Windows và chạy được một file .py.", practice: "Cài Python, VS Code; chạy script in ra bảng kê mẫu." },
-{ id: 13, week: 2, ready: false, title: "Đọc thông báo lỗi và nhờ AI sửa", goal: "Không sợ lỗi: đọc dòng lỗi quan trọng, chép đúng cách cho AI sửa.", practice: "Cố tình tạo 3 lỗi phổ biến, dùng quy trình mô tả → chạy → báo lỗi → sửa." },
-{ id: 14, week: 2, ready: false, review: true, title: "Ôn tập & kiểm tra Tuần 2", goal: "Đọc hiểu một script hoàn chỉnh AI viết.", practice: "Đọc và chú thích từng dòng một script tự động hóa ngắn." },
-
-/* ============================ TUẦN 3 ============================ */
-{ id: 15, week: 3, ready: false, title: "Trang web và ứng dụng: HTML, CSS, JavaScript", goal: "Hiểu 3 lớp của một trang web: khung, trang trí, hành động.", practice: "Mở mã nguồn chính app này, nhận diện phần HTML, CSS, JavaScript." },
-{ id: 16, week: 3, ready: false, title: "App offline: PWA, service worker, localStorage", goal: "Hiểu vì sao app này chạy không cần mạng và dữ liệu nằm ở đâu.", practice: "Mổ xẻ app Sổ tay học AI và app Sổ tay cai nghiện; thử sao lưu/khôi phục dữ liệu." },
-{ id: 17, week: 3, ready: false, title: "API và AI Agent là gì", goal: "Hiểu API như 'cửa giao dịch giữa hai phần mềm', Agent là AI tự dùng công cụ làm nhiều bước.", practice: "Vẽ sơ đồ một quy trình công việc có thể giao cho Agent." },
-{ id: 18, week: 3, ready: false, title: "Python đọc/ghi Excel", goal: "Hiểu cách script đọc bảng Excel, tính toán và ghi kết quả.", practice: "Mổ xẻ script tạo biên bản tự động; nhờ AI thêm một cột mới." },
-{ id: 19, week: 3, ready: false, title: "Tạo Word hàng loạt, gộp và tách file", goal: "Tự động tạo nhiều văn bản từ một mẫu và một bảng dữ liệu.", practice: "Tạo 5 biên bản Word từ 1 file Excel dữ liệu giả." },
-{ id: 20, week: 3, ready: false, title: "Bảo mật và ẩn danh hóa dữ liệu", goal: "Biết dữ liệu nào tuyệt đối không đưa lên AI và cách thay bằng dữ liệu giả.", practice: "Ẩn danh một bảng dữ liệu mẫu trước khi nhờ AI phân tích." },
-{ id: 21, week: 3, ready: false, review: true, title: "Ôn tập Tuần 3 + thống kê lịch sử giao dịch bằng Python", goal: "Tổng hợp Tuần 3; dùng Python thống kê file lịch sử xuất từ MetaTrader.", practice: "Xuất lịch sử từ MetaTrader, chạy script thống kê, so sánh với tab Giao dịch của app." },
-
-/* ============================ TUẦN 4 ============================ */
-{ id: 22, week: 4, ready: false, title: "Sự thật về trading, AI và các kiểu lừa đảo", goal: "Hiểu vì sao AI không đoán được giá, rủi ro pháp lý và các chiêu lừa 'bot AI lãi chắc'.", practice: "Nhờ AI liệt kê dấu hiệu lừa đảo và tự đối chiếu với các lời mời bạn từng nhận." },
-{ id: 23, week: 4, ready: false, title: "Lot, pip, đòn bẩy, ký quỹ, stop out, spread, swap", goal: "Hiểu chính xác mỗi lệnh có thể làm mất bao nhiêu tiền.", practice: "Dùng máy tính khối lượng lệnh trong app với 5 tình huống." },
-{ id: 24, week: 4, ready: false, title: "Lỗi 1: Vào lệnh theo cảm xúc", goal: "Nhận ra trạng thái cảm xúc nguy hiểm; dùng bảng kiểm trước lệnh.", practice: "Dùng bảng kiểm trước mọi lệnh demo trong 1 tuần, ghi điểm cảm xúc." },
-{ id: 25, week: 4, ready: false, title: "Lỗi 2: Gồng lỗ và dời dừng lỗ", goal: "Đặt SL ngay khi vào lệnh, không dời SL xa hơn, không nhồi lệnh khi đang lỗ.", practice: "Thống kê các lệnh đã dời SL trong nhật ký và kết quả của chúng." },
-{ id: 26, week: 4, ready: false, title: "Lỗi 3: Thiếu kỷ luật – kế hoạch giao dịch", goal: "Viết kế hoạch giao dịch 1 trang và các quy tắc dừng.", practice: "Hoàn thiện mục Kế hoạch trong tab Giao dịch; in ra dán cạnh máy tính." },
-{ id: 27, week: 4, ready: false, title: "Lỗi 4: Vào lệnh quá lớn – quản lý vốn", goal: "Rủi ro tối đa 1% vốn/lệnh; tính khối lượng từ khoảng dừng lỗ; hiểu sụt vốn.", practice: "Mô phỏng 20 lệnh thua liên tiếp ở mức rủi ro 1% và 10% để so sánh." },
-{ id: 28, week: 4, ready: false, title: "AI phân tích nhật ký giao dịch & backtest nhập môn", goal: "Dùng AI tìm mẫu hình thua lỗ của chính mình; hiểu giới hạn của backtest.", practice: "Xuất nhật ký từ app cho AI phân tích; lập lộ trình demo 30 ngày." },
-{ id: 29, week: 4, ready: false, title: "Kiếm tiền từ AI: hướng hợp với kế toán", goal: "Chọn 1 hướng: công cụ Excel, dịch vụ sổ sách, app nhỏ, bán mẫu, dạy lại; cách tìm khách, báo giá; lưu ý quy định làm thêm của cán bộ.", practice: "Viết bản giới thiệu dịch vụ và bảng báo giá mẫu cho 1 hướng đã chọn." },
-{ id: 30, week: 4, ready: false, review: true, title: "Dự án cuối khóa & kiểm tra tổng kết", goal: "Hoàn thành một công cụ nhỏ có thể dùng cho công việc hoặc để bán.", practice: "Làm dự án cuối khóa theo quy trình đã học; làm bài kiểm tra tổng kết." }
+}
 ];
 
 /* ---------------- TỪ ĐIỂN THUẬT NGỮ ---------------- */
@@ -959,6 +933,2851 @@ Kế hoạch phải có: rủi ro tối đa mỗi lệnh (% vốn), số lệnh 
 Với mỗi ý: khách hàng là ai, vấn đề họ gặp, công cụ giải quyết thế nào, mức độ khó (1–5), cách tìm 3 khách đầu tiên. Không bịa số liệu thị trường.` },
   { g: "Kiếm tiền", t: "Viết báo giá dịch vụ", x: `Viết báo giá ngắn gọn, chuyên nghiệp cho dịch vụ: [mô tả]. Khách hàng: [ai]. Gồm: phạm vi công việc, những gì KHÔNG bao gồm, thời gian làm, số lần sửa miễn phí, giá [..], điều kiện thanh toán, bảo hành. Văn phong lịch sự, dễ hiểu.` }
 ];
+
+
+/* ============================ TUẦN 2: LẬP TRÌNH VỪA ĐỦ HIỂU ============================ */
+SESSIONS.push(
+{
+id: 8, week: 2, ready: true,
+title: "Biến và kiểu dữ liệu",
+goal: "Hiểu biến như 'ô Excel có tên'; phân biệt số, chữ, đúng/sai, danh sách, từ điển.",
+practice: "Nhờ AI viết đoạn Python tính thành tiền và đọc hiểu từng dòng.",
+content: `
+## Vì sao kế toán học lập trình dễ hơn bạn nghĩ?
+Bạn đã "lập trình" hằng ngày trong Excel: đặt số vào ô, viết công thức =C2*D2, kéo công thức xuống cả cột. Lập trình chỉ là viết những việc đó **bằng chữ**, để máy làm tự động và lặp lại.
+
+Mục tiêu tuần này **không phải tự viết code giỏi**. Mục tiêu là **đọc hiểu** code AI viết, biết nó đang làm gì, và nói đúng cho AI sửa.
+
+## Biến = ô Excel có tên
+~~~python
+so_luong = 25          # 25 kg
+don_gia = 18000        # 18.000 đồng/kg
+thanh_tien = so_luong * don_gia
+print(thanh_tien)      # in ra: 450000
+~~~
+- **so_luong**, **don_gia**, **thanh_tien** là **biến**: giống ô C2, D2, E2 nhưng có tên dễ hiểu.
+- Dấu **=** nghĩa là "cất giá trị vào ô", không phải "bằng nhau" như toán.
+- Chữ sau dấu **#** là **chú thích**, máy bỏ qua; dùng để giải thích cho người đọc.
+- **print()** là lệnh in kết quả ra màn hình.
+
+## Các kiểu dữ liệu hay gặp
+| Kiểu | Ví dụ Python | Giống trong Excel |
+| Số nguyên (int) | 25 | Ô số không có phần lẻ |
+| Số thập phân (float) | 2.5 | Ô số có phần lẻ (Python dùng dấu chấm) |
+| Chuỗi chữ (str) | "Thịt heo" | Ô chữ; luôn nằm trong dấu nháy |
+| Đúng/Sai (bool) | True / False | Kết quả của =C2>100 |
+| Danh sách (list) | [25, 30, 12] | Một cột số |
+| Từ điển (dict) | {"ten": "Gạo", "so_luong": 50} | Một dòng có tiêu đề cột |
+
+## Lỗi thường gặp khi trộn kiểu
+~~~python
+so_luong = "25"        # đây là CHỮ, vì nằm trong dấu nháy
+print(so_luong * 2)    # in ra 2525, không phải 50!
+~~~
+Excel cũng có lỗi tương tự: ô số bị định dạng Text thì SUM không cộng. Khi đọc dữ liệu từ Excel bằng code, lỗi "số mà là chữ" rất hay gặp. Câu nói cho AI: **"Cột Số lượng có thể bị lưu dạng chữ, hãy chuyển sang số trước khi tính."**
+
+## Danh sách và từ điển: dữ liệu bảng trong code
+~~~python
+mat_hang = {"ten": "Gạo", "dvt": "kg", "so_luong": 50, "don_gia": 15000}
+print(mat_hang["ten"])          # Gạo
+print(mat_hang["so_luong"] * mat_hang["don_gia"])   # 750000
+
+bang_ke = [
+    {"ten": "Gạo", "so_luong": 50, "don_gia": 15000},
+    {"ten": "Thịt heo", "so_luong": 25, "don_gia": 18000},
+]
+print(len(bang_ke))             # 2 dòng
+~~~
+Một **danh sách các từ điển** chính là một **bảng Excel**: mỗi từ điển là một dòng. Khi code đọc file Excel, nó thường biến bảng thành đúng dạng này.
+
+## Đặt tên biến tốt
+- Tên nói rõ ý nghĩa: **tong_tien_thang** tốt hơn **x**.
+- Không dấu, không khoảng trắng; dùng dấu gạch dưới.
+- Khi nhờ AI viết code, dặn: "Đặt tên biến bằng tiếng Việt không dấu, dễ hiểu, có chú thích tiếng Việt." Code sẽ dễ đọc hơn rất nhiều.
+`,
+summary: [
+  "Biến là 'ô có tên' chứa giá trị; dấu = nghĩa là cất giá trị vào ô.",
+  "Kiểu dữ liệu chính: số, chữ (trong dấu nháy), đúng/sai, danh sách (cột), từ điển (một dòng có tiêu đề).",
+  "Lỗi kinh điển: số bị lưu thành chữ; hãy dặn AI chuyển kiểu trước khi tính."
+],
+practiceDetail: `
+### Bước 1 – Nhờ AI viết code
+Chưa cài Python cũng được: dùng tính năng chạy code của công cụ AI, hoặc đợi buổi 12.
+~~~prompt
+Viết đoạn Python ngắn cho người mới học:
+- Tạo danh sách 3 mặt hàng thực phẩm (tên, đơn vị tính, số lượng, đơn giá) với số liệu giả định.
+- Tính thành tiền từng mặt hàng và tổng cộng.
+- In ra dạng bảng dễ đọc.
+Yêu cầu: tên biến tiếng Việt không dấu; chú thích tiếng Việt từng dòng; chạy thử và cho tôi xem kết quả.
+~~~
+### Bước 2 – Tự đọc hiểu
+Trước khi đọc chú thích, tự đoán từng dòng làm gì, ghi vào Ghi chú. Sau đó so với chú thích của AI.
+### Bước 3 – Sửa nhỏ
+Nhờ AI: "Thêm mặt hàng thứ 4 và thêm cột Ghi chú." Quan sát code thay đổi ở đâu.
+`,
+quiz: [
+  { q: "Trong Python, dòng 'don_gia = 18000' có nghĩa là:", a: ["So sánh don_gia với 18000", "Cất giá trị 18000 vào biến don_gia", "In ra 18000", "Xóa don_gia"], c: 1, e: "Dấu = là cất giá trị vào biến." },
+  { q: "so_luong = \"25\" thì so_luong * 2 cho kết quả gì?", a: ["50", "2525", "Lỗi", "25"], c: 1, e: "\"25\" là chữ; nhân chữ với 2 là lặp chữ 2 lần." },
+  { q: "Một dòng Excel có tiêu đề cột (Tên, ĐVT, Số lượng) giống kiểu dữ liệu nào?", a: ["Số nguyên", "Từ điển (dict)", "Đúng/Sai", "Chú thích"], c: 1, e: "Từ điển gồm các cặp 'tên cột: giá trị'." },
+  { q: "Dòng bắt đầu bằng # trong Python là:", a: ["Lệnh quan trọng", "Chú thích, máy bỏ qua", "Tiêu đề", "Lỗi"], c: 1, e: "Chú thích giúp người đọc hiểu code." }
+],
+cards: [
+  { f: "Biến (variable)", b: "Ô có tên để chứa giá trị, giống ô Excel được đặt tên." },
+  { f: "Chuỗi (str)", b: "Dữ liệu dạng chữ, đặt trong dấu nháy: \"Gạo\". \"25\" là chữ, không phải số." },
+  { f: "Danh sách các từ điển", b: "Cách code biểu diễn một bảng Excel: mỗi từ điển là một dòng." },
+  { f: "print()", b: "Lệnh in kết quả ra màn hình." }
+]
+},
+
+{
+id: 9, week: 2, ready: true,
+title: "Điều kiện if – \"nếu… thì…\"",
+goal: "Hiểu lệnh if giống hàm IF trong Excel; đọc được code có điều kiện.",
+practice: "Viết đoạn code cảnh báo khi định lượng vượt định mức.",
+content: `
+## Bạn đã biết if từ Excel
+Excel: =IF(E2>1000000, "Vượt", "Đạt")
+Python viết cùng ý như sau:
+~~~python
+thanh_tien = 1250000
+if thanh_tien > 1000000:
+    print("Vượt")
+else:
+    print("Đạt")
+~~~
+## 3 quy tắc đọc if trong Python
+1. Sau điều kiện có dấu **hai chấm**.
+2. Các dòng "thì làm gì" được **thụt vào** (4 dấu cách). Thụt vào là cách Python biết dòng đó thuộc về if. Thụt sai là lỗi, rất hay gặp.
+3. **else** là "ngược lại"; **elif** là "ngược lại nếu…" (nhiều mức).
+
+## Nhiều mức: elif
+~~~python
+ty_le = 1.08   # thực chi / định mức
+if ty_le > 1.05:
+    print("Vượt định mức trên 5%, cần giải trình")
+elif ty_le > 1:
+    print("Vượt nhẹ, theo dõi")
+else:
+    print("Trong định mức")
+~~~
+## Các phép so sánh
+| Ký hiệu | Nghĩa |
+| == | bằng (hai dấu bằng!) |
+| != | khác |
+| > , < , >= , <= | lớn hơn, nhỏ hơn, lớn hơn hoặc bằng, nhỏ hơn hoặc bằng |
+| and | và (cả hai đúng) |
+| or | hoặc (một trong hai đúng) |
+| in | có nằm trong danh sách không |
+
+~~~python
+ma = "XAUUSD"
+ma_duoc_phep = ["XAUUSD", "EURUSD"]
+cam_xuc = 4
+if ma in ma_duoc_phep and cam_xuc <= 3:
+    print("Được xét vào lệnh")
+else:
+    print("KHÔNG vào lệnh")
+~~~
+Đoạn trên chính là một phần logic của **Bảng kiểm trước khi vào lệnh** trong app này.
+
+## Vì sao if quan trọng với AI?
+Khi AI viết code, phần lớn "trí khôn" của chương trình nằm trong các if: điều kiện nào thì cảnh báo, điều kiện nào thì bỏ qua. **Đọc hiểu các if là kiểm tra được AI có làm đúng quy định của bạn không.** Ví dụ nếu quy định là "vượt từ 5% trở lên" mà code ghi > 1.05, thì đúng 5% sẽ không bị cảnh báo. Bạn phát hiện được lỗi nghiệp vụ dù không giỏi code.
+`,
+summary: [
+  "if trong Python giống IF trong Excel: điều kiện, dấu hai chấm, phần thụt vào là việc cần làm.",
+  "elif cho nhiều mức; == là so sánh bằng; and/or/in để ghép điều kiện.",
+  "Đọc các if để kiểm tra code có đúng quy định nghiệp vụ không (ví dụ > hay >=)."
+],
+practiceDetail: `
+~~~prompt
+Viết đoạn Python cho người mới học: có danh sách 4 mặt hàng gồm tên, định lượng tiêu chuẩn (kg) và thực xuất (kg) với số liệu giả định. Với từng mặt hàng, in ra:
+- "Vượt định mức" nếu thực xuất lớn hơn định lượng từ 5% trở lên,
+- "Thiếu" nếu thực xuất nhỏ hơn 95% định lượng,
+- "Đạt" trong các trường hợp còn lại.
+Chú thích tiếng Việt từng dòng, chạy thử cho tôi xem kết quả.
+~~~
+Kiểm tra: đọc các dòng if của AI. Điều kiện "từ 5% trở lên" có dùng >= không? Thử sửa một số liệu để rơi đúng 105% và xem kết quả.
+`,
+quiz: [
+  { q: "Trong Python, so sánh 'bằng' viết là:", a: ["=", "==", "===", "eq"], c: 1, e: "= là gán giá trị; == là so sánh." },
+  { q: "Python biết dòng nào thuộc về if nhờ:", a: ["Dấu ngoặc nhọn", "Thụt đầu dòng", "Màu chữ", "Số dòng"], c: 1, e: "Thụt đầu dòng là cú pháp bắt buộc." },
+  { q: "Quy định 'từ 5% trở lên là vượt'. Điều kiện đúng là:", a: ["ty_le > 1.05", "ty_le >= 1.05", "ty_le < 1.05", "ty_le == 5"], c: 1, e: "'Từ … trở lên' bao gồm cả mốc, nên dùng >=." },
+  { q: "'ma in ma_duoc_phep' kiểm tra điều gì?", a: ["ma có nằm trong danh sách được phép không", "In ra ma", "Xóa ma", "Đếm ma"], c: 0, e: "in kiểm tra phần tử có trong danh sách." }
+],
+cards: [
+  { f: "if / elif / else", b: "Nếu / ngược lại nếu / ngược lại. Giống IF lồng nhau trong Excel." },
+  { f: "= và ==", b: "= là cất giá trị vào biến; == là so sánh bằng." },
+  { f: "Thụt đầu dòng trong Python", b: "Bắt buộc; cho biết dòng nào thuộc khối if/vòng lặp/hàm. Thụt sai gây lỗi." }
+]
+},
+
+{
+id: 10, week: 2, ready: true,
+title: "Vòng lặp – làm lặp lại tự động",
+goal: "Hiểu vòng lặp for: làm một việc cho từng dòng của bảng kê.",
+practice: "Cộng tổng cột Thành tiền và tính tỷ lệ thắng từ danh sách lệnh giao dịch.",
+content: `
+## Vòng lặp = kéo công thức xuống cả cột
+Trong Excel, bạn viết công thức ở dòng 2 rồi kéo xuống 500 dòng. Trong code, **vòng lặp for** làm đúng việc đó.
+~~~python
+bang_ke = [
+    {"ten": "Gạo", "so_luong": 50, "don_gia": 15000},
+    {"ten": "Thịt heo", "so_luong": 25, "don_gia": 18000},
+    {"ten": "Rau muống", "so_luong": 30, "don_gia": 8000},
+]
+tong = 0
+for dong in bang_ke:
+    thanh_tien = dong["so_luong"] * dong["don_gia"]
+    print(dong["ten"], thanh_tien)
+    tong = tong + thanh_tien
+print("Tổng cộng:", tong)
+~~~
+Đọc to: "**Với mỗi dòng trong bảng kê**: tính thành tiền, in ra, cộng dồn vào tổng."
+
+## Mẫu "cộng dồn" – gặp ở khắp nơi
+1. Tạo biến tổng = 0 **trước** vòng lặp.
+2. Trong vòng lặp, cộng thêm từng giá trị.
+3. Sau vòng lặp, dùng kết quả.
+Đặt **tong = 0 bên trong** vòng lặp là lỗi kinh điển: tổng bị đặt lại về 0 ở mỗi dòng.
+
+## Vòng lặp + if: lọc và đếm
+~~~python
+lenh = [12.5, -8, -15, 30, -5, 22]   # lãi/lỗ từng lệnh ($)
+so_thang = 0
+for lai_lo in lenh:
+    if lai_lo > 0:
+        so_thang = so_thang + 1
+ty_le_thang = so_thang / len(lenh) * 100
+print("Tỷ lệ thắng:", round(ty_le_thang, 1), "%")
+~~~
+Đây chính là cách tab **Thống kê** của app tính tỷ lệ thắng.
+
+## range – lặp theo số lần
+~~~python
+for ngay in range(1, 32):      # 1, 2, ..., 31
+    print("Sheet ngày", ngay)
+~~~
+range(1, 32) chạy từ 1 đến 31 (**không gồm 32**). Hay dùng khi xử lý 31 sheet ngày trong file đặt hàng tháng.
+
+## Vì sao vòng lặp là "siêu năng lực" tự động hóa
+Việc bạn làm tay 31 lần mỗi tháng (mở sheet ngày, chép số, cộng tổng, lập biên bản) chính là một vòng lặp. Nhận ra **việc lặp lại** trong công việc là bước đầu tiên để nhờ AI tự động hóa.
+`,
+summary: [
+  "Vòng lặp for làm một việc cho từng phần tử, giống kéo công thức xuống cả cột.",
+  "Mẫu cộng dồn: tổng = 0 trước vòng lặp, cộng trong vòng lặp, dùng sau vòng lặp.",
+  "Việc tay lặp lại hằng tháng là ứng viên số một để tự động hóa."
+],
+practiceDetail: `
+~~~prompt
+Viết Python cho người mới: có danh sách 10 lệnh giao dịch giả định, mỗi lệnh gồm mã, lãi/lỗ ($), cảm xúc (1–5). Dùng vòng lặp tính:
+1. Tổng lãi/lỗ, 2. Tỷ lệ thắng, 3. Lãi trung bình của lệnh thắng, 4. Lỗ trung bình của lệnh thua, 5. Tổng lãi/lỗ của các lệnh có cảm xúc từ 4 trở lên.
+Chú thích tiếng Việt từng dòng, chạy và cho xem kết quả.
+~~~
+Tự kiểm tra: nhập 10 lệnh đó vào tab Giao dịch → Nhật ký của app (dùng dữ liệu giả, rồi xóa sau), so sánh với tab Thống kê. Hai kết quả có khớp không?
+
+Liệt kê vào Ghi chú 3 việc lặp lại hằng tháng trong công việc của bạn có thể tự động hóa.
+`,
+quiz: [
+  { q: "for dong in bang_ke: nghĩa là", a: ["Xóa bảng kê", "Với mỗi dòng trong bảng kê, làm các lệnh thụt vào bên dưới", "In bảng kê 1 lần", "Đếm bảng kê"], c: 1, e: "Vòng lặp đi qua từng phần tử." },
+  { q: "Đặt tong = 0 bên TRONG vòng lặp sẽ:", a: ["Tính đúng", "Bị đặt lại 0 mỗi dòng, tổng sai", "Nhanh hơn", "Báo lỗi ngay"], c: 1, e: "Biến cộng dồn phải khởi tạo trước vòng lặp." },
+  { q: "range(1, 32) tạo ra:", a: ["1 đến 32", "1 đến 31", "0 đến 31", "32 số"], c: 1, e: "Số cuối không được tính." },
+  { q: "Cách tính tỷ lệ thắng trong code:", a: ["Đếm lệnh lãi > 0 rồi chia tổng số lệnh", "Cộng tất cả lãi", "Lấy lệnh lớn nhất", "Đếm lệnh lỗ"], c: 0, e: "Đếm lệnh thắng / tổng lệnh × 100." }
+],
+cards: [
+  { f: "Vòng lặp for", b: "Làm một việc cho từng phần tử của danh sách; giống kéo công thức xuống cả cột." },
+  { f: "Mẫu cộng dồn", b: "Khởi tạo tổng = 0 trước vòng lặp, cộng dần trong vòng lặp." },
+  { f: "range(a, b)", b: "Dãy số từ a đến b-1. range(1, 32) là 1..31." }
+]
+},
+
+{
+id: 11, week: 2, ready: true,
+title: "Hàm – đóng gói một việc để dùng lại",
+goal: "Hiểu hàm (function) như 'công thức tự đặt tên'; tách việc lớn thành hàm nhỏ.",
+practice: "Viết hàm tính khối lượng lệnh từ vốn, % rủi ro và khoảng dừng lỗ.",
+content: `
+## Hàm = công thức tự đặt tên
+Excel có sẵn hàm SUM, IF, VLOOKUP: bạn đưa **đầu vào**, hàm trả **kết quả**. Trong code bạn tự tạo hàm của riêng mình.
+~~~python
+def thanh_tien(so_luong, don_gia):
+    return so_luong * don_gia
+
+print(thanh_tien(25, 18000))   # 450000
+print(thanh_tien(50, 15000))   # 750000
+~~~
+- **def** = định nghĩa hàm. **thanh_tien** là tên hàm.
+- **so_luong, don_gia** là **tham số** (đầu vào), giống đối số của hàm Excel.
+- **return** = trả kết quả ra ngoài.
+
+## Ví dụ có ích ngay: tính khối lượng lệnh
+~~~python
+def khoi_luong_lenh(von, phan_tram_rui_ro, khoang_sl_pip, gia_tri_pip_1lot=10):
+    tien_rui_ro = von * phan_tram_rui_ro / 100
+    lo_moi_lot = khoang_sl_pip * gia_tri_pip_1lot
+    lot = tien_rui_ro / lo_moi_lot
+    return int(lot * 100) / 100      # làm tròn XUỐNG 2 chữ số
+
+print(khoi_luong_lenh(1000, 1, 20))   # 0.05
+~~~
+**gia_tri_pip_1lot=10** là **giá trị mặc định**: không truyền vào thì tự lấy 10. Đây chính là công thức của "Máy tính khối lượng lệnh" trong app (phần JavaScript cũng viết y hệt ý này).
+
+## Vì sao hàm quan trọng?
+1. **Viết một lần, dùng nhiều lần**: 31 ngày đều gọi cùng hàm lap_bien_ban(ngay).
+2. **Dễ kiểm tra**: thử hàm với vài số bạn biết đáp án. Đúng thì yên tâm dùng cho cả nghìn dòng.
+3. **Dễ sửa**: định mức thay đổi thì sửa một chỗ trong hàm.
+4. **Dễ giao việc cho AI**: "Sửa hàm tinh_dinh_luong để áp dụng định mức mới", AI chỉ đụng đúng chỗ đó.
+
+## Đọc một script dài như đọc mục lục
+Script AI viết thường gồm nhiều hàm nhỏ và một đoạn chính gọi chúng:
+~~~python
+def doc_file_excel(duong_dan): ...
+def tinh_tong_theo_mat_hang(du_lieu): ...
+def ghi_bien_ban(ket_qua, ngay): ...
+
+du_lieu = doc_file_excel("dat_hang_thang_11.xlsx")
+ket_qua = tinh_tong_theo_mat_hang(du_lieu)
+ghi_bien_ban(ket_qua, "15/11/2026")
+~~~
+Chỉ cần đọc **tên các hàm và đoạn chính** là hiểu luồng công việc: đọc → tính → ghi. Đó là lý do khi nhờ AI viết code, bạn nên dặn **"chia thành các hàm nhỏ có tên tiếng Việt không dấu"**.
+
+## Kiểm thử hàm: thói quen của người cẩn thận
+~~~python
+assert thanh_tien(2, 3) == 6
+assert khoi_luong_lenh(1000, 1, 20) == 0.05
+~~~
+**assert** = "khẳng định": đúng thì im lặng, sai thì báo lỗi. Bạn có thể nhờ AI: "Viết thêm 5 phép kiểm tra assert với số liệu tôi tính tay được."
+`,
+summary: [
+  "Hàm là công thức tự đặt tên: def tên(tham số): ... return kết quả.",
+  "Chia script thành hàm nhỏ giúp dùng lại, dễ kiểm tra, dễ sửa và dễ giao việc cho AI.",
+  "Kiểm thử hàm bằng vài phép tính biết trước đáp án (assert) trước khi chạy dữ liệu thật."
+],
+practiceDetail: `
+~~~prompt
+Viết hàm Python khoi_luong_lenh(von, phan_tram_rui_ro, khoang_sl, loai) cho người mới học:
+- loai = "fx": 1 pip/1 lot = 10 USD; loai = "xau": khoảng SL tính bằng USD giá vàng, 1 lot = 100 oz.
+- Trả về số lot làm tròn xuống 2 chữ số; nếu dưới 0.01 thì trả về 0 và in cảnh báo "Dừng lỗ quá xa so với vốn".
+- Viết 4 phép kiểm tra assert với số liệu tôi tự tính được.
+Chú thích tiếng Việt; chạy thử và cho xem kết quả.
+~~~
+So sánh kết quả hàm với tab Giao dịch → Khối lượng lệnh trong app với cùng số liệu.
+`,
+quiz: [
+  { q: "Từ khóa định nghĩa hàm trong Python là:", a: ["function", "def", "func", "make"], c: 1, e: "def = define." },
+  { q: "return dùng để:", a: ["Quay lại dòng đầu", "Trả kết quả của hàm ra ngoài", "In ra màn hình", "Xóa hàm"], c: 1, e: "return đưa kết quả cho nơi gọi hàm." },
+  { q: "Lợi ích lớn nhất khi chia script thành hàm nhỏ:", a: ["Code dài hơn", "Dễ dùng lại, kiểm tra, sửa và giao việc cho AI", "Chạy chậm hơn", "Không có"], c: 1, e: "Hàm nhỏ có tên rõ ràng giúp hiểu và sửa từng phần." },
+  { q: "assert thanh_tien(2, 3) == 6 làm gì?", a: ["In ra 6", "Kiểm tra hàm cho đúng 6, sai thì báo lỗi", "Gán 6", "Xóa hàm"], c: 1, e: "assert là phép kiểm tra." }
+],
+cards: [
+  { f: "Hàm (function)", b: "Đoạn code có tên, nhận đầu vào (tham số), trả kết quả (return)." },
+  { f: "Tham số mặc định", b: "Giá trị tự dùng khi không truyền vào, ví dụ gia_tri_pip=10." },
+  { f: "assert", b: "Phép kiểm tra: đúng thì im lặng, sai thì báo lỗi. Dùng để thử hàm với số biết trước." }
+]
+},
+
+{
+id: 12, week: 2, ready: true,
+title: "Cài Python + VS Code, chạy script đầu tiên",
+goal: "Tự cài môi trường trên Windows và chạy được một file .py.",
+practice: "Cài Python, VS Code; cài thư viện; chạy script in bảng kê mẫu.",
+content: `
+## Chuẩn bị
+- Nên dùng **máy tính cá nhân**. Máy cơ quan thường bị khóa quyền cài đặt và phải tuân thủ quy định CNTT của đơn vị.
+- Cần mạng Internet lúc cài. Sau đó chạy script không cần mạng.
+> Giao diện trang tải và trình cài đặt có thể thay đổi theo phiên bản, cần kiểm tra lại. Gặp chỗ khác hướng dẫn thì chụp màn hình gửi AI hỏi.
+
+## Bước 1 – Cài Python
+1. Vào trang chính thức **python.org** → Downloads → tải bản Windows mới nhất.
+2. Mở file cài. **Quan trọng:** tick ô **"Add python.exe to PATH"** ở màn hình đầu tiên.
+3. Bấm Install Now, chờ xong.
+4. Kiểm tra: bấm phím Windows, gõ **PowerShell**, mở lên và gõ:
+~~~
+python --version
+~~~
+Hiện "Python 3.x.x" là thành công. Nếu báo không tìm thấy, thử gõ **py --version**. Vẫn lỗi thì cài lại và nhớ tick ô PATH.
+
+## Bước 2 – Cài VS Code
+1. Vào **code.visualstudio.com**, tải bản Windows, cài đặt mặc định.
+2. Mở VS Code → biểu tượng Extensions (4 ô vuông bên trái) → tìm **Python** (của Microsoft) → Install.
+
+## Bước 3 – Tạo thư mục làm việc
+Tạo thư mục, ví dụ **D:\\HocAI\\python**. Trong VS Code: File → Open Folder → chọn thư mục đó.
+
+## Bước 4 – Script đầu tiên
+File → New File → lưu tên **bang_ke.py**, dán:
+~~~python
+bang_ke = [("Gạo", 50, 15000), ("Thịt heo", 25, 18000), ("Rau muống", 30, 8000)]
+tong = 0
+print(f"{'Tên hàng':<12}{'SL':>6}{'Đơn giá':>10}{'Thành tiền':>14}")
+for ten, sl, gia in bang_ke:
+    tt = sl * gia
+    tong += tt
+    print(f"{ten:<12}{sl:>6}{gia:>10,}{tt:>14,}")
+print(f"{'TỔNG CỘNG':<28}{tong:>14,}")
+~~~
+Bấm nút ▶ (Run) góc trên bên phải. Kết quả hiện ở cửa sổ Terminal bên dưới.
+
+## Bước 5 – Cài thư viện
+**Thư viện** là code người khác viết sẵn. Hai thư viện bạn sẽ dùng nhiều nhất:
+~~~
+pip install openpyxl pandas python-docx
+~~~
+Gõ trong Terminal của VS Code (menu Terminal → New Terminal). openpyxl và pandas để đọc/ghi Excel; python-docx để tạo file Word.
+
+## Quy trình chạy code AI viết (dùng mãi về sau)
+1. Copy code AI đưa → dán vào file .py mới trong thư mục làm việc.
+2. Đặt file dữ liệu (Excel) **cùng thư mục** với file .py.
+3. Cài thư viện AI yêu cầu (pip install ...).
+4. Bấm ▶. Có lỗi thì làm theo buổi 13.
+5. **Luôn thử trên bản sao** của file dữ liệu, không chạy thẳng trên file gốc.
+`,
+summary: [
+  "Cài Python (nhớ tick Add to PATH), VS Code và tiện ích Python; kiểm tra bằng python --version.",
+  "pip install để cài thư viện: openpyxl, pandas (Excel), python-docx (Word).",
+  "Quy trình: dán code → đặt dữ liệu cùng thư mục → cài thư viện → chạy → luôn dùng bản sao dữ liệu."
+],
+practiceDetail: `
+1. Làm đủ 5 bước trên. Chụp màn hình kết quả chạy bang_ke.py.
+2. Gặp vướng ở bước nào, dùng prompt:
+~~~prompt
+Tôi đang cài [Python / VS Code] trên Windows [10/11] theo hướng dẫn cho người mới. Tôi đang ở bước: [mô tả]. Màn hình hiện: [dán chữ hoặc đính kèm ảnh chụp]. Hướng dẫn tôi từng bước tiếp theo, mỗi bước 1 dòng.
+~~~
+3. Sửa script: thêm 2 mặt hàng, chạy lại. Ghi vào Ghi chú thời gian bạn mất để cài đặt.
+`,
+quiz: [
+  { q: "Ô quan trọng nhất cần tick khi cài Python trên Windows:", a: ["Install for all users", "Add python.exe to PATH", "Disable path limit", "Install docs"], c: 1, e: "Không tick thì máy không tìm thấy lệnh python." },
+  { q: "Lệnh cài thư viện đọc/ghi Excel:", a: ["python excel", "pip install openpyxl", "install excel", "download openpyxl"], c: 1, e: "pip là công cụ cài thư viện." },
+  { q: "Khi chạy code AI viết lần đầu với file Excel thật, nên:", a: ["Chạy thẳng trên file gốc", "Chạy trên bản sao của file", "Không cần lưu", "Xóa file gốc trước"], c: 1, e: "Tránh hỏng dữ liệu gốc nếu code sai." },
+  { q: "Kết quả chạy script trong VS Code hiện ở đâu?", a: ["Cửa sổ Terminal phía dưới", "Trong Excel", "Trên trình duyệt", "Không hiện"], c: 0, e: "Terminal hiển thị kết quả print và thông báo lỗi." }
+],
+cards: [
+  { f: "PATH", b: "Danh sách thư mục Windows tìm lệnh. Tick 'Add to PATH' để gõ được lệnh python." },
+  { f: "pip install", b: "Lệnh cài thư viện Python, ví dụ pip install openpyxl pandas python-docx." },
+  { f: "Quy tắc an toàn dữ liệu", b: "Luôn chạy code mới trên BẢN SAO file dữ liệu." }
+]
+},
+
+{
+id: 13, week: 2, ready: true,
+title: "Đọc thông báo lỗi và nhờ AI sửa",
+goal: "Không sợ lỗi: đọc dòng lỗi quan trọng, chép đúng cách cho AI sửa.",
+practice: "Cố tình tạo 3 lỗi phổ biến, dùng quy trình mô tả → chạy → báo lỗi → sửa.",
+content: `
+## Lỗi là bình thường
+Lập trình viên giỏi vẫn gặp lỗi hằng ngày. Khác biệt là họ **đọc lỗi** thay vì hoảng. Với AI hỗ trợ, bạn chỉ cần biết **đọc chỗ nào** và **chép gì cho AI**.
+
+## Đọc thông báo lỗi Python: nhìn DÒNG CUỐI trước
+~~~
+Traceback (most recent call last):
+  File "D:\\HocAI\\python\\bang_ke.py", line 5, in <module>
+    tt = sl * gia
+TypeError: can't multiply sequence by non-int of type 'str'
+~~~
+- **Dòng cuối** cho biết **loại lỗi** và lý do: TypeError, không nhân được chữ với chữ.
+- Dòng **line 5** cho biết lỗi ở dòng nào.
+- Dòng code ngay dưới là câu lệnh gây lỗi.
+
+## 6 lỗi bạn sẽ gặp nhiều nhất
+| Lỗi | Nghĩa | Hay do |
+| SyntaxError | Sai cú pháp | Thiếu dấu hai chấm, ngoặc, dấu nháy |
+| IndentationError | Thụt đầu dòng sai | Dán code bị lệch dấu cách |
+| NameError | Không tìm thấy tên | Gõ sai tên biến, chưa tạo biến |
+| TypeError | Sai kiểu dữ liệu | Số bị lưu thành chữ |
+| FileNotFoundError | Không thấy file | Sai tên file, file không cùng thư mục |
+| ModuleNotFoundError | Thiếu thư viện | Chưa pip install |
+| KeyError | Không có cột/khóa đó | Tên cột trong Excel khác với tên trong code |
+| PermissionError | Không được ghi file | File Excel đang mở; hãy đóng file rồi chạy lại |
+
+## Quy trình 4 bước sửa lỗi cùng AI
+1. **Mô tả mục đích**: code này để làm gì.
+2. **Chép nguyên văn toàn bộ thông báo lỗi** (từ Traceback đến dòng cuối). Không tóm tắt, không chụp thiếu.
+3. **Dán code** (hoặc phần liên quan) và nói bạn đã làm gì trước khi lỗi.
+4. **Áp dụng bản sửa → chạy lại → báo kết quả**. Lỗi khác thì lặp lại.
+
+## Khi AI sửa mãi không xong
+- Sau 3 lần sửa vẫn lỗi: yêu cầu AI **giải thích nguyên nhân gốc** trước, chưa sửa vội.
+- Gửi kèm **vài dòng dữ liệu mẫu** (đã ẩn danh) và **tên các cột** thật trong file Excel. Rất nhiều lỗi do AI đoán sai cấu trúc file.
+- Mở chat mới, dán code mới nhất + lỗi mới nhất (tránh chat quá dài, nhớ buổi 2).
+- Yêu cầu AI **thêm print để dò** giá trị từng bước.
+
+## Lỗi "chạy được nhưng sai số"
+Nguy hiểm hơn lỗi đỏ, vì máy không báo gì. Cách phòng:
+- So kết quả với **vài dòng bạn tính tay**.
+- So **tổng** với tổng Excel tính bằng SUM.
+- Nhờ AI thêm dòng in ra: số dòng đã đọc, số dòng bị bỏ qua, tổng từng cột.
+`,
+summary: [
+  "Đọc lỗi từ dòng cuối: loại lỗi và lý do; sau đó xem số dòng (line) gây lỗi.",
+  "Gửi AI: mục đích + toàn bộ thông báo lỗi + code + dữ liệu mẫu ẩn danh; sửa, chạy lại, báo kết quả.",
+  "Lỗi nguy hiểm nhất là 'chạy được nhưng sai số': luôn đối chiếu với tính tay và SUM của Excel."
+],
+practiceDetail: `
+Dùng file bang_ke.py của buổi 12. Lần lượt cố tình tạo lỗi, chạy, đọc dòng cuối, ghi tên lỗi vào Ghi chú:
+1. Xóa dấu hai chấm sau dòng for.
+2. Sửa 50 thành "50" (có dấu nháy).
+3. Thêm dòng: import thu_vien_khong_ton_tai
+Sau đó dùng prompt sửa lỗi chuẩn (đã có trong mục Prompt → Sửa lỗi code → "Báo lỗi cho AI sửa"):
+~~~prompt
+Tôi chạy đoạn code dưới đây thì bị lỗi.
+- Mục đích: in bảng kê thực phẩm và tổng tiền.
+- Thông báo lỗi (nguyên văn):
+[dán]
+- Code:
+[dán]
+Giải thích lỗi bằng tiếng Việt đơn giản, chỉ ra dòng sai, đưa code đã sửa hoàn chỉnh.
+~~~
+`,
+quiz: [
+  { q: "Đọc thông báo lỗi Python nên nhìn đâu trước?", a: ["Dòng đầu tiên", "Dòng cuối cùng", "Giữa", "Không cần đọc"], c: 1, e: "Dòng cuối ghi loại lỗi và lý do." },
+  { q: "ModuleNotFoundError: No module named 'openpyxl' nghĩa là:", a: ["File Excel hỏng", "Chưa cài thư viện openpyxl", "Sai tên biến", "Hết bộ nhớ"], c: 1, e: "Cần pip install openpyxl." },
+  { q: "PermissionError khi ghi file Excel thường do:", a: ["File đang mở trong Excel", "Máy hỏng", "Sai mật khẩu", "Thiếu mạng"], c: 0, e: "Đóng file Excel rồi chạy lại." },
+  { q: "Code chạy không lỗi nhưng tổng tiền lệch so với Excel. Việc đầu tiên:", a: ["Tin code", "Đối chiếu vài dòng tính tay, nhờ AI in số dòng đã đọc/bỏ qua", "Xóa file", "Đổi máy"], c: 1, e: "Dò xem dòng nào bị bỏ sót hoặc đọc sai kiểu." }
+],
+cards: [
+  { f: "Traceback", b: "Thông báo lỗi Python. Đọc dòng cuối (loại lỗi) và 'line …' (vị trí)." },
+  { f: "KeyError", b: "Không tìm thấy khóa/cột; thường do tên cột trong Excel khác tên trong code." },
+  { f: "4 bước sửa lỗi cùng AI", b: "Mục đích → toàn bộ lỗi nguyên văn → code + dữ liệu mẫu → áp dụng, chạy lại, báo kết quả." }
+]
+},
+
+{
+id: 14, week: 2, ready: true, review: true,
+title: "Ôn tập & kiểm tra Tuần 2",
+goal: "Đọc hiểu một script hoàn chỉnh AI viết.",
+practice: "Đọc và chú thích từng dòng một script tự động hóa ngắn.",
+content: `
+## Bản đồ Tuần 2
+| Khái niệm | Giống trong Excel | Câu nói với AI |
+| Biến | Ô có tên | "Đặt tên biến tiếng Việt không dấu" |
+| Kiểu dữ liệu | Định dạng ô | "Chuyển cột số lưu dạng chữ sang số" |
+| if | Hàm IF | "Điều kiện là 'từ … trở lên' (>=)" |
+| Vòng lặp | Kéo công thức xuống | "Làm cho từng sheet ngày 1–31" |
+| Hàm | Hàm SUM, VLOOKUP | "Chia thành hàm nhỏ, mỗi hàm một việc" |
+| Lỗi | #VALUE!, #REF! | "Đây là thông báo lỗi nguyên văn…" |
+
+## Bài đọc tổng hợp
+Đọc script dưới đây và tự trả lời: nó làm gì, từng phần ứng với khái niệm nào.
+~~~python
+def doc_lenh(du_lieu_tho):
+    ds = []
+    for dong in du_lieu_tho:
+        lai_lo = float(dong["lai_lo"])           # đổi chữ sang số
+        ds.append({"ma": dong["ma"], "lai_lo": lai_lo, "cam_xuc": int(dong["cam_xuc"])})
+    return ds
+
+def thong_ke(ds):
+    thang = [x for x in ds if x["lai_lo"] > 0]
+    nong = [x for x in ds if x["cam_xuc"] >= 4]
+    return {
+        "so_lenh": len(ds),
+        "ty_le_thang": round(len(thang) / len(ds) * 100, 1) if ds else 0,
+        "lai_lo_khi_nong": sum(x["lai_lo"] for x in nong),
+    }
+
+du_lieu_tho = [
+    {"ma": "XAUUSD", "lai_lo": "-12.5", "cam_xuc": "4"},
+    {"ma": "EURUSD", "lai_lo": "20", "cam_xuc": "2"},
+    {"ma": "XAUUSD", "lai_lo": "-30", "cam_xuc": "5"},
+]
+print(thong_ke(doc_lenh(du_lieu_tho)))
+~~~
+Gợi ý: dòng **[x for x in ds if …]** là cách viết gọn của "vòng lặp + if + thêm vào danh sách". AI hay viết kiểu này; giờ bạn đọc được nó.
+
+## Tự đánh giá
+- Tôi đã chạy được ít nhất 1 script trên máy mình.
+- Tôi đọc được dòng cuối thông báo lỗi và biết lỗi thuộc loại nào.
+- Tôi giải thích được for và if trong một đoạn code cho người khác.
+- Tôi biết dặn AI chia code thành hàm và chú thích tiếng Việt.
+`,
+summary: [
+  "Biến, kiểu, if, vòng lặp, hàm đều có 'người anh em' trong Excel.",
+  "[x for x in ds if …] là vòng lặp + điều kiện viết gọn.",
+  "Tuần 3: ứng dụng chạy thế nào, tự động hóa Excel/Word và bảo mật dữ liệu."
+],
+practiceDetail: `
+~~~prompt
+Tôi đang học lập trình cơ bản. Đây là bản tôi tự chú thích cho đoạn code dưới đây. Hãy chấm từng chú thích Đúng/Sai/Thiếu và giải thích ngắn chỗ sai.
+[dán code có chú thích của bạn]
+~~~
+Sau đó: chạy script trên máy, rồi tự thêm vào hàm thong_ke chỉ số "lỗ lớn nhất" (gợi ý: min). Nếu lỗi, áp dụng quy trình buổi 13.
+`,
+quiz: [
+  { q: "float(dong[\"lai_lo\"]) dùng để:", a: ["Đổi chữ thành số thập phân", "Làm tròn", "In ra", "Xóa"], c: 0, e: "Dữ liệu từ file thường là chữ, cần đổi sang số." },
+  { q: "[x for x in ds if x[\"lai_lo\"] > 0] tạo ra:", a: ["Tổng lãi", "Danh sách các lệnh thắng", "Số lệnh", "Lỗi"], c: 1, e: "Vòng lặp + điều kiện viết gọn." },
+  { q: "'if ds else 0' trong dòng tính tỷ lệ thắng để tránh:", a: ["Chia cho 0 khi danh sách rỗng", "Số âm", "Lỗi chính tả", "Chạy chậm"], c: 0, e: "len(ds) = 0 sẽ gây lỗi chia cho 0." },
+  { q: "Thông báo FileNotFoundError, việc đầu tiên nên kiểm tra:", a: ["Tên file và file có cùng thư mục với script không", "Cài lại Windows", "Đổi model AI", "Tắt mạng"], c: 0, e: "Lỗi đường dẫn là phổ biến nhất." },
+  { q: "Kéo công thức xuống cả cột trong Excel tương ứng với khái niệm nào?", a: ["Hàm", "Vòng lặp", "Biến", "Chú thích"], c: 1, e: "Vòng lặp lặp một việc cho từng dòng." },
+  { q: "Cách viết 'Vượt định mức từ 5% trở lên' đúng là:", a: ["> 1.05", ">= 1.05", "== 1.05", "< 1.05"], c: 1, e: "'Từ … trở lên' gồm cả mốc." }
+],
+cards: [
+  { f: "List comprehension", b: "[x for x in ds if điều_kiện]: vòng lặp + if + tạo danh sách, viết trên một dòng." },
+  { f: "Ý cốt lõi Tuần 2", b: "Đọc hiểu code bằng cách tìm biến, if, vòng lặp, hàm; lỗi thì đọc dòng cuối và nhờ AI sửa đúng cách." }
+]
+}
+);
+
+
+/* ============================ TUẦN 3: ỨNG DỤNG & TỰ ĐỘNG HÓA ============================ */
+SESSIONS.push(
+{
+id: 15, week: 3, ready: true,
+title: "Trang web và ứng dụng: HTML, CSS, JavaScript",
+goal: "Hiểu 3 lớp của một trang web: khung, trang trí, hành động.",
+practice: "Mở mã nguồn chính app này, nhận diện phần HTML, CSS, JavaScript.",
+content: `
+## Một trang web gồm 3 lớp
+Hãy nghĩ tới một **tờ biên bản**:
+| Lớp | Ngôn ngữ | Giống như |
+| Khung | **HTML** | Nội dung và bố cục: tiêu đề, bảng, ô ký tên |
+| Trang trí | **CSS** | Phông chữ, cỡ chữ, màu, căn lề, kẻ khung |
+| Hành động | **JavaScript (JS)** | Người kế toán bấm máy tính, điền số, kiểm tra, lưu sổ |
+
+## HTML – khung
+~~~html
+<h1>Biên bản giao nhận</h1>
+<p>Ngày: <b>15/11/2026</b></p>
+<button id="nutTinh">Tính tổng</button>
+<div id="ketQua"></div>
+~~~
+Mỗi phần nằm trong một cặp **thẻ**: mở <h1> và đóng </h1>. Thẻ có thể có **id** (tên riêng) để JavaScript tìm tới.
+
+## CSS – trang trí
+~~~css
+h1 { color: #0b6e6e; font-size: 24px; }
+button { padding: 10px; border-radius: 8px; }
+~~~
+Đọc: "Mọi tiêu đề h1 màu xanh, cỡ 24; mọi nút có đệm 10 và bo góc."
+
+## JavaScript – hành động
+~~~javascript
+document.getElementById("nutTinh").onclick = function () {
+  const tong = 50 * 15000 + 25 * 18000;
+  document.getElementById("ketQua").textContent = "Tổng: " + tong.toLocaleString("vi-VN") + " đ";
+};
+~~~
+Đọc: "Khi bấm nút có id nutTinh: tính tổng, rồi ghi kết quả vào ô có id ketQua."
+
+JavaScript có đủ những gì bạn học ở Tuần 2: biến (const, let), if, vòng lặp (for), hàm (function). Chỉ khác cách viết: dùng ngoặc nhọn thay cho thụt đầu dòng, và kết thúc câu bằng dấu chấm phẩy.
+
+## Mổ xẻ chính app bạn đang dùng
+File index.html của app chia thành 4 phần, có ghi chú rõ:
+1. **PHẦN 1: TRANG TRÍ (CSS)**: màu sáng/tối, cỡ chữ, bố cục điện thoại/máy tính.
+2. **PHẦN 2: KHUNG TRANG (HTML)**: thanh tiêu đề, vùng nội dung, thanh điều hướng dưới cùng.
+3. **PHẦN 3: DỮ LIỆU BÀI HỌC**: toàn bộ nội dung các buổi, từ điển, prompt (chỉ là dữ liệu, không có logic).
+4. **PHẦN 4: XỬ LÝ (JavaScript)**: điều hướng, đọc nội dung, chấm trắc nghiệm, tính khối lượng lệnh, thống kê...
+
+Tách **dữ liệu** khỏi **xử lý** là nguyên tắc quan trọng: muốn thêm bài, chỉ sửa phần 3, không sợ làm hỏng giao diện.
+
+## Biết những điều này để làm gì?
+- Bạn **nói được đúng chỗ** khi nhờ AI sửa: "đổi màu nút" (CSS), "thêm ô nhập ghi chú" (HTML), "sửa cách tính" (JS).
+- Bạn **đọc lướt** được mã AI viết và nhận ra phần nào là dữ liệu, phần nào là logic.
+- Bạn hiểu vì sao app chạy được trên cả iPhone và Windows: **trình duyệt nào cũng hiểu HTML, CSS, JS**.
+`,
+summary: [
+  "Trang web = HTML (khung) + CSS (trang trí) + JavaScript (hành động).",
+  "JavaScript cũng có biến, if, vòng lặp, hàm như Python, chỉ khác cách viết.",
+  "Tách dữ liệu khỏi xử lý giúp sửa nội dung mà không làm hỏng ứng dụng."
+],
+practiceDetail: `
+1. Trên máy tính, mở file index.html của app bằng VS Code (chuột phải → Open with Code).
+2. Dùng Ctrl+F tìm lần lượt: "PHẦN 1", "PHẦN 2", "PHẦN 3", "PHẦN 4". Ghi vào Ghi chú mỗi phần bắt đầu ở dòng bao nhiêu.
+3. Tìm "--pri:" trong phần CSS, thử đổi mã màu #0b6e6e thành #8a3ffc, lưu, mở lại app (trên máy tính) xem màu đổi. Đổi lại như cũ sau khi thử.
+4. Tạo một trang nhỏ của riêng bạn:
+~~~prompt
+Viết một file HTML duy nhất (HTML + CSS + JavaScript, không thư viện ngoài) cho người mới học: một ô nhập Số lượng, một ô nhập Đơn giá, nút "Tính", hiện Thành tiền định dạng tiền Việt. Chú thích tiếng Việt, chỉ rõ đâu là HTML, CSS, JavaScript.
+~~~
+Lưu thành tinh_tien.html, nhấp đúp để mở.
+`,
+quiz: [
+  { q: "Đổi màu chữ tiêu đề là sửa phần nào?", a: ["HTML", "CSS", "JavaScript", "Dữ liệu"], c: 1, e: "CSS phụ trách trang trí." },
+  { q: "Thêm một ô nhập mới trên màn hình là sửa phần nào?", a: ["HTML", "CSS", "Chỉ JS", "Không sửa được"], c: 0, e: "HTML là khung, chứa các thành phần." },
+  { q: "Khi bấm nút thì tính tổng: phần nào làm?", a: ["CSS", "HTML", "JavaScript", "Hình ảnh"], c: 2, e: "JS phụ trách hành động." },
+  { q: "Vì sao app tách phần DỮ LIỆU BÀI HỌC riêng?", a: ["Cho đẹp", "Thêm/sửa bài không làm hỏng logic giao diện", "Bắt buộc của iPhone", "Để chạy nhanh"], c: 1, e: "Tách dữ liệu khỏi xử lý là nguyên tắc thiết kế quan trọng." }
+],
+cards: [
+  { f: "HTML / CSS / JS", b: "Khung / trang trí / hành động của trang web." },
+  { f: "id trong HTML", b: "Tên riêng của một thành phần để JavaScript tìm và thay đổi nó." },
+  { f: "Tách dữ liệu khỏi xử lý", b: "Nội dung để riêng, logic để riêng: sửa nội dung không làm hỏng chương trình." }
+]
+},
+
+{
+id: 16, week: 3, ready: true,
+title: "App offline: PWA, service worker, localStorage",
+goal: "Hiểu vì sao app này chạy không cần mạng và dữ liệu nằm ở đâu.",
+practice: "Mổ xẻ app Sổ tay học AI; thử sao lưu và khôi phục dữ liệu.",
+content: `
+## PWA là gì?
+**PWA** (Progressive Web App) là trang web có thể **cài lên màn hình chính** và **chạy offline** giống app thật. Không cần lên App Store, không cần tài khoản lập trình viên. App Sổ tay cai nghiện, Sổ tay HSK và app này đều là PWA.
+
+PWA cần 3 thứ:
+| File | Vai trò | Giống như |
+| index.html | Nội dung và xử lý | Cuốn sổ |
+| manifest.webmanifest | Tên app, biểu tượng, màu, cách mở toàn màn hình | Bìa sổ và nhãn tên |
+| sw.js (service worker) | Lưu sẵn các file để mở khi mất mạng | Người thủ kho giữ một bản sao |
+
+## Service worker hoạt động thế nào?
+1. Lần đầu mở app (có mạng): service worker tải và **cất vào kho** (cache) toàn bộ file.
+2. Lần sau: có mạng thì lấy bản mới nhất và cập nhật kho; **mất mạng thì lấy từ kho**.
+3. Khi bạn sửa app: đổi số phiên bản trong sw.js (v1 → v2) để máy biết cần thay kho mới.
+
+Service worker chỉ chạy khi app được mở qua địa chỉ **http/https** (đưa lên web). Mở file trực tiếp trên máy tính vẫn dùng được, chỉ là không có phần cài đặt offline.
+
+## localStorage – dữ liệu của bạn nằm ở đâu?
+Tiến độ học, ghi chú, nhật ký giao dịch được lưu bằng **localStorage**: một ngăn kéo nhỏ **bên trong trình duyệt của từng máy**.
+- **Không gửi lên mạng** → riêng tư.
+- **Mỗi máy, mỗi trình duyệt một ngăn kéo riêng** → iPhone và Windows không tự đồng bộ. Đó là lý do có nút Sao lưu/Khôi phục.
+- **Xóa dữ liệu trình duyệt / xóa app là mất** → phải sao lưu định kỳ.
+- Dung lượng có hạn (thường vài MB) → đủ cho chữ, không hợp để lưu ảnh, video.
+
+Trong app, mọi mục lưu đều có tên bắt đầu bằng "sthai.", ví dụ sthai.done (buổi đã học), sthai.notes (ghi chú), sthai.trades (nhật ký). Sao lưu = gom tất cả mục "sthai." vào một file JSON.
+
+## JSON – định dạng của file sao lưu
+~~~json
+{
+  "sthai.done": {"1": "2026-11-17", "2": "2026-11-18"},
+  "sthai.plan": {"capital": 1000, "riskPct": 1, "maxTrades": 3}
+}
+~~~
+JSON giống từ điển Python: các cặp "tên": giá trị. Người đọc được, máy đọc được.
+
+## Khi nào PWA là lựa chọn tốt cho phần mềm nội bộ?
+| Hợp | Không hợp |
+| Một người hoặc vài người dùng, mỗi người dữ liệu riêng | Nhiều người cùng sửa một dữ liệu chung theo thời gian thực |
+| Cần chạy offline, không muốn đưa dữ liệu lên mạng | Cần phân quyền, nhật ký ai sửa gì |
+| Sổ tay, tra cứu, công cụ tính, checklist | Dữ liệu lớn hàng trăm nghìn dòng |
+Phần nâng cao (buổi 34–37) sẽ học cách chọn kiểu phần mềm phù hợp.
+`,
+summary: [
+  "PWA = index.html + manifest + service worker: cài lên màn hình, chạy offline.",
+  "localStorage lưu dữ liệu trong trình duyệt từng máy: riêng tư nhưng không tự đồng bộ, phải sao lưu.",
+  "Sửa app thì tăng phiên bản trong sw.js để máy tải bản mới."
+],
+practiceDetail: `
+1. Mở sw.js bằng VS Code, đọc chú thích. Tìm dòng CACHE = ... và ghi lại phiên bản hiện tại.
+2. Trong app: Thêm → Sao lưu. Mở file .json vừa tải bằng VS Code. Tìm mục sthai.done, sthai.notes. Ghi nhận xét.
+3. Thử chuyển dữ liệu: sao lưu trên máy tính → gửi file qua Zalo cho chính mình → trên iPhone: Thêm → Khôi phục từ file.
+4. Hỏi AI để hiểu sâu hơn:
+~~~prompt
+Đây là file sw.js của app PWA của tôi. Giải thích từng dòng cho người mới học, và cho biết: nếu tôi sửa index.html mà quên đổi tên CACHE thì chuyện gì xảy ra trên iPhone?
+[dán nội dung sw.js]
+~~~
+`,
+quiz: [
+  { q: "File nào giúp app chạy khi không có mạng?", a: ["manifest.webmanifest", "sw.js (service worker)", "icon-192.png", "HUONG_DAN.md"], c: 1, e: "Service worker lưu sẵn file trong cache." },
+  { q: "Dữ liệu học của bạn trong app được lưu ở đâu?", a: ["Máy chủ của Anthropic", "localStorage trong trình duyệt của từng máy", "Google Drive", "Trong file index.html"], c: 1, e: "Mỗi máy một ngăn kéo riêng." },
+  { q: "Vì sao iPhone và máy tính không tự đồng bộ tiến độ?", a: ["Lỗi app", "localStorage nằm riêng ở mỗi máy, không gửi lên mạng", "Thiếu mạng", "Do iPhone"], c: 1, e: "Muốn chuyển phải sao lưu/khôi phục." },
+  { q: "Sửa index.html xong, cần làm gì để iPhone nhận bản mới?", a: ["Không cần gì", "Tăng số phiên bản CACHE trong sw.js", "Xóa manifest", "Đổi tên app"], c: 1, e: "Đổi tên cache để service worker thay kho mới." }
+],
+cards: [
+  { f: "PWA", b: "Web app cài được lên màn hình chính, chạy offline. Cần index.html + manifest + service worker." },
+  { f: "localStorage", b: "Ngăn kéo dữ liệu nhỏ trong trình duyệt từng máy; riêng tư, không đồng bộ, xóa trình duyệt là mất." },
+  { f: "JSON", b: "Định dạng dữ liệu dạng chữ gồm các cặp \"tên\": giá trị; dùng cho file sao lưu." }
+]
+},
+
+{
+id: 17, week: 3, ready: true,
+title: "API và AI Agent là gì",
+goal: "Hiểu API như 'cửa giao dịch giữa hai phần mềm', Agent là AI tự dùng công cụ làm nhiều bước.",
+practice: "Vẽ sơ đồ một quy trình công việc có thể giao cho Agent.",
+content: `
+## API – cửa giao dịch giữa các phần mềm
+Hãy nghĩ tới **quầy giao dịch kho bạc**: bạn không vào kho tự lấy tiền; bạn nộp **mẫu giấy đúng quy định** ở quầy, quầy xử lý và trả kết quả.
+
+**API** (giao diện lập trình ứng dụng) là "quầy giao dịch" mà một phần mềm mở ra để phần mềm khác gửi yêu cầu theo mẫu quy định.
+| Ví dụ | Ai gọi | Gọi tới | Nhận về |
+| Xem tỷ giá trong app ngân hàng | App | API của ngân hàng | Bảng tỷ giá |
+| Đăng nhập bằng tài khoản Google | Trang web | API của Google | "Người này là ai" |
+| Gọi AI từ Python | Script của bạn | API của Claude/ChatGPT | Câu trả lời của AI |
+
+## Gọi AI qua API khác gì chat?
+- **Chat**: bạn gõ, AI trả lời, từng câu một, bằng tay.
+- **API**: script của bạn gửi hàng loạt yêu cầu tự động. Ví dụ: "Tóm tắt 200 văn bản trong thư mục này" chạy một lần.
+- API **tính tiền theo lượng sử dụng** (số token). Cần **khóa API** (API key), giống mật khẩu. Lộ khóa thì người khác dùng và bạn trả tiền.
+Buổi 41 (nâng cao) sẽ thực hành gọi AI bằng Python.
+
+## AI Agent – AI tự làm nhiều bước
+**Chatbot** trả lời một câu. **Agent** nhận một **mục tiêu**, rồi tự **lập kế hoạch**, **dùng công cụ** (tìm web, đọc file, chạy code, tạo file), **xem kết quả**, và **làm tiếp** cho đến khi xong.
+
+Ví dụ thực tế bạn đã thấy: khi nhờ làm app này, AI đã tự tìm thông tin pháp lý trên web, viết code, chạy thử trên trình duyệt, sửa lỗi, đóng gói file. Đó là một agent.
+
+### Vòng lặp của Agent
+1. **Hiểu mục tiêu** → 2. **Lập kế hoạch** → 3. **Dùng công cụ** → 4. **Xem kết quả** → 5. **Đánh giá: xong chưa?** → chưa thì quay lại bước 2.
+
+## Giao việc cho Agent: rủi ro và cách kiểm soát
+| Rủi ro | Cách kiểm soát |
+| Làm sai hướng nhưng làm rất nhiều | Bắt lập kế hoạch, chờ duyệt (buổi 6) |
+| Đụng vào dữ liệu thật, ghi đè file | Chỉ cho làm trên bản sao; không cấp quyền thư mục quan trọng |
+| Gửi đi, xóa, thanh toán | Không giao những việc không hoàn tác được; nếu có, bắt hỏi xác nhận |
+| Đọc phải nội dung độc hại trên web | Không cho agent làm theo chỉ dẫn trong tài liệu lạ |
+| Lộ dữ liệu nhạy cảm | Không đưa dữ liệu mật, dữ liệu cá nhân |
+
+## Việc nào hợp để giao cho Agent?
+- Nhiều bước nhưng **kết quả kiểm tra được**: tổng hợp file, làm báo cáo nháp, viết và chạy thử script, nghiên cứu một chủ đề có trích nguồn.
+- **Không** hợp: quyết định thay bạn, ký duyệt, giao dịch tiền, gửi văn bản chính thức.
+`,
+summary: [
+  "API là 'quầy giao dịch' để phần mềm gửi yêu cầu cho phần mềm khác; gọi AI qua API tính tiền theo token, cần giữ kín khóa API.",
+  "Agent nhận mục tiêu, tự lập kế hoạch, dùng công cụ, xem kết quả và lặp lại đến khi xong.",
+  "Giao việc cho Agent: bắt duyệt kế hoạch, làm trên bản sao, không giao việc không hoàn tác được."
+],
+practiceDetail: `
+Chọn một quy trình thật hằng tháng của bạn (ví dụ: từ file đặt hàng tháng → biên bản → bảng kê). Vẽ ra giấy hoặc nhờ AI vẽ:
+~~~prompt
+Tôi muốn hiểu quy trình nào có thể giao cho AI Agent. Quy trình của tôi (đã bỏ dữ liệu thật): [mô tả từng bước, ai làm, file nào].
+Hãy: 1) vẽ sơ đồ các bước dạng danh sách đánh số; 2) đánh dấu bước nào Agent làm được, bước nào bắt buộc người làm (ký, duyệt, đối chiếu); 3) liệt kê rủi ro và cách kiểm soát cho từng bước Agent làm.
+~~~
+Ghi kết quả vào Ghi chú. Đây là nguyên liệu cho dự án cuối khóa.
+`,
+quiz: [
+  { q: "API giống nhất với:", a: ["Quầy giao dịch nhận yêu cầu theo mẫu và trả kết quả", "Một màn hình", "Một file Excel", "Một mật khẩu"], c: 0, e: "API là cửa giao tiếp giữa các phần mềm." },
+  { q: "Khóa API (API key) cần được:", a: ["Đăng lên mạng", "Giữ kín như mật khẩu", "Gửi cho bạn bè", "Ghi trong file chia sẻ"], c: 1, e: "Lộ khóa thì người khác dùng, bạn trả tiền." },
+  { q: "Điều khác biệt chính giữa Agent và chatbot:", a: ["Agent nói nhiều hơn", "Agent tự lập kế hoạch, dùng công cụ, làm nhiều bước tới khi xong", "Agent miễn phí", "Không khác"], c: 1, e: "Agent hành động nhiều bước." },
+  { q: "Việc nào KHÔNG nên giao cho Agent tự làm?", a: ["Tổng hợp số liệu nháp từ bản sao file", "Viết và chạy thử script", "Ký duyệt và gửi văn bản chính thức", "Tìm tài liệu có trích nguồn"], c: 2, e: "Việc không hoàn tác và cần trách nhiệm cá nhân phải do người làm." }
+],
+cards: [
+  { f: "API", b: "Cửa giao tiếp để phần mềm gửi yêu cầu theo mẫu cho phần mềm khác và nhận kết quả." },
+  { f: "AI Agent", b: "AI nhận mục tiêu, tự lập kế hoạch, dùng công cụ, xem kết quả và lặp lại đến khi xong." },
+  { f: "Nguyên tắc giao việc cho Agent", b: "Duyệt kế hoạch trước, làm trên bản sao, không giao việc không hoàn tác được." }
+]
+},
+
+{
+id: 18, week: 3, ready: true,
+title: "Python đọc/ghi Excel",
+goal: "Hiểu cách script đọc bảng Excel, tính toán và ghi kết quả.",
+practice: "Mổ xẻ script tạo biên bản tự động; nhờ AI thêm một cột mới.",
+content: `
+## Hai thư viện chính
+| Thư viện | Mạnh ở | Ví dụ dùng |
+| **pandas** | Xử lý bảng số liệu: lọc, cộng, nhóm, gộp nhiều sheet | Tổng hợp 31 sheet ngày thành bảng kê tháng |
+| **openpyxl** | Đọc/ghi chi tiết file Excel: ô, định dạng, công thức, mẫu có sẵn | Điền số vào mẫu biên bản có khung, chữ ký |
+Thường dùng cả hai: pandas để **tính**, openpyxl để **điền vào mẫu đẹp**.
+
+## Đọc Excel bằng pandas
+~~~python
+import pandas as pd
+
+df = pd.read_excel("dat_hang_thang_11.xlsx", sheet_name="15")   # đọc sheet tên "15"
+print(df.head())             # xem 5 dòng đầu
+print(df.columns.tolist())   # xem tên các cột
+~~~
+**df** (DataFrame) là một bảng trong bộ nhớ, giống một sheet Excel.
+
+## Tính toán như Excel nhưng cho cả bảng
+~~~python
+df["Thành tiền"] = df["Số lượng"] * df["Đơn giá"]          # thêm cột, như =C2*D2 kéo xuống
+tong = df["Thành tiền"].sum()                               # như SUM
+theo_hang = df.groupby("Tên hàng")["Số lượng"].sum()        # như PivotTable
+~~~
+## Đọc cả 31 sheet ngày và gộp lại
+~~~python
+cac_sheet = pd.read_excel("dat_hang_thang_11.xlsx", sheet_name=None)  # None = đọc tất cả sheet
+ds = []
+for ten_sheet, bang in cac_sheet.items():
+    bang["Ngày"] = ten_sheet
+    ds.append(bang)
+ca_thang = pd.concat(ds)                  # nối các bảng lại thành một
+bang_ke_thang = ca_thang.groupby("Tên hàng")[["Số lượng", "Thành tiền"]].sum()
+bang_ke_thang.to_excel("bang_ke_thang_11.xlsx")
+~~~
+Đây là "xương sống" của các script tổng hợp như tao_bien_ban.py: **đọc → gộp → nhóm → ghi**.
+
+## Điền vào mẫu có sẵn bằng openpyxl
+~~~python
+from openpyxl import load_workbook
+
+wb = load_workbook("mau_bien_ban.xlsx")      # mẫu có sẵn khung, chữ ký
+ws = wb.active
+ws["B4"] = "15/11/2026"                       # điền ngày vào ô B4
+dong = 8
+for ten, sl in [("Gạo", 50), ("Thịt heo", 25)]:
+    ws.cell(row=dong, column=2, value=ten)
+    ws.cell(row=dong, column=4, value=sl)
+    dong += 1
+wb.save("bien_ban_15_11.xlsx")                # lưu FILE MỚI, không ghi đè mẫu
+~~~
+## Những bẫy thường gặp
+- **Tên cột có dấu cách thừa** ("Số lượng " khác "Số lượng"). Nhờ AI: "Làm sạch tên cột: bỏ khoảng trắng thừa."
+- **Ô gộp (merge)**, dòng tiêu đề nhiều tầng: pandas đọc lệch. Cần nói rõ "tiêu đề ở dòng 6" (header=5).
+- **Số lưu dạng chữ**, dấu phân cách hàng nghìn kiểu Việt Nam (1.234.500).
+- **Công thức**: pandas đọc ra giá trị đã tính lần lưu cuối; openpyxl ghi công thức thì Excel mới tính lại khi mở.
+- **Luôn ghi ra file mới**, giữ nguyên file gốc.
+
+## Câu mô tả file cho AI (quan trọng nhất)
+AI không nhìn thấy file của bạn. Hãy mô tả: tên sheet, dòng tiêu đề nằm ở dòng mấy, tên chính xác các cột, vài dòng dữ liệu mẫu (đã đổi thành số giả), ô nào gộp. **Mô tả file càng đúng, code càng ít lỗi.**
+`,
+summary: [
+  "pandas để tính (đọc, gộp, nhóm, cộng); openpyxl để điền vào mẫu có định dạng.",
+  "Mẫu xương sống: đọc tất cả sheet → gộp → nhóm theo mặt hàng → ghi file mới.",
+  "Mô tả chính xác cấu trúc file (sheet, dòng tiêu đề, tên cột, dữ liệu mẫu) để AI viết đúng."
+],
+practiceDetail: `
+1. Tạo file thử dat_hang_thu.xlsx gồm 3 sheet tên "1", "2", "3"; mỗi sheet có cột Tên hàng, ĐVT, Số lượng, Đơn giá với 4–5 dòng **số liệu giả**.
+2. Dùng prompt:
+~~~prompt
+Tôi có file dat_hang_thu.xlsx gồm các sheet tên "1", "2", "3" (mỗi sheet là một ngày). Mỗi sheet: dòng 1 là tiêu đề, các cột: Tên hàng, ĐVT, Số lượng, Đơn giá.
+Viết script Python (pandas + openpyxl) cho người mới:
+1. Đọc tất cả sheet, thêm cột Ngày và Thành tiền.
+2. Tổng hợp theo Tên hàng: tổng số lượng, tổng thành tiền.
+3. Ghi ra file mới bang_ke_thu.xlsx có dòng TỔNG CỘNG, định dạng số có dấu phân cách hàng nghìn, kẻ khung.
+4. In ra màn hình: số sheet đã đọc, số dòng đã đọc, tổng tiền.
+Chia thành hàm nhỏ, tên tiếng Việt không dấu, chú thích tiếng Việt. Không ghi đè file gốc.
+~~~
+3. Chạy, đối chiếu tổng với SUM trong Excel.
+4. Nhờ AI thêm cột "Đơn giá bình quân" vào bảng tổng hợp. Quan sát AI sửa hàm nào.
+
+Nếu bạn muốn mổ xẻ tao_bien_ban.py thật: dùng prompt "Giải thích code từng dòng" trong mục Prompt. Bỏ hết dữ liệu thật trước khi gửi.
+`,
+quiz: [
+  { q: "Muốn tổng hợp 31 sheet ngày thành bảng kê tháng, thư viện phù hợp nhất:", a: ["pandas", "python-docx", "Không có", "CSS"], c: 0, e: "pandas mạnh về đọc, gộp, nhóm dữ liệu." },
+  { q: "groupby(\"Tên hàng\").sum() giống tính năng nào trong Excel?", a: ["Định dạng ô", "PivotTable / tổng theo nhóm", "Đổi màu", "In ấn"], c: 1, e: "Nhóm theo một cột rồi cộng." },
+  { q: "Vì sao luôn lưu kết quả ra file mới?", a: ["Cho nhiều file", "Không làm hỏng file gốc/mẫu nếu code sai", "Bắt buộc của Python", "Để nhanh hơn"], c: 1, e: "Bảo vệ dữ liệu gốc." },
+  { q: "Script báo KeyError: 'Số lượng'. Nguyên nhân hay gặp nhất:", a: ["Tên cột trong file khác (thừa dấu cách, khác chữ)", "Thiếu mạng", "Máy yếu", "Thiếu RAM"], c: 0, e: "Tên cột phải khớp chính xác." }
+],
+cards: [
+  { f: "DataFrame (df)", b: "Một bảng dữ liệu trong pandas, giống một sheet Excel trong bộ nhớ." },
+  { f: "sheet_name=None", b: "Đọc tất cả sheet của file Excel cùng lúc." },
+  { f: "pandas vs openpyxl", b: "pandas để tính toán bảng; openpyxl để điền vào mẫu Excel có định dạng." },
+  { f: "Mô tả file cho AI", b: "Tên sheet, dòng tiêu đề, tên cột chính xác, vài dòng dữ liệu giả, ô gộp." }
+]
+},
+
+{
+id: 19, week: 3, ready: true,
+title: "Tạo Word hàng loạt, gộp và tách file",
+goal: "Tự động tạo nhiều văn bản từ một mẫu và một bảng dữ liệu.",
+practice: "Tạo 5 biên bản Word từ 1 file Excel dữ liệu giả.",
+content: `
+## Ý tưởng: "Mail merge" bằng code
+Bạn có **một mẫu văn bản** và **một bảng dữ liệu**; mỗi dòng dữ liệu sinh ra một văn bản. Word có sẵn tính năng Mail Merge, nhưng code linh hoạt hơn: tạo bảng có số dòng thay đổi, đặt tên file tự động, xuất PDF hàng loạt.
+
+## Cách dễ nhất: mẫu Word có "chỗ trống" đặt tên
+Thư viện **docxtpl** cho phép bạn soạn mẫu bằng Word bình thường, chỉ thay chỗ cần điền bằng tên trong ngoặc nhọn kép:
+~~~
+BIÊN BẢN GIAO NHẬN THỰC PHẨM
+Hôm nay, ngày {{ ngay }}, tại {{ dia_diem }}
+Bên giao: {{ ben_giao }}
+Tổng giá trị: {{ tong_tien }} đồng (Bằng chữ: {{ bang_chu }})
+~~~
+~~~python
+from docxtpl import DocxTemplate
+import pandas as pd
+
+ds = pd.read_excel("du_lieu_bien_ban.xlsx")
+for _, dong in ds.iterrows():
+    mau = DocxTemplate("mau_bien_ban.docx")
+    mau.render({
+        "ngay": dong["Ngày"],
+        "dia_diem": dong["Địa điểm"],
+        "ben_giao": dong["Bên giao"],
+        "tong_tien": f"{int(dong['Tổng tiền']):,}".replace(",", "."),
+        "bang_chu": dong["Bằng chữ"],
+    })
+    mau.save(f"Bien_ban_{dong['Mã']}.docx")
+~~~
+Cài: pip install docxtpl. Mẫu giữ nguyên phông chữ, căn lề, quốc hiệu, chữ ký mà bạn đã chỉnh trong Word, nên thể thức văn bản không bị sai.
+
+docxtpl còn lặp được **bảng hàng hóa có số dòng thay đổi** (cú pháp vòng lặp trong mẫu). Khi cần, nói với AI: "Mẫu có bảng hàng hóa, số dòng thay đổi theo dữ liệu, dùng vòng lặp của docxtpl."
+
+## Đọc số thành chữ
+Số tiền bằng chữ là chỗ AI và code **hay sai** (ví dụ "một trăm linh năm", "mười lăm" hay "mười năm"). Cách an toàn:
+- Dùng một hàm đọc số đã kiểm tra kỹ; nhờ AI viết kèm **ít nhất 15 phép kiểm tra assert** với các số khó: 105, 1.005, 15, 21, 1.000.000, 2.050.000, 10.001...
+- Vẫn **đối chiếu bằng mắt** trước khi ký.
+
+## Gộp và tách file
+| Việc | Thư viện / cách |
+| Gộp nhiều file Excel cùng cấu trúc | pandas: đọc từng file rồi concat |
+| Tách 1 bảng thành nhiều file theo Phân khu | pandas: groupby rồi ghi từng nhóm |
+| Gộp nhiều PDF thành 1 | pypdf |
+| Đổi Word sang PDF hàng loạt (Windows có Word) | docx2pdf |
+| Đổi tên file hàng loạt | thư viện có sẵn os, pathlib |
+
+## Lưu ý thể thức
+Văn bản hành chính có quy định thể thức (phông, cỡ chữ, căn lề, vị trí quốc hiệu, chữ ký). **Soạn mẫu chuẩn một lần bằng tay** trong Word, sau đó chỉ cho code điền nội dung. Không để code tự "vẽ" văn bản từ đầu.
+`,
+summary: [
+  "Mẫu Word với chỗ trống {{ ten }} + bảng dữ liệu Excel + docxtpl = văn bản hàng loạt đúng thể thức.",
+  "Số tiền bằng chữ hay sai: dùng hàm có nhiều phép kiểm tra, vẫn soát bằng mắt trước khi ký.",
+  "Gộp/tách Excel bằng pandas; PDF bằng pypdf; đổi Word sang PDF bằng docx2pdf."
+],
+practiceDetail: `
+1. Soạn mau_bien_ban.docx đơn giản trong Word với các chỗ trống {{ ngay }}, {{ ben_giao }}, {{ tong_tien }}, {{ bang_chu }}.
+2. Soạn du_lieu_bien_ban.xlsx 5 dòng **dữ liệu giả** với các cột Mã, Ngày, Bên giao, Tổng tiền.
+3. Prompt:
+~~~prompt
+Tôi có mẫu Word mau_bien_ban.docx chứa các chỗ trống {{ ngay }}, {{ ben_giao }}, {{ tong_tien }}, {{ bang_chu }} và file du_lieu_bien_ban.xlsx (cột: Mã, Ngày, Bên giao, Tổng tiền).
+Viết script Python dùng docxtpl tạo mỗi dòng một file Word tên Bien_ban_<Mã>.docx trong thư mục ket_qua.
+- Tổng tiền định dạng kiểu Việt Nam (1.250.000).
+- Tự đọc số tiền thành chữ tiếng Việt đúng chuẩn (kèm 15 phép kiểm tra assert với các số khó như 105; 1.005; 15; 25; 1.000.000; 2.050.000).
+- Hướng dẫn cài thư viện và cách chạy từng bước. Chú thích tiếng Việt.
+~~~
+4. Mở 5 file kết quả, soát số tiền bằng chữ.
+`,
+quiz: [
+  { q: "Cách tạo văn bản hàng loạt mà vẫn giữ đúng thể thức đã soạn:", a: ["Để code tự vẽ văn bản", "Soạn mẫu Word chuẩn có chỗ trống, code chỉ điền dữ liệu", "Chụp ảnh văn bản", "Gõ tay từng cái"], c: 1, e: "Mẫu giữ thể thức, code chỉ điền." },
+  { q: "{{ ngay }} trong mẫu docxtpl là:", a: ["Lỗi chính tả", "Chỗ trống sẽ được thay bằng dữ liệu tên 'ngay'", "Công thức Excel", "Chữ ký"], c: 1, e: "Biến trong mẫu." },
+  { q: "Phần nào cần soát kỹ nhất trong biên bản tạo tự động?", a: ["Phông chữ", "Số tiền bằng chữ và số liệu", "Lề trang", "Tên file"], c: 1, e: "Đọc số thành chữ rất hay sai." },
+  { q: "Tách một bảng thành nhiều file theo Phân khu dùng:", a: ["pandas groupby rồi ghi từng nhóm", "CSS", "Service worker", "docx2pdf"], c: 0, e: "Nhóm theo cột Phân khu, mỗi nhóm một file." }
+],
+cards: [
+  { f: "docxtpl", b: "Thư viện điền dữ liệu vào mẫu Word có chỗ trống {{ ten }}, giữ nguyên thể thức." },
+  { f: "Mail merge bằng code", b: "1 mẫu + 1 bảng dữ liệu = nhiều văn bản, tên file tự động." },
+  { f: "Số thành chữ", b: "Chỗ hay sai; cần hàm có nhiều phép kiểm tra và soát bằng mắt." }
+]
+},
+
+{
+id: 20, week: 3, ready: true,
+title: "Bảo mật và ẩn danh hóa dữ liệu",
+goal: "Biết dữ liệu nào tuyệt đối không đưa lên AI và cách thay bằng dữ liệu giả.",
+practice: "Ẩn danh một bảng dữ liệu mẫu trước khi nhờ AI phân tích.",
+content: `
+## Vì sao buổi này quan trọng nhất với bạn?
+Bạn làm việc trong ngành Công an, tại cơ sở có dữ liệu cá nhân nhạy cảm của người cai nghiện. Một lần dán nhầm có thể gây hậu quả nghiêm trọng cho người khác và cho chính bạn. AI rất hữu ích, nhưng **dữ liệu đã gửi lên dịch vụ AI bên ngoài thì bạn không còn kiểm soát được hoàn toàn**.
+
+## Căn cứ (cần kiểm tra lại văn bản hiện hành)
+- Các quy định về **bảo vệ bí mật nhà nước**.
+- Các quy định về **bảo vệ dữ liệu cá nhân** (Nghị định 13/2023/NĐ-CP và Luật Bảo vệ dữ liệu cá nhân năm 2025; cần kiểm tra lại hiệu lực và văn bản hướng dẫn).
+- Quy định, hướng dẫn nội bộ của ngành Công an và của đơn vị về sử dụng mạng, thiết bị, công cụ trí tuệ nhân tạo.
+> Nguyên tắc an toàn nhất: **chưa chắc thì không đưa lên**, và hỏi bộ phận phụ trách CNTT/bảo mật của đơn vị.
+
+## 3 vùng dữ liệu
+| Vùng | Ví dụ | Với AI bên ngoài |
+| **ĐỎ – tuyệt đối không** | Tài liệu mật; hồ sơ, danh sách người cai nghiện (họ tên, ngày sinh, địa chỉ, số định danh, tình trạng sức khỏe, ảnh); văn bản nội bộ chưa công khai; mật khẩu, số tài khoản | Không đưa, kể cả "chỉ một dòng" |
+| **VÀNG – phải ẩn danh** | Bảng số liệu nghiệp vụ không có danh tính nhưng lộ thông tin đơn vị: định lượng, đơn giá, nhà cung cấp, số người theo phân khu | Thay số giả, bỏ tên đơn vị, bỏ tên nhà cung cấp |
+| **XANH – được dùng** | Văn bản pháp luật đã công khai, mẫu biểu trống, câu hỏi về Excel/code, dữ liệu tự bịa | Dùng thoải mái |
+
+## Kỹ thuật ẩn danh hóa
+1. **Xóa cột không cần**: AI cần cột Số lượng để viết công thức, không cần cột Họ tên.
+2. **Thay bằng mã**: "Nguyễn Văn A" → "NCN_001". Bảng đối chiếu mã–tên chỉ giữ trên máy bạn.
+3. **Số liệu giả**: giữ cấu trúc, đổi giá trị. AI chỉ cần biết "cột C là số tiền", không cần số thật.
+4. **Chỉ gửi vài dòng mẫu**: 5 dòng giả đủ để AI hiểu cấu trúc, rồi bạn **chạy code trên máy mình** với dữ liệu thật.
+5. **Bỏ thông tin định danh đơn vị** trong ảnh chụp màn hình, tên file, tiêu đề.
+
+## Mô hình làm việc an toàn: "AI viết công cụ, dữ liệu ở lại máy"
+Đây là cách hay nhất cho bạn:
+1. Mô tả cấu trúc dữ liệu + gửi dữ liệu giả cho AI.
+2. AI viết script hoặc app.
+3. **Bạn chạy script/app trên máy mình, với dữ liệu thật, không cần mạng.**
+Dữ liệu thật không bao giờ rời máy. Các app PWA lưu localStorage và các script Python của khóa học đều theo đúng mô hình này.
+
+## Các lớp bảo vệ khác
+- Xem cài đặt quyền riêng tư của công cụ AI (có dùng dữ liệu để huấn luyện không, lưu bao lâu). Chính sách có thể thay đổi, cần kiểm tra lại.
+- Không dùng máy cơ quan cho công cụ chưa được phép.
+- Không để agent/AI truy cập thư mục chứa dữ liệu thật.
+- Giữ kín khóa API, mật khẩu; không dán vào chat, không lưu trong file chia sẻ.
+`,
+summary: [
+  "Vùng đỏ (mật, dữ liệu cá nhân người cai nghiện, nội bộ) tuyệt đối không đưa lên AI; vùng vàng phải ẩn danh.",
+  "Ẩn danh: xóa cột thừa, thay tên bằng mã, dùng số giả, chỉ gửi vài dòng mẫu.",
+  "Mô hình an toàn: AI viết công cụ bằng dữ liệu giả, bạn chạy công cụ trên máy với dữ liệu thật."
+],
+practiceDetail: `
+1. Tạo một bảng giả gồm 10 dòng: Họ tên (bịa), Năm sinh, Phân khu, Ngày tiếp nhận, Khẩu phần.
+2. Tự ẩn danh theo 5 kỹ thuật. Ghi vào Ghi chú: bạn xóa/đổi cột nào, vì sao.
+3. Nhờ AI viết công cụ ẩn danh chạy trên máy:
+~~~prompt
+Viết script Python cho người mới: đọc file Excel đầu vào, với các cột tôi chỉ định trong danh sách COT_AN_DANH thì thay giá trị bằng mã dạng NCN_001, NCN_002... (cùng một giá trị thì cùng một mã), xóa các cột trong danh sách COT_XOA, ghi ra file mới _an_danh.xlsx, và ghi bảng đối chiếu mã ra file riêng _bang_doi_chieu.xlsx (file này chỉ giữ trên máy). Chú thích tiếng Việt.
+~~~
+4. Chạy thử với bảng giả. Đây là công cụ bạn dùng lại mỗi khi cần nhờ AI phân tích dữ liệu vùng vàng.
+`,
+quiz: [
+  { q: "Danh sách họ tên, năm sinh người cai nghiện thuộc vùng nào?", a: ["Xanh", "Vàng", "Đỏ: tuyệt đối không đưa lên AI", "Tùy"], c: 2, e: "Dữ liệu cá nhân nhạy cảm thuộc vùng đỏ." },
+  { q: "Mô hình an toàn nhất khi cần xử lý dữ liệu thật:", a: ["Dán dữ liệu thật vào chat", "AI viết công cụ bằng dữ liệu giả; bạn chạy công cụ trên máy với dữ liệu thật", "Gửi file cho bạn bè xử lý", "Chụp ảnh gửi AI"], c: 1, e: "Dữ liệu thật không rời máy." },
+  { q: "Để AI viết đúng công thức, bạn cần gửi:", a: ["Toàn bộ file thật", "Cấu trúc cột + vài dòng dữ liệu giả", "Mật khẩu file", "Ảnh chụp có tên người"], c: 1, e: "AI chỉ cần cấu trúc." },
+  { q: "Không chắc một tài liệu có được đưa lên AI không, bạn nên:", a: ["Cứ đưa", "Không đưa, hỏi bộ phận phụ trách bảo mật/CNTT", "Đưa một nửa", "Đổi công cụ khác"], c: 1, e: "Chưa chắc thì không đưa." }
+],
+cards: [
+  { f: "3 vùng dữ liệu", b: "Đỏ: không bao giờ. Vàng: phải ẩn danh. Xanh: dùng được." },
+  { f: "Ẩn danh hóa", b: "Xóa cột thừa, thay tên bằng mã, số liệu giả, chỉ gửi vài dòng mẫu, bỏ tên đơn vị." },
+  { f: "AI viết công cụ, dữ liệu ở lại máy", b: "Gửi AI cấu trúc + dữ liệu giả; chạy công cụ trên máy với dữ liệu thật." }
+]
+},
+
+{
+id: 21, week: 3, ready: true, review: true,
+title: "Ôn tập Tuần 3 + thống kê lịch sử giao dịch bằng Python",
+goal: "Tổng hợp Tuần 3; dùng Python thống kê file lịch sử xuất từ MetaTrader.",
+practice: "Xuất lịch sử từ MetaTrader, chạy script thống kê, so sánh với tab Giao dịch của app.",
+content: `
+## Bản đồ Tuần 3
+| Buổi | Ý chính |
+| 15. HTML/CSS/JS | Khung – trang trí – hành động; tách dữ liệu khỏi xử lý |
+| 16. PWA | index.html + manifest + service worker; localStorage riêng từng máy |
+| 17. API, Agent | Quầy giao dịch giữa phần mềm; AI tự làm nhiều bước, phải kiểm soát |
+| 18. Python Excel | pandas tính, openpyxl điền mẫu; mô tả file thật chính xác |
+| 19. Word hàng loạt | Mẫu chuẩn + dữ liệu + docxtpl; soát số bằng chữ |
+| 20. Bảo mật | Đỏ – vàng – xanh; AI viết công cụ, dữ liệu ở lại máy |
+
+## Bài tổng hợp: thống kê lịch sử giao dịch bằng Python
+Bài này dùng mọi thứ đã học: đọc file (buổi 18), vòng lặp + if (Tuần 2), hàm, và ẩn danh (buổi 20: bỏ số tài khoản trước khi gửi bất kỳ thứ gì cho AI).
+
+### Lấy dữ liệu từ MetaTrader 5
+1. Hộp công cụ (Toolbox) → tab Lịch sử → chuột phải → Báo cáo → Open XML.
+2. Mở bằng Excel, giữ bảng Positions, lưu CSV (xem chi tiết trong HUONG_DAN.md).
+Định dạng báo cáo có thể khác theo phiên bản, cần kiểm tra lại.
+
+### Script thống kê mẫu (đọc hiểu trước khi chạy)
+~~~python
+import pandas as pd
+
+df = pd.read_csv("lich_su.csv")
+df = df[df["Type"].isin(["buy", "sell"])]                 # chỉ giữ lệnh mua/bán
+df["Lai_lo"] = df["Profit"] + df.get("Commission", 0) + df.get("Swap", 0)
+df["Gio"] = pd.to_datetime(df["Time"]).dt.hour            # giờ vào lệnh
+
+thang = df[df["Lai_lo"] > 0]
+thua = df[df["Lai_lo"] < 0]
+print("Số lệnh:", len(df))
+print("Tỷ lệ thắng:", round(len(thang) / len(df) * 100, 1), "%")
+print("Lãi TB:", round(thang["Lai_lo"].mean(), 2), "| Lỗ TB:", round(thua["Lai_lo"].mean(), 2))
+print("Lệnh lỗ lớn nhất:", thua["Lai_lo"].min())
+print(df.groupby("Symbol")["Lai_lo"].agg(["count", "sum"]))
+print(df.groupby("Gio")["Lai_lo"].agg(["count", "sum"]))
+print(df.groupby("Volume")["Lai_lo"].agg(["count", "sum"]))  # khối lượng lớn có lỗ nhiều hơn?
+~~~
+Câu hỏi để tự đọc: dòng nào lọc dữ liệu? Dòng nào giống PivotTable? Dòng cuối kiểm tra lỗi "vào lệnh quá lớn" ra sao?
+
+## Tự đánh giá Tuần 3
+- Tôi chỉ ra được phần HTML, CSS, JS, dữ liệu trong index.html.
+- Tôi đã sao lưu và khôi phục dữ liệu app giữa hai máy.
+- Tôi chạy được script gộp nhiều sheet Excel.
+- Tôi có công cụ ẩn danh chạy trên máy.
+`,
+summary: [
+  "Tuần 3: hiểu app web/PWA, API/Agent, tự động hóa Excel/Word, và bảo mật dữ liệu.",
+  "Thống kê giao dịch bằng Python: lọc lệnh, tính lãi/lỗ thực (có phí), nhóm theo mã, giờ, khối lượng.",
+  "Tuần 4: dùng những con số này để sửa 4 lỗi giao dịch của chính mình."
+],
+practiceDetail: `
+1. Xuất lịch sử MetaTrader thành CSV (tài khoản demo hoặc lịch sử cũ). **Xóa mọi thông tin tài khoản** ở đầu file.
+2. Nhờ AI hoàn thiện script cho đúng file của bạn:
+~~~prompt
+Tôi có file CSV lịch sử giao dịch xuất từ MetaTrader 5 với các cột: [dán dòng tiêu đề]. Đây là 3 dòng mẫu (đã sửa số): [dán].
+Viết script Python (pandas) cho người mới: tính số lệnh, tỷ lệ thắng, lãi TB, lỗ TB, R:R thực tế, chuỗi thua dài nhất, lệnh lỗ lớn nhất; nhóm theo mã, theo giờ vào lệnh, theo khối lượng; xuất kết quả ra file thong_ke.xlsx. Chú thích tiếng Việt. Không dự đoán giá.
+~~~
+3. Nhập cùng file CSV vào app (Giao dịch → Nhật ký → Nhập file). So sánh tab Thống kê với kết quả script. Khớp không? Không khớp ở đâu, vì sao (ví dụ có tính phí commission/swap không)?
+`,
+quiz: [
+  { q: "Tính lãi/lỗ thực của một lệnh nên gồm:", a: ["Chỉ Profit", "Profit + Commission + Swap", "Chỉ Swap", "Volume × Price"], c: 1, e: "Phí giao dịch và phí qua đêm cũng là lãi/lỗ thực." },
+  { q: "df.groupby(\"Volume\")[\"Lai_lo\"].sum() giúp phát hiện:", a: ["Lỗi chính tả", "Khối lượng lớn có gây lỗ nhiều hơn không", "Giờ đẹp", "Mã đẹp"], c: 1, e: "Kiểm tra lỗi vào lệnh quá lớn." },
+  { q: "Trước khi gửi file lịch sử giao dịch cho AI cần:", a: ["Gửi luôn", "Xóa thông tin tài khoản, chỉ gửi vài dòng mẫu nếu được", "Đổi tên file", "Nén file"], c: 1, e: "Áp dụng ẩn danh hóa." },
+  { q: "Service worker có nhiệm vụ:", a: ["Tính thống kê", "Lưu sẵn file để app chạy offline", "Lưu ghi chú", "Vẽ biểu đồ"], c: 1, e: "Nhắc lại buổi 16." },
+  { q: "Agent có thể làm sai rất nhiều trước khi bạn kịp biết. Biện pháp đầu tiên:", a: ["Cho làm thẳng trên dữ liệu thật", "Bắt lập kế hoạch và chờ duyệt", "Không đọc kết quả", "Tắt máy"], c: 1, e: "Nhắc lại buổi 6 và 17." }
+],
+cards: [
+  { f: "Lãi/lỗ thực", b: "Profit + Commission + Swap. Bỏ quên phí là tự đánh giá sai hiệu quả." },
+  { f: "Ý cốt lõi Tuần 3", b: "AI giúp làm công cụ (web app, script Excel/Word); dữ liệu thật ở lại máy." }
+]
+}
+);
+
+
+/* ============================ TUẦN 4: AI VỚI TRADING VÀ KIẾM TIỀN ============================ */
+SESSIONS.push(
+{
+id: 22, week: 4, ready: true,
+title: "Sự thật về trading, AI và các kiểu lừa đảo",
+goal: "Hiểu vì sao AI không đoán được giá, rủi ro pháp lý và các chiêu lừa 'bot AI lãi chắc'.",
+practice: "Nhờ AI liệt kê dấu hiệu lừa đảo và tự đối chiếu với các lời mời bạn từng nhận.",
+content: `
+## Bắt đầu bằng sự thật
+Tuần này không dạy cách "thắng thị trường". Tuần này dạy cách **không để mất tiền vì chính mình**, và dùng AI để giữ kỷ luật. Ba sự thật cần chấp nhận trước:
+
+1. **Phần lớn người giao dịch cá nhân với sản phẩm đòn bẩy (CFD/forex) bị lỗ.** Các sàn được cấp phép ở châu Âu bắt buộc phải công bố tỷ lệ tài khoản cá nhân thua lỗ; con số thường thấy khoảng 70–80% (tùy sàn, cần kiểm tra lại trên trang của từng sàn).
+2. **AI không dự đoán được giá.** Nhớ buổi 1: AI viết ra câu nghe hợp lý. "Vàng có xu hướng tăng" chỉ là một câu hợp lý, không phải thông tin về tương lai. Nếu một công cụ đoán giá chính xác thật, người sở hữu nó sẽ không bán cho bạn.
+3. **Kết quả của bạn được quyết định bởi quản lý rủi ro và kỷ luật** nhiều hơn là bởi "điểm vào lệnh đẹp".
+
+## Rủi ro pháp lý (đọc kỹ)
+Theo thông tin Ngân hàng Nhà nước được báo chí đưa tin (05/2025):
+- Đến nay **chưa có sàn forex nào được cấp phép** tại Việt Nam.
+- Việc **thanh toán, chuyển tiền ra nước ngoài cho các sàn forex** là giao dịch không được phép theo quy định quản lý ngoại hối.
+- Người tham gia sàn forex trái phép có thể **bị xử phạt hành chính**, và **không được pháp luật bảo vệ** khi có tranh chấp, mất tiền.
+- Tên miền exness.vn đã bị chặn theo yêu cầu của cơ quan công an.
+> Bạn là cán bộ Công an: ngoài quy định chung còn có quy định của ngành. **Cần kiểm tra lại văn bản hiện hành** và hỏi bộ phận pháp chế/tổ chức trước khi giao dịch bằng tiền thật. Toàn bộ thực hành trong tuần này dùng **tài khoản demo**.
+
+## Các chiêu lừa đảo "AI trading"
+| Chiêu | Dấu hiệu |
+| Bot/EA AI "lãi 5–10%/tháng, không thua" | Hứa lợi nhuận đều, cao, không rủi ro. Không có thứ đó. |
+| Nhóm Zalo/Telegram "chuyên gia gọi lệnh" | Ảnh chụp lãi khủng, khoe xe, ép vào nhanh, có "trợ lý" nhắn riêng |
+| Ủy thác đầu tư, "để anh đánh hộ" | Đòi mật khẩu tài khoản hoặc chuyển tiền cho cá nhân |
+| Sàn lạ, app lạ | Nạp dễ, rút khó; đòi "phí rút", "thuế" mới cho rút |
+| Khóa học "bí kíp" giá cao | Cam kết thu nhập; khoe kết quả không kiểm chứng được |
+| Mạo danh người nổi tiếng, mạo danh công an/ngân hàng | Video ghép, giọng giả bằng AI (deepfake) |
+
+**Quy tắc vàng:** lời hứa lợi nhuận càng chắc chắn, khả năng lừa đảo càng cao. Không bao giờ đưa mật khẩu, mã OTP, không chuyển tiền cho cá nhân.
+
+## Vậy AI giúp gì được trong trading?
+| AI làm tốt | AI không làm được |
+| Phân tích nhật ký giao dịch của **bạn**, tìm mẫu hình thua | Đoán giá ngày mai |
+| Đóng vai người giám sát kỷ luật trước mỗi lệnh | Bảo đảm lợi nhuận |
+| Giải thích khái niệm: lot, pip, đòn bẩy, ký quỹ | Thay bạn chịu trách nhiệm |
+| Viết code thống kê, backtest để **kiểm chứng** một ý tưởng | Biết tin tức chưa xảy ra |
+`,
+summary: [
+  "Phần lớn người giao dịch CFD/forex cá nhân thua lỗ; AI không dự đoán được giá.",
+  "Sàn forex chưa được cấp phép tại Việt Nam, chuyển tiền cho sàn forex là không được phép; cán bộ cần kiểm tra quy định ngành. Thực hành trên demo.",
+  "Dấu hiệu lừa đảo: hứa lãi đều/cao, gọi lệnh, ủy thác, sàn lạ khó rút, mạo danh. AI dùng để phân tích chính bạn."
+],
+practiceDetail: `
+~~~prompt
+Liệt kê 15 dấu hiệu nhận biết lừa đảo liên quan đến "đầu tư forex/vàng bằng AI", "bot giao dịch", "nhóm gọi lệnh", "ủy thác đầu tư" ở Việt Nam. Với mỗi dấu hiệu: mô tả ngắn và câu nói điển hình kẻ gian hay dùng. Sau đó viết 5 câu hỏi tôi nên tự hỏi trước khi tin bất kỳ lời mời đầu tư nào. Nếu dẫn thông tin pháp lý, ghi rõ nguồn.
+~~~
+Đối chiếu với các tin nhắn/lời mời bạn từng nhận. Ghi vào Ghi chú: bạn từng gặp bao nhiêu dấu hiệu.
+`,
+quiz: [
+  { q: "Một nhóm Telegram hứa 'bot AI lãi 8%/tháng, không bao giờ thua'. Đây là:", a: ["Cơ hội tốt", "Dấu hiệu lừa đảo điển hình", "Bình thường", "Nên thử 1 tháng"], c: 1, e: "Lợi nhuận đều, cao, không rủi ro là dấu hiệu lừa đảo." },
+  { q: "AI giúp tốt nhất việc nào trong trading?", a: ["Đoán giá vàng tuần sau", "Phân tích nhật ký để tìm lỗi lặp lại của chính bạn", "Bảo đảm lãi", "Gọi lệnh"], c: 1, e: "AI phân tích dữ liệu của bạn, không đoán tương lai." },
+  { q: "Theo thông tin Ngân hàng Nhà nước được báo chí đưa tin, đến nay:", a: ["Nhiều sàn forex được cấp phép", "Chưa có sàn forex nào được cấp phép tại Việt Nam", "Chỉ Exness được phép", "Không có quy định"], c: 1, e: "Cần kiểm tra lại văn bản hiện hành." },
+  { q: "Sàn cho nạp dễ nhưng đòi 'phí rút' mới cho rút tiền. Bạn nên:", a: ["Nộp phí", "Dừng ngay, không nạp thêm, giữ bằng chứng", "Nạp thêm để đủ hạn mức", "Nhờ người quen"], c: 1, e: "Đây là chiêu chiếm đoạt phổ biến." }
+],
+cards: [
+  { f: "AI có đoán được giá không?", b: "Không. AI viết câu hợp lý, không biết tương lai." },
+  { f: "Quy tắc vàng chống lừa đảo đầu tư", b: "Lời hứa lãi càng chắc chắn càng đáng ngờ. Không đưa mật khẩu/OTP, không chuyển tiền cho cá nhân." },
+  { f: "Rủi ro pháp lý forex tại Việt Nam", b: "Chưa có sàn forex được cấp phép; chuyển tiền cho sàn là không được phép; có thể bị xử phạt (cần kiểm tra lại)." }
+]
+},
+
+{
+id: 23, week: 4, ready: true,
+title: "Lot, pip, đòn bẩy, ký quỹ, stop out, spread, swap",
+goal: "Hiểu chính xác mỗi lệnh có thể làm mất bao nhiêu tiền.",
+practice: "Dùng máy tính khối lượng lệnh trong app với 5 tình huống.",
+content: `
+> Thông số hợp đồng (kích thước lot, giá trị pip, đòn bẩy, mức stop out) **khác nhau theo sàn và loại tài khoản**, ví dụ tài khoản Cent tính bằng cent. Số liệu dưới đây là quy ước phổ biến để hiểu nguyên lý; **cần đối chiếu** trong MetaTrader: chuột phải mã → Đặc tả (Specification).
+
+## Lot – khối lượng
+- Forex: 1 lot chuẩn thường = 100.000 đơn vị đồng tiền đứng trước (EURUSD: 100.000 EUR). 0,1 lot = mini; 0,01 lot = micro.
+- Vàng XAUUSD: 1 lot thường = 100 oz.
+
+## Pip – bước giá
+- EURUSD: 1 pip = 0,0001. Giá từ 1,1000 lên 1,1020 là **20 pip**.
+- Với cặp có USD đứng sau (EURUSD, GBPUSD...): **1 pip của 1 lot ≈ 10 USD**.
+- Vàng: giá đi 1 USD (ví dụ 4.000 → 4.001) thì **1 lot lãi/lỗ 100 USD**.
+
+## Ví dụ làm bạn giật mình
+Tài khoản 500 USD, vào **1 lot vàng**, giá đi ngược **5 USD** (dao động rất bình thường trong một phiên):
+**5 × 100 = 500 USD → mất toàn bộ tài khoản.**
+Cùng tình huống với 0,01 lot: mất 5 USD = 1% vốn.
+**Không phải thị trường làm cháy tài khoản. Khối lượng lệnh làm cháy tài khoản.**
+
+## Đòn bẩy và ký quỹ
+- **Đòn bẩy 1:500** nghĩa là chỉ cần đặt **ký quỹ** khoảng 1/500 giá trị lệnh. Ví dụ lệnh 1 lot EURUSD giá 1,10 (giá trị 110.000 USD) chỉ cần khoảng 220 USD ký quỹ.
+- Đòn bẩy cao **không làm lệnh rủi ro hơn**, nó **cho phép bạn mở lệnh quá lớn** so với vốn. Đó mới là nguy hiểm.
+- Rủi ro thật của lệnh = **khối lượng × khoảng dừng lỗ**, không phải ký quỹ.
+
+## Margin call, stop out
+- **Margin call**: tài khoản sắp không đủ ký quỹ, sàn cảnh báo.
+- **Stop out**: sàn **tự động đóng lệnh** của bạn vì không đủ ký quỹ, thường khi đã lỗ rất nặng. Ai gồng lỗ đến stop out là đã để sàn đặt dừng lỗ thay mình, ở mức tệ nhất.
+
+## Spread, swap, commission – chi phí âm thầm
+- **Spread**: chênh lệch giá mua/bán; vào lệnh là âm ngay một khoản.
+- **Commission**: phí giao dịch (tùy loại tài khoản).
+- **Swap**: phí (hoặc tiền nhận) khi giữ lệnh qua đêm.
+Giao dịch càng nhiều lệnh (overtrading), chi phí cộng dồn càng lớn.
+
+## Công thức quan trọng nhất của khóa học
+~~~
+Số tiền rủi ro = Vốn × % rủi ro
+Lot = Số tiền rủi ro ÷ (Khoảng SL × Giá trị 1 pip của 1 lot)
+~~~
+Ví dụ: vốn 1.000 USD, rủi ro 1% = 10 USD, SL 20 pip EURUSD → lot = 10 ÷ (20 × 10) = **0,05 lot**.
+Vàng: vốn 1.000 USD, rủi ro 1% = 10 USD, SL 5 USD → lot = 10 ÷ (5 × 100) = **0,02 lot**.
+App đã có sẵn công cụ này: **Giao dịch → Khối lượng lệnh**.
+`,
+summary: [
+  "Rủi ro thật của lệnh = khối lượng × khoảng dừng lỗ; khối lượng quá lớn mới là thứ làm cháy tài khoản.",
+  "Đòn bẩy cao chỉ cho phép mở lệnh lớn hơn; stop out là để sàn đóng lệnh ở mức tệ nhất.",
+  "Lot = (Vốn × % rủi ro) ÷ (Khoảng SL × Giá trị pip/lot). Thông số cụ thể đối chiếu trên MetaTrader."
+],
+practiceDetail: `
+Mở **Giao dịch → Khối lượng lệnh**, tính 5 tình huống, ghi kết quả vào Ghi chú:
+1. Vốn 500 USD, rủi ro 1%, EURUSD, SL 25 pip.
+2. Vốn 500 USD, rủi ro 1%, vàng, SL 6 USD.
+3. Vốn 500 USD, vàng, SL 6 USD, bạn định vào 0,1 lot: mất bao nhiêu % vốn?
+4. Như (3) nhưng thua 3 lệnh liên tiếp: còn bao nhiêu vốn?
+5. Vốn 2.000 USD, rủi ro 0,5%, EURUSD, SL 15 pip, TP 30 pip: R:R bao nhiêu?
+Sau đó trong MetaTrader (demo), mở Đặc tả của EURUSD và XAUUSD. Ghi lại kích thước hợp đồng (contract size). Có khớp quy ước ở trên không?
+`,
+quiz: [
+  { q: "Vốn 500 USD, 1 lot vàng, giá đi ngược 5 USD. Mất khoảng:", a: ["5 USD", "50 USD", "500 USD", "0"], c: 2, e: "5 × 100 oz = 500 USD với 1 lot (theo quy ước 1 lot = 100 oz)." },
+  { q: "Rủi ro thật của một lệnh được quyết định bởi:", a: ["Ký quỹ", "Khối lượng × khoảng dừng lỗ", "Màu nến", "Đòn bẩy của sàn"], c: 1, e: "Đó là số tiền mất nếu chạm SL." },
+  { q: "Vốn 1.000 USD, rủi ro 1%, SL 20 pip EURUSD. Lot đúng là:", a: ["0,5", "0,05", "0,005", "1"], c: 1, e: "10 ÷ (20 × 10) = 0,05." },
+  { q: "Stop out là:", a: ["Bạn tự chốt lời", "Sàn tự động đóng lệnh vì không đủ ký quỹ", "Phí qua đêm", "Một loại tài khoản"], c: 1, e: "Thường xảy ra khi đã lỗ rất nặng." }
+],
+cards: [
+  { f: "Giá trị pip (cặp xxxUSD)", b: "Khoảng 10 USD cho 1 pip với 1 lot chuẩn (đối chiếu thông số sàn)." },
+  { f: "Vàng: 1 USD giá với 1 lot", b: "Khoảng 100 USD lãi/lỗ (1 lot = 100 oz, đối chiếu thông số sàn)." },
+  { f: "Công thức lot", b: "Lot = (Vốn × % rủi ro) ÷ (Khoảng SL × Giá trị pip của 1 lot)." },
+  { f: "Đòn bẩy", b: "Cho phép mở lệnh lớn hơn vốn; khuếch đại cả lỗ. Nguy hiểm thật là khối lượng quá lớn." }
+]
+},
+
+{
+id: 24, week: 4, ready: true,
+title: "Lỗi 1: Vào lệnh theo cảm xúc",
+goal: "Nhận ra trạng thái cảm xúc nguy hiểm; dùng bảng kiểm trước lệnh.",
+practice: "Dùng bảng kiểm trước mọi lệnh demo trong 1 tuần, ghi điểm cảm xúc.",
+content: `
+## Vì sao cảm xúc làm mất tiền?
+Khi căng thẳng, sợ hãi hay hưng phấn, con người ra quyết định **nhanh và thiên lệch**: thấy giá chạy thì sợ lỡ (FOMO), vừa thua thì muốn gỡ ngay (revenge trading), vừa thắng thì tự tin quá mức và tăng khối lượng.
+
+## 5 trạng thái nguy hiểm
+| Trạng thái | Câu nói trong đầu | Hậu quả |
+| FOMO (sợ lỡ) | "Không vào bây giờ là lỡ mất" | Vào lệnh muộn, không theo kế hoạch |
+| Gỡ lỗ (revenge) | "Phải lấy lại ngay số vừa mất" | Tăng khối lượng, vào lệnh liên tục |
+| Hưng phấn sau thắng | "Mình đọc thị trường chuẩn rồi" | Bỏ quy tắc, tăng lot |
+| Chán, rảnh | "Vào một lệnh cho vui" | Overtrading |
+| Mệt, căng thẳng việc khác | "Làm nhanh cho xong" | Sai sót, quên đặt SL |
+
+## Công cụ 1: chấm điểm cảm xúc trước MỌI lệnh
+Thang 1–5 trong app: 1 rất bình tĩnh → 5 cay cú/kích động. **Từ 4 trở lên: không vào lệnh.** Không có ngoại lệ. Chỉ việc gọi tên cảm xúc của mình cũng đã giúp bạn chậm lại.
+
+## Công cụ 2: bảng kiểm trước khi vào lệnh
+App có sẵn ở **Giao dịch → Tổng quan**: 8 câu hỏi + điểm cảm xúc + tự động kiểm tra giới hạn ngày. Chỉ một câu không đạt là **KHÔNG VÀO LỆNH**. Bảng kiểm biến một quyết định cảm tính thành **một thủ tục**, giống quy trình kiểm tra trước khi ký chứng từ.
+
+## Công cụ 3: quy tắc 10 phút
+Thấy "cơ hội" ngoài kế hoạch: đứng dậy, rời màn hình 10 phút. Quay lại mà vẫn đúng mọi điều kiện của kế hoạch thì mới xét. Phần lớn "cơ hội không thể bỏ lỡ" sẽ tự biến mất.
+
+## Công cụ 4: AI làm "người giám sát"
+Trước lệnh, dán thông tin lệnh và kế hoạch cho AI (prompt "Giám sát kỷ luật trước khi vào lệnh" trong mục Prompt). AI **không phán giá lên xuống**, chỉ chỉ ra lệnh vi phạm điều nào trong kế hoạch. Gõ ra thông tin lệnh cũng là một cách làm chậm lại.
+
+## Dùng dữ liệu để thuyết phục chính mình
+Sau 2–3 tuần ghi nhật ký có điểm cảm xúc, xem **Thống kê → Theo mức cảm xúc**. Với hầu hết người giao dịch, nhóm 4–5 điểm là nhóm thua đậm nhất. Khi chính số liệu của bạn chứng minh điều đó, quy tắc "4 điểm là dừng" sẽ dễ giữ hơn rất nhiều.
+`,
+summary: [
+  "5 trạng thái nguy hiểm: FOMO, gỡ lỗ, hưng phấn sau thắng, chán/rảnh, mệt/căng thẳng.",
+  "Chấm điểm cảm xúc trước mọi lệnh; từ 4/5 trở lên là không vào. Dùng bảng kiểm và quy tắc 10 phút.",
+  "Để số liệu nhật ký (thống kê theo cảm xúc) chứng minh cho chính bạn thấy."
+],
+practiceDetail: `
+1. Trong 1 tuần, trên **tài khoản demo**: trước mỗi lệnh, mở app → Giao dịch → Tổng quan → làm bảng kiểm. Chỉ vào lệnh khi hiện "Đủ điều kiện".
+2. Ghi mọi lệnh vào Nhật ký, kể cả lệnh bạn đã định vào nhưng bảng kiểm chặn lại (ghi lãi/lỗ = 0, lý do "bị bảng kiểm chặn").
+3. Cuối tuần, xem Thống kê theo mức cảm xúc. Ghi vào Ghi chú: mức nào thua nhiều nhất?
+4. Viết "câu thần chú" riêng của bạn, dán cạnh màn hình. Ví dụ: "Không vào lệnh khi muốn gỡ."
+`,
+quiz: [
+  { q: "Vừa thua 2 lệnh, bạn muốn vào ngay lệnh lớn hơn để gỡ. Đây là:", a: ["Chiến lược tốt", "Revenge trading (giao dịch gỡ), rất nguy hiểm", "FOMO", "Bình thường"], c: 1, e: "Gỡ lỗ là nguyên nhân phổ biến gây cháy tài khoản." },
+  { q: "Điểm cảm xúc 4/5 (nóng vội). Quy tắc là:", a: ["Vào lệnh nhỏ", "Không vào lệnh", "Vào nếu thấy chắc", "Hỏi bạn bè"], c: 1, e: "Từ 4 trở lên là dừng, không ngoại lệ." },
+  { q: "Vai trò đúng của AI trước khi vào lệnh:", a: ["Phán giá lên hay xuống", "Kiểm tra lệnh có vi phạm kế hoạch không", "Chọn lot thật lớn", "Gọi lệnh"], c: 1, e: "AI làm người giám sát kỷ luật." },
+  { q: "Quy tắc 10 phút nghĩa là:", a: ["Giữ lệnh 10 phút", "Rời màn hình 10 phút trước khi xét một lệnh ngoài kế hoạch", "Giao dịch 10 phút/ngày", "Đợi 10 pip"], c: 1, e: "Làm chậm lại để cảm xúc lắng xuống." }
+],
+cards: [
+  { f: "FOMO", b: "Sợ lỡ cơ hội: vội vào lệnh khi thấy giá chạy." },
+  { f: "Revenge trading", b: "Vào lệnh để gỡ lại lệnh vừa thua, thường tăng khối lượng." },
+  { f: "Quy tắc cảm xúc", b: "Chấm điểm 1–5 trước mọi lệnh; từ 4 trở lên không vào." }
+]
+},
+
+{
+id: 25, week: 4, ready: true,
+title: "Lỗi 2: Gồng lỗ và dời dừng lỗ",
+goal: "Đặt SL ngay khi vào lệnh, không dời SL xa hơn, không nhồi lệnh khi đang lỗ.",
+practice: "Thống kê các lệnh đã dời SL trong nhật ký và kết quả của chúng.",
+content: `
+## Gồng lỗ là gì và vì sao ai cũng mắc?
+**Gồng lỗ** là giữ lệnh đang lỗ với hy vọng giá quay lại, thay vì cắt lỗ đúng mức đã định. Não người **ghét chốt lỗ** (cảm giác "nhận thua") hơn là ghét **lỗ thêm**. Vì vậy ta hay:
+- Không đặt SL ("để theo dõi đã").
+- **Dời SL ra xa hơn** khi giá sắp chạm.
+- **Nhồi thêm lệnh** cùng chiều khi đang lỗ ("trung bình giá").
+- Chốt lời rất sớm khi đang lãi (sợ mất lãi), nhưng để lỗ chạy rất xa.
+Kết quả kinh điển: **thắng nhiều lệnh nhỏ, thua vài lệnh rất lớn**, tổng vẫn âm.
+
+## Dấu hiệu trong số liệu của bạn
+Mở **Thống kê**:
+- **Lỗ trung bình lớn hơn lãi trung bình** (R:R thực tế dưới 1:1).
+- **Lệnh lỗ lớn nhất** gấp nhiều lần mức rủi ro 1% vốn.
+- Nhóm "Có dời SL" tổng âm nặng.
+App tự hiện cảnh báo các dấu hiệu này ở mục "Điều số liệu đang nói".
+
+## Toán học của lệnh lỗ lớn
+| Mất | Cần lãi bao nhiêu % để về lại vốn |
+| 10% | 11,1% |
+| 20% | 25% |
+| 30% | 42,9% |
+| 50% | 100% |
+| 70% | 233% |
+| 90% | 900% |
+Một lần gồng lỗ mất 50% vốn cần **gấp đôi** số vốn còn lại mới hòa. Đó là lý do cắt lỗ nhỏ, sớm, đúng mức đã định.
+
+## 4 quy tắc chống gồng lỗ
+1. **SL đặt ngay khi vào lệnh**, ngay trên phần mềm, không để "trong đầu".
+2. **SL chỉ được dời theo hướng giảm rủi ro** (dời về hòa vốn khi đã lãi), **không bao giờ dời ra xa hơn**.
+3. **Không nhồi lệnh khi đang lỗ.** Muốn vào thêm thì phải là một lệnh mới, qua bảng kiểm mới, và tổng rủi ro vẫn trong giới hạn.
+4. **Chấp nhận SL là chi phí kinh doanh**, như tiền điện, tiền thuê mặt bằng. Lệnh chạm SL đúng kế hoạch là **lệnh đúng**, dù thua tiền.
+
+## Đổi cách chấm điểm bản thân
+Đừng chấm mình theo "lệnh này lãi hay lỗ". Hãy chấm theo **"lệnh này có đúng kế hoạch không"**. Trong nhật ký, cột "Đúng kế hoạch" và "Dời SL" quan trọng hơn cột lãi/lỗ. Một lệnh thua đúng kế hoạch đáng khen hơn một lệnh thắng nhờ gồng lỗ may mắn, vì lần sau gồng lỗ có thể mất cả tài khoản.
+`,
+summary: [
+  "Gồng lỗ = không đặt SL, dời SL xa hơn, nhồi lệnh khi lỗ; hậu quả: thắng nhỏ nhiều, thua lớn vài lần.",
+  "Mất 50% cần lãi 100% mới hòa; cắt lỗ nhỏ, sớm, đúng mức đã định.",
+  "SL đặt ngay, chỉ dời để giảm rủi ro; chấm điểm bản thân theo 'đúng kế hoạch', không theo lãi/lỗ."
+],
+practiceDetail: `
+1. Vào Nhật ký, với mỗi lệnh cũ (nhập từ MetaTrader), bấm Sửa và điền trung thực "Có dời SL không".
+2. Xem Thống kê → nhóm "Có dời dừng lỗ không". Ghi số liệu vào Ghi chú.
+3. Nhờ AI phân tích sâu hơn bằng prompt "Phân tích lệnh thua sau khi đóng" (mục Prompt → Trading) cho lệnh lỗ lớn nhất của bạn.
+4. Viết lại quy tắc SL của bạn vào **Kế hoạch** (tab Giao dịch → Kế hoạch → Điều kiện vào lệnh).
+`,
+quiz: [
+  { q: "Mất 50% vốn, cần lãi bao nhiêu % trên vốn còn lại để hòa?", a: ["50%", "75%", "100%", "25%"], c: 2, e: "Còn 50, cần thêm 50 = 100% của 50." },
+  { q: "Dời SL được phép theo hướng nào?", a: ["Ra xa hơn khi sắp chạm", "Chỉ theo hướng giảm rủi ro (ví dụ về hòa vốn khi đã lãi)", "Tùy cảm giác", "Xóa SL"], c: 1, e: "Không bao giờ dời SL ra xa hơn." },
+  { q: "Dấu hiệu gồng lỗ trong thống kê:", a: ["Lãi TB lớn hơn lỗ TB", "Lỗ TB lớn hơn lãi TB, có vài lệnh lỗ rất lớn", "Ít lệnh", "Tỷ lệ thắng thấp"], c: 1, e: "Thắng nhỏ nhiều, thua lớn vài lần." },
+  { q: "Một lệnh chạm SL đúng kế hoạch là:", a: ["Lệnh sai", "Lệnh đúng, SL là chi phí kinh doanh", "Lỗi của sàn", "Phải gỡ ngay"], c: 1, e: "Chấm điểm theo việc tuân thủ kế hoạch." }
+],
+cards: [
+  { f: "Gồng lỗ", b: "Giữ lệnh lỗ chờ giá quay lại thay vì cắt đúng mức; thường kèm dời SL và nhồi lệnh." },
+  { f: "Toán học lệnh lỗ", b: "Mất 20% cần 25%; mất 50% cần 100%; mất 70% cần 233% mới hòa." },
+  { f: "Quy tắc dời SL", b: "Chỉ dời theo hướng giảm rủi ro. Không bao giờ dời ra xa hơn." }
+]
+},
+
+{
+id: 26, week: 4, ready: true,
+title: "Lỗi 3: Thiếu kỷ luật – kế hoạch giao dịch",
+goal: "Viết kế hoạch giao dịch 1 trang và các quy tắc dừng.",
+practice: "Hoàn thiện mục Kế hoạch trong tab Giao dịch; in ra dán cạnh máy tính.",
+content: `
+## Kỷ luật không phải là ý chí, mà là hệ thống
+Người kế toán giỏi không "cố gắng nhớ" kiểm tra chứng từ; họ có **quy trình và mẫu biểu** buộc phải đi qua. Kỷ luật giao dịch cũng vậy: đừng dựa vào ý chí lúc đang căng thẳng, hãy dựng **hệ thống** khiến việc làm sai trở nên khó.
+
+## Kế hoạch giao dịch 1 trang gồm gì?
+| Mục | Ví dụ |
+| Vốn và loại tài khoản | 1.000 USD, demo |
+| Rủi ro mỗi lệnh | 1% (người đang thua lỗ nên 0,5–1%) |
+| Số lệnh tối đa/ngày | 2–3 |
+| Lỗ tối đa ngày / tuần | 3% / 6% → chạm là nghỉ |
+| Dừng sau chuỗi thua | 2 lệnh thua liên tiếp → nghỉ hết ngày |
+| Mã được phép | Chỉ 1–2 mã bạn theo dõi kỹ |
+| Giờ được phép | Khung giờ bạn tỉnh táo, không phải lúc làm việc cơ quan, không phải đêm khuya |
+| Điều kiện vào lệnh | Viết thành danh sách kiểm tra, mỗi dòng có/không |
+| Quy tắc SL/TP | SL đặt ngay; R:R tối thiểu 1:1,5 |
+| Quy tắc cảm xúc | Từ 4/5 trở lên không vào |
+| Đánh giá | Cuối tuần xuất nhật ký cho AI phân tích |
+
+## Viết điều kiện vào lệnh sao cho kiểm tra được
+| Mơ hồ (không dùng được) | Kiểm tra được |
+| "Xu hướng đẹp" | "Giá nằm trên đường trung bình 50 của khung H1" |
+| "Có tín hiệu" | "Có nến đóng cửa vượt đỉnh gần nhất" |
+| "Thấy hợp lý" | "Đủ 3/3 điều kiện trên + qua bảng kiểm" |
+(Các ví dụ trên chỉ minh họa cách **viết** điều kiện, không phải khuyến nghị một phương pháp giao dịch.)
+
+## Quy tắc dừng: "cầu dao tự ngắt"
+Giống cầu dao điện tự ngắt khi quá tải: chạm giới hạn lỗ ngày, số lệnh tối đa, hoặc chuỗi thua → **dừng, không thương lượng**. App tự hiện màn hình đỏ **"DỪNG GIAO DỊCH HÔM NAY"** khi bạn ghi nhật ký đủ.
+
+## Biến môi trường thành đồng minh
+- Tắt thông báo giá trên điện thoại ngoài giờ được phép.
+- Gỡ app giao dịch khỏi màn hình chính điện thoại; chỉ giao dịch trên máy tính, đúng giờ.
+- Không vào nhóm gọi lệnh, không xem video "lãi khủng".
+- In kế hoạch, dán cạnh màn hình.
+
+## Đo kỷ luật bằng một con số
+**Tỷ lệ tuân thủ = số lệnh đúng kế hoạch ÷ tổng số lệnh.** Mục tiêu 30 ngày demo: **100%**, không cần quan tâm lãi lỗ. Khi tuân thủ ổn định, kết quả mới phản ánh đúng phương pháp, và bạn mới biết phương pháp có hiệu quả hay không.
+`,
+summary: [
+  "Kỷ luật là hệ thống, không phải ý chí: kế hoạch 1 trang, bảng kiểm, cầu dao tự ngắt.",
+  "Điều kiện vào lệnh phải viết thành tiêu chí kiểm tra được có/không.",
+  "Đo kỷ luật bằng tỷ lệ tuân thủ; mục tiêu 30 ngày demo là 100% đúng kế hoạch."
+],
+practiceDetail: `
+1. Dùng prompt "Viết kế hoạch giao dịch 1 trang" (mục Prompt → Trading). Trả lời câu hỏi của AI trung thực.
+2. Chép kết quả vào **Giao dịch → Kế hoạch**, bấm Lưu. Bấm "Sao chép để in / gửi AI", dán vào Word, in ra.
+3. Thực hiện 4 thay đổi môi trường ở trên. Ghi vào Ghi chú bạn đã làm cái nào.
+4. Bắt đầu đếm **ngày 1** của chuỗi 30 ngày demo tuân thủ kế hoạch.
+`,
+quiz: [
+  { q: "Điều kiện vào lệnh nào kiểm tra được?", a: ["'Xu hướng đẹp'", "'Có nến H1 đóng cửa vượt đỉnh gần nhất'", "'Cảm thấy ổn'", "'Thị trường thuận'"], c: 1, e: "Trả lời được có/không." },
+  { q: "Chạm giới hạn lỗ ngày, bạn nên:", a: ["Vào thêm một lệnh gỡ", "Dừng giao dịch hết ngày, không thương lượng", "Tăng khối lượng", "Đổi mã"], c: 1, e: "Cầu dao tự ngắt." },
+  { q: "Mục tiêu 30 ngày demo nên đo bằng:", a: ["Tổng lãi", "Tỷ lệ lệnh đúng kế hoạch", "Số lệnh nhiều nhất", "Lot lớn nhất"], c: 1, e: "Kỷ luật trước, kết quả sau." },
+  { q: "Cách đơn giản giảm giao dịch bốc đồng trên điện thoại:", a: ["Bật thông báo giá", "Gỡ app giao dịch khỏi màn hình chính, chỉ giao dịch trên máy tính đúng giờ", "Vào nhóm gọi lệnh", "Giao dịch lúc nửa đêm"], c: 1, e: "Biến môi trường thành đồng minh." }
+],
+cards: [
+  { f: "Cầu dao tự ngắt", b: "Chạm lỗ tối đa ngày/tuần, số lệnh tối đa hoặc chuỗi thua → dừng, không thương lượng." },
+  { f: "Tỷ lệ tuân thủ", b: "Số lệnh đúng kế hoạch ÷ tổng số lệnh. Mục tiêu 100%." },
+  { f: "Kỷ luật = hệ thống", b: "Kế hoạch 1 trang + bảng kiểm + môi trường hỗ trợ, không dựa vào ý chí." }
+]
+},
+
+{
+id: 27, week: 4, ready: true,
+title: "Lỗi 4: Vào lệnh quá lớn – quản lý vốn",
+goal: "Rủi ro tối đa 1% vốn/lệnh; tính khối lượng từ khoảng dừng lỗ; hiểu sụt vốn.",
+practice: "Mô phỏng 20 lệnh thua liên tiếp ở mức rủi ro 1% và 10% để so sánh.",
+content: `
+## Quản lý vốn là "phanh" của chiếc xe
+Phương pháp giao dịch là động cơ, quản lý vốn là phanh. Xe động cơ mạnh mà không phanh sẽ sớm gặp tai nạn. Người mới hay mải tìm "động cơ" (điểm vào lệnh) mà bỏ quên phanh.
+
+## Chuỗi thua chắc chắn sẽ đến
+Ngay cả phương pháp có tỷ lệ thắng 50%, chuỗi **5–8 lệnh thua liên tiếp** trong vài trăm lệnh là chuyện bình thường về mặt xác suất. Câu hỏi không phải "có thua liên tiếp không" mà là "**thua liên tiếp thì còn lại bao nhiêu vốn**".
+
+| Rủi ro mỗi lệnh | Sau 5 lệnh thua | Sau 10 lệnh thua | Sau 20 lệnh thua |
+| 1% | còn 95,1% | còn 90,4% | còn 81,8% |
+| 2% | còn 90,4% | còn 81,7% | còn 66,8% |
+| 5% | còn 77,4% | còn 59,9% | còn 35,8% |
+| 10% | còn 59,0% | còn 34,9% | còn 12,2% |
+(Tính theo rủi ro % trên vốn còn lại sau mỗi lệnh.)
+
+Ở 1%, 20 lệnh thua vẫn còn hơn 80% vốn để làm tiếp. Ở 10%, 10 lệnh thua đã mất gần 2/3 tài khoản và cần lãi gần 190% mới hòa.
+
+## Tỷ lệ thắng hòa vốn theo R:R
+Bạn không cần thắng nhiều nếu lãi mỗi lệnh thắng lớn hơn lỗ mỗi lệnh thua:
+| R:R | Tỷ lệ thắng tối thiểu để hòa (chưa tính phí) |
+| 1 : 1 | 50% |
+| 1 : 1,5 | 40% |
+| 1 : 2 | 33,3% |
+| 1 : 3 | 25% |
+
+## Kỳ vọng mỗi lệnh (expectancy)
+~~~
+Kỳ vọng = (Tỷ lệ thắng × Lãi TB) − (Tỷ lệ thua × Lỗ TB)
+~~~
+Ví dụ: thắng 40%, lãi TB 15 USD, lỗ TB 10 USD → 0,4 × 15 − 0,6 × 10 = 0. Hòa vốn, chưa tính phí. Kỳ vọng âm thì càng giao dịch nhiều càng lỗ nhiều, tăng khối lượng chỉ làm lỗ nhanh hơn.
+
+## Quy tắc quản lý vốn cho bạn
+1. **Rủi ro 0,5–1% vốn mỗi lệnh.** Khối lượng **luôn** lấy từ máy tính, không ước lượng.
+2. **Tổng rủi ro các lệnh đang mở** không quá 2% vốn.
+3. **Không tăng khối lượng để gỡ lỗ.** Sau chuỗi thua có thể giảm rủi ro xuống 0,5%.
+4. Chỉ nạp tiền **sẵn sàng mất toàn bộ**; không vay, không dùng tiền sinh hoạt gia đình.
+5. **Không nạp thêm** để "cứu" tài khoản đang lỗ.
+`,
+summary: [
+  "Chuỗi thua chắc chắn xảy ra; rủi ro 1%/lệnh thì 20 lệnh thua vẫn còn hơn 80% vốn, rủi ro 10% chỉ còn 12%.",
+  "R:R 1:2 chỉ cần thắng trên 33% để hòa; kỳ vọng = tỷ lệ thắng × lãi TB − tỷ lệ thua × lỗ TB.",
+  "Rủi ro 0,5–1%/lệnh, khối lượng từ máy tính, không tăng lot để gỡ, chỉ dùng tiền sẵn sàng mất."
+],
+practiceDetail: `
+~~~prompt
+Viết script Python cho người mới: mô phỏng tài khoản 1.000 USD qua 20 lệnh thua liên tiếp với rủi ro mỗi lệnh 1%, 2%, 5%, 10% (tính trên vốn còn lại). In bảng số vốn còn lại sau mỗi lệnh. Sau đó mô phỏng 1.000 lần, mỗi lần 200 lệnh ngẫu nhiên với tỷ lệ thắng 45%, R:R 1:1,5, rủi ro 1% và 10%: cho biết tỷ lệ số lần tài khoản bị sụt trên 50%. Chú thích tiếng Việt.
+~~~
+Chạy và ghi kết quả vào Ghi chú. Đối chiếu bảng 20 lệnh thua với bảng trong bài.
+`,
+quiz: [
+  { q: "Rủi ro 10%/lệnh, sau 10 lệnh thua liên tiếp còn khoảng:", a: ["90%", "65%", "35%", "0%"], c: 2, e: "0,9^10 ≈ 34,9%." },
+  { q: "Với R:R 1:2, tỷ lệ thắng tối thiểu để hòa vốn (chưa phí):", a: ["50%", "33,3%", "20%", "66%"], c: 1, e: "1 ÷ (1 + 2) = 33,3%." },
+  { q: "Kỳ vọng mỗi lệnh âm, nếu tăng khối lượng thì:", a: ["Sẽ có lãi", "Lỗ nhanh hơn", "Hòa vốn", "Không đổi"], c: 1, e: "Khối lượng nhân lên cả kết quả âm." },
+  { q: "Tiền dùng để giao dịch nên là:", a: ["Tiền vay", "Tiền sinh hoạt gia đình", "Tiền sẵn sàng mất toàn bộ", "Tiền lương sắp nhận"], c: 2, e: "Nguyên tắc an toàn tài chính cá nhân." }
+],
+cards: [
+  { f: "Rủi ro 1% vs 10%", b: "Sau 20 lệnh thua: 1% còn ~82% vốn; 10% còn ~12% vốn." },
+  { f: "Tỷ lệ thắng hòa vốn", b: "= 1 ÷ (1 + R). R:R 1:1 → 50%; 1:2 → 33,3%; 1:3 → 25%." },
+  { f: "Kỳ vọng (expectancy)", b: "Tỷ lệ thắng × Lãi TB − Tỷ lệ thua × Lỗ TB. Âm thì giao dịch càng nhiều càng lỗ." }
+]
+},
+
+{
+id: 28, week: 4, ready: true,
+title: "AI phân tích nhật ký giao dịch & backtest nhập môn",
+goal: "Dùng AI tìm mẫu hình thua lỗ của chính mình; hiểu giới hạn của backtest.",
+practice: "Xuất nhật ký từ app cho AI phân tích; lập lộ trình demo 30 ngày.",
+content: `
+## Quy trình phân tích hằng tuần (30 phút, mỗi Chủ nhật)
+1. Bổ sung đủ cột cảm xúc, đúng kế hoạch, dời SL cho các lệnh trong tuần.
+2. Xem tab **Thống kê**: tỷ lệ tuân thủ, nhóm thua nhiều nhất.
+3. Bấm **Xuất dữ liệu cho AI phân tích** (Giao dịch → Nhật ký). App tạo sẵn prompt kèm kế hoạch và bảng CSV (không có số tài khoản).
+4. Dán vào AI. Yêu cầu AI **tính bằng code**, không tính nhẩm.
+5. Chọn **đúng 1 quy tắc** cải thiện cho tuần sau, ghi vào Kế hoạch.
+
+## Đọc kết quả AI thế nào cho đúng?
+- **Mẫu nhỏ thì kết luận yếu.** 15 lệnh chưa đủ để nói "giờ 21h là giờ xấu". Hãy hỏi AI: "Với số lệnh này, kết luận nào đáng tin, kết luận nào chỉ là ngẫu nhiên?"
+- **Tập trung vào hành vi** (vi phạm kế hoạch, cảm xúc, khối lượng) hơn là "phương pháp".
+- Nếu AI bắt đầu gợi ý **dự đoán giá hay điểm vào lệnh**, nhắc lại: "Không phân tích dự đoán giá."
+
+## Backtest là gì?
+**Backtest** = chạy thử một quy tắc giao dịch trên **dữ liệu giá quá khứ** để xem nếu đã áp dụng thì kết quả ra sao. Dùng được để:
+- **Loại bỏ** nhanh những ý tưởng tệ (backtest đã thua thì giao dịch thật càng khó thắng).
+- Hiểu **chuỗi thua dài nhất, mức sụt vốn** của một quy tắc.
+
+## Giới hạn của backtest (rất quan trọng)
+| Bẫy | Nghĩa |
+| Quá khớp (overfitting) | Chỉnh thông số đến khi đẹp với dữ liệu cũ, gặp dữ liệu mới thì hỏng |
+| Bỏ quên chi phí | Không tính spread, commission, swap, trượt giá |
+| Nhìn trước tương lai | Code vô tình dùng dữ liệu "chưa xảy ra" tại thời điểm vào lệnh |
+| Mẫu ngắn | Vài tháng dữ liệu không đại diện cho nhiều kiểu thị trường |
+| Khác biệt tâm lý | Máy tính không sợ, không tham; bạn thì có |
+**Backtest đẹp không bảo đảm tương lai.** Buổi 42 (nâng cao) học kiểm chứng kỹ hơn.
+
+## Lộ trình phục hồi đề xuất
+| Giai đoạn | Việc | Điều kiện qua |
+| 1. Dừng tiền thật | Tìm hiểu quy định pháp luật và quy định ngành | Đã kiểm tra quy định |
+| 2. Demo 30 ngày | Giao dịch đúng kế hoạch, ghi nhật ký 100% | Tuân thủ 100% suốt 30 ngày |
+| 3. Đánh giá | Cho AI phân tích nhật ký 30 ngày | Kỳ vọng mỗi lệnh dương, có đủ số lệnh |
+| 4. Quyết định | Tự cân nhắc trách nhiệm pháp lý và tài chính | Quyết định của bạn |
+Nếu không qua được giai đoạn 2 (vẫn vi phạm kế hoạch), câu trả lời trung thực là: **giao dịch chưa phù hợp với bạn lúc này**. Thời gian và công sức có thể đầu tư vào kỹ năng AI để kiếm tiền ổn định hơn (buổi 29).
+`,
+summary: [
+  "Mỗi tuần: bổ sung nhật ký → xem thống kê → xuất cho AI phân tích (tính bằng code) → chọn 1 quy tắc cải thiện.",
+  "Backtest giúp loại ý tưởng tệ, nhưng bị bẫy quá khớp, bỏ quên chi phí, mẫu ngắn; không bảo đảm tương lai.",
+  "Lộ trình: dừng tiền thật → demo 30 ngày tuân thủ 100% → AI đánh giá → tự quyết định."
+],
+practiceDetail: `
+1. Thêm ít nhất 10 lệnh (demo hoặc lịch sử cũ) vào Nhật ký, điền đủ các cột.
+2. Bấm "Xuất dữ liệu cho AI phân tích", dán vào AI. Sau khi AI trả lời, hỏi thêm:
+~~~prompt
+Với số lượng lệnh này, kết luận nào của bạn đủ tin cậy, kết luận nào có thể chỉ là ngẫu nhiên? Cần bao nhiêu lệnh nữa để kết luận chắc hơn? Chọn giúp tôi đúng 1 quy tắc quan trọng nhất cho tuần tới, viết sao cho kiểm tra được có/không.
+~~~
+3. Ghi quy tắc vào Kế hoạch. Ghi ngày bắt đầu lộ trình 30 ngày demo vào Ghi chú.
+`,
+quiz: [
+  { q: "Bạn có 12 lệnh, AI kết luận 'giờ 21h là giờ xấu'. Bạn nên:", a: ["Tin chắc", "Coi là giả thuyết, cần thêm nhiều lệnh để kiểm chứng", "Bỏ giao dịch 21h vĩnh viễn", "Đổi AI"], c: 1, e: "Mẫu nhỏ thì kết luận yếu." },
+  { q: "Overfitting (quá khớp) là:", a: ["Giao dịch quá nhiều", "Chỉnh thông số cho đẹp với dữ liệu cũ, gặp dữ liệu mới thì hỏng", "Lot quá lớn", "Lỗi phần mềm"], c: 1, e: "Bẫy phổ biến nhất của backtest." },
+  { q: "Điều kiện qua giai đoạn demo 30 ngày là:", a: ["Lãi nhiều nhất", "Tuân thủ kế hoạch 100%", "Vào nhiều lệnh", "Thắng 10 lệnh liền"], c: 1, e: "Kỷ luật trước." },
+  { q: "Mỗi tuần nên chọn bao nhiêu quy tắc cải thiện?", a: ["Càng nhiều càng tốt", "Đúng 1 quy tắc, kiểm tra được", "Không cần", "10 quy tắc"], c: 1, e: "Thay đổi từng điểm một để biết cái gì hiệu quả." }
+],
+cards: [
+  { f: "Backtest", b: "Chạy thử quy tắc trên dữ liệu quá khứ; giúp loại ý tưởng tệ, không bảo đảm tương lai." },
+  { f: "Overfitting", b: "Quá khớp: thông số đẹp với dữ liệu cũ nhưng hỏng với dữ liệu mới." },
+  { f: "Quy trình phân tích tuần", b: "Bổ sung nhật ký → thống kê → AI phân tích bằng code → chọn 1 quy tắc." }
+]
+},
+
+{
+id: 29, week: 4, ready: true,
+title: "Kiếm tiền từ AI: hướng hợp với kế toán",
+goal: "Chọn 1 hướng kiếm tiền; biết tìm khách, báo giá; lưu ý quy định làm thêm của cán bộ.",
+practice: "Viết bản giới thiệu dịch vụ và bảng báo giá mẫu cho 1 hướng đã chọn.",
+content: `
+## Lợi thế thật của bạn
+Bạn không cạnh tranh với lập trình viên. Lợi thế của bạn là **hiểu nghiệp vụ kế toán, sổ sách, biểu mẫu** + **biết dùng AI để làm công cụ**. Rất nhiều cửa hàng, hộ kinh doanh, quán ăn, cơ sở nhỏ đang quản lý bằng sổ tay hoặc Excel lộn xộn, và cần đúng thứ bạn làm được.
+
+## Lưu ý quy định trước tiên
+> Cán bộ, chiến sĩ Công an có các quy định riêng về làm thêm, kinh doanh, thành lập hoặc tham gia quản lý doanh nghiệp (Luật Công an nhân dân, Luật Phòng, chống tham nhũng và văn bản của ngành). **Cần kiểm tra lại** và hỏi bộ phận tổ chức/pháp chế đơn vị trước khi nhận tiền từ dịch vụ. Không dùng thời gian, thiết bị, dữ liệu, danh nghĩa cơ quan cho việc riêng. Nếu chưa được làm dịch vụ có thu, các kỹ năng này vẫn có giá trị lớn: làm công việc ở cơ quan nhanh và chính xác hơn, và hỗ trợ gia đình (người thân kinh doanh).
+
+## 5 hướng phù hợp
+| Hướng | Sản phẩm cụ thể | Độ khó |
+| Công cụ Excel | File quản lý bán hàng, kho, công nợ, chấm công, tính lương có công thức và báo cáo tự động | Thấp |
+| App nhỏ offline | Sổ bán hàng, quản lý kho trên điện thoại (PWA như app này) | Trung bình |
+| Tự động hóa văn phòng | Script tạo hợp đồng/biên bản/hóa đơn nội bộ hàng loạt từ Excel | Trung bình |
+| Dịch vụ sổ sách có AI hỗ trợ | Sắp xếp chứng từ, lập bảng kê, báo cáo cho hộ kinh doanh | Thấp – trung bình |
+| Bán mẫu / dạy lại | Bộ mẫu Excel, bộ prompt cho kế toán, lớp hướng dẫn dùng AI cơ bản | Thấp |
+
+## Tìm 3 khách hàng đầu tiên
+1. **Người quen**: gia đình, bạn bè đang kinh doanh. Làm thử miễn phí hoặc giá thấp đổi lấy nhận xét và cho phép dùng làm ví dụ.
+2. **Một nghề, một vấn đề**: chọn một nhóm (ví dụ quán ăn) và một vấn đề (tính nguyên liệu, công nợ nhà cung cấp). Chuyên một thứ dễ được giới thiệu hơn làm mọi thứ.
+3. **Có sản phẩm mẫu để khoe**: video ngắn quay màn hình công cụ đang chạy với dữ liệu giả.
+
+## Báo giá thế nào?
+- **Không có "giá chuẩn"**; giá thị trường thay đổi và khác vùng, cần tự tìm hiểu.
+- Cách tính an toàn: **ước số giờ làm × mức giá giờ bạn chấp nhận + thời gian hỗ trợ sau bàn giao**.
+- Ghi rõ **phạm vi**: làm những gì, **không** làm những gì, sửa miễn phí mấy lần, bảo hành bao lâu.
+- Thu một phần trước, phần còn lại khi bàn giao.
+- Dùng prompt "Viết báo giá dịch vụ" trong mục Prompt.
+
+## Tránh những cái bẫy
+- Hứa làm "phần mềm lớn" (nhiều người dùng, phân quyền, dữ liệu online) khi chưa có kinh nghiệm → dễ thất bại. Bắt đầu nhỏ.
+- Nhận dữ liệu khách mà không có thỏa thuận bảo mật.
+- Không có tài liệu hướng dẫn, không sao lưu → khách mất dữ liệu là mất uy tín.
+- Bán "khóa học làm giàu bằng AI" hay "bot trading": không làm, vì dễ trở thành chính chiêu lừa ở buổi 22.
+`,
+summary: [
+  "Lợi thế của bạn: hiểu nghiệp vụ kế toán + biết dùng AI làm công cụ cho người kinh doanh nhỏ.",
+  "Trước khi nhận tiền: kiểm tra quy định làm thêm của cán bộ Công an; không dùng thời gian, dữ liệu, danh nghĩa cơ quan.",
+  "Bắt đầu nhỏ: một nghề, một vấn đề, sản phẩm mẫu; báo giá theo giờ ước tính và ghi rõ phạm vi."
+],
+practiceDetail: `
+1. Chọn 1 hướng. Dùng prompt "Ý tưởng công cụ Excel để bán" (mục Prompt → Kiếm tiền).
+2. Chọn 1 ý tưởng, viết bản giới thiệu:
+~~~prompt
+Viết bản giới thiệu dịch vụ ngắn (tối đa 150 chữ, giọng gần gũi) cho: [sản phẩm]. Khách hàng: [ai]. Vấn đề họ gặp: [..]. Lợi ích chính: [..]. Không hứa hẹn quá mức, không dùng từ ngữ phóng đại. Thêm 3 câu hỏi khách hay hỏi kèm câu trả lời.
+~~~
+3. Dùng prompt "Viết báo giá dịch vụ" để có bảng báo giá mẫu.
+4. Ghi vào Ghi chú: bạn đã hỏi bộ phận nào về quy định làm thêm, câu trả lời ra sao.
+`,
+quiz: [
+  { q: "Lợi thế cạnh tranh chính của bạn khi kiếm tiền từ AI:", a: ["Code giỏi hơn lập trình viên", "Hiểu nghiệp vụ kế toán + biết dùng AI làm công cụ", "Có nhiều máy tính", "Biết trading"], c: 1, e: "Kết hợp nghiệp vụ và AI." },
+  { q: "Trước khi nhận tiền làm dịch vụ, cán bộ Công an nên:", a: ["Làm luôn", "Kiểm tra quy định ngành, hỏi bộ phận tổ chức/pháp chế", "Dùng máy cơ quan", "Lấy danh nghĩa cơ quan"], c: 1, e: "Có quy định riêng, cần kiểm tra lại." },
+  { q: "Cách báo giá an toàn cho người mới:", a: ["Lấy giá của người khác", "Ước số giờ × giá giờ + hỗ trợ, ghi rõ phạm vi", "Báo thật cao", "Làm miễn phí mãi"], c: 1, e: "Minh bạch phạm vi tránh tranh chấp." },
+  { q: "Hướng nào KHÔNG nên làm?", a: ["File Excel quản lý kho cho cửa hàng", "Bán 'bot trading AI lãi chắc'", "Script tạo hợp đồng hàng loạt", "Dạy dùng AI cơ bản"], c: 1, e: "Đó chính là kiểu lừa đảo ở buổi 22." }
+],
+cards: [
+  { f: "Công thức báo giá", b: "Số giờ ước tính × giá giờ + thời gian hỗ trợ; ghi rõ làm gì, không làm gì, sửa mấy lần, bảo hành." },
+  { f: "Tìm khách đầu tiên", b: "Người quen + một nghề một vấn đề + sản phẩm mẫu với dữ liệu giả." },
+  { f: "Quy định làm thêm", b: "Cán bộ Công an cần kiểm tra quy định ngành trước khi nhận tiền dịch vụ." }
+]
+},
+
+{
+id: 30, week: 4, ready: true, review: true,
+title: "Dự án cuối khóa & kiểm tra tổng kết",
+goal: "Hoàn thành một công cụ nhỏ có thể dùng cho công việc hoặc để bán.",
+practice: "Làm dự án cuối khóa theo quy trình đã học; làm bài kiểm tra tổng kết.",
+content: `
+## Chọn dự án (chọn 1)
+| Dự án | Dùng kiến thức |
+| Script gộp file đặt hàng tháng → bảng kê tháng + biên bản Word | Buổi 18, 19, 20 |
+| App PWA nhỏ: sổ theo dõi xuất nhập trang cấp (dữ liệu giả để thử) | Buổi 15, 16 |
+| Công cụ Excel quản lý bán hàng/kho cho một cửa hàng người quen | Buổi 18, 29 |
+| Bộ prompt + Project chuẩn cho mảng nuôi ăn | Buổi 5, 6 |
+
+## Quy trình 6 bước (dùng cho mọi dự án sau này)
+1. **Mô tả vấn đề** bằng 3 câu: ai dùng, đang khó ở đâu, muốn kết quả gì.
+2. **Viết yêu cầu** bằng master prompt: để AI viết câu lệnh chi tiết, hỏi lại tối đa 3 câu.
+3. **Chuẩn bị dữ liệu giả** đúng cấu trúc thật.
+4. **Cho AI làm**, chạy thử, sửa lỗi theo quy trình buổi 13.
+5. **Kiểm tra** bằng số liệu tính tay; thử các trường hợp xấu (ô trống, số âm, file sai tên).
+6. **Bàn giao cho chính mình**: viết hướng dẫn sử dụng 1 trang, sao lưu mã nguồn.
+
+## Tiêu chí hoàn thành
+- Chạy được trên máy của bạn với dữ liệu giả.
+- Có hướng dẫn sử dụng.
+- Kết quả đã được đối chiếu.
+- Tiết kiệm được thời gian thật (ước tính số phút mỗi tháng).
+
+## Nhìn lại cả khóa
+| Tuần | Bạn đã có |
+| 1 | Hiểu AI, viết prompt tốt, kiểm soát AI bằng Project và câu lệnh |
+| 2 | Đọc hiểu code: biến, if, vòng lặp, hàm; tự sửa lỗi cùng AI |
+| 3 | Hiểu app web/PWA, API, Agent; tự động hóa Excel/Word; bảo mật dữ liệu |
+| 4 | Công cụ và thói quen kỷ luật giao dịch; hướng kiếm tiền phù hợp |
+
+Muốn đi tiếp: 2 tuần **Nâng cao** (buổi 31–44) về Excel chuyên sâu, phần mềm nội bộ, video AI, gọi AI bằng API, trading nâng cao và tự động hóa.
+`,
+summary: [
+  "Dự án cuối khóa theo 6 bước: mô tả vấn đề → master prompt → dữ liệu giả → AI làm, sửa lỗi → kiểm tra → hướng dẫn và sao lưu.",
+  "Đo thành công bằng thời gian tiết kiệm được và kết quả đã đối chiếu.",
+  "Tiếp theo: phần Nâng cao buổi 31–44."
+],
+practiceDetail: `
+~~~prompt
+Tôi vừa học xong khóa "AI và lập trình vừa đủ hiểu" 30 buổi. Tôi muốn làm dự án cuối khóa: [tên dự án]. Vấn đề: [3 câu]. Dữ liệu (cấu trúc, đã dùng dữ liệu giả): [mô tả].
+Hãy đóng vai người hướng dẫn: chia dự án thành các bước nhỏ, mỗi bước làm trong 1 buổi 60 phút, có tiêu chí hoàn thành. Chưa viết code. Hỏi tôi tối đa 3 câu trước.
+~~~
+Làm dự án trong 2–3 buổi. Ghi tiến độ vào Ghi chú. Sau đó làm bài kiểm tra tổng kết bên dưới.
+`,
+quiz: [
+  { q: "AI trả lời bằng cách:", a: ["Tra đáp án có sẵn", "Viết từng mẩu chữ hợp lý nhất", "Hỏi chuyên gia", "Copy web"], c: 1, e: "Buổi 1." },
+  { q: "Quy định mới ban hành tháng trước: cách hỏi AI đúng là", a: ["Tin ngay", "Bật tìm web, yêu cầu nguồn, hoặc dán văn bản gốc", "Hỏi 5 lần", "Không hỏi"], c: 1, e: "Buổi 2–3." },
+  { q: "V-B-N-R-Đ là:", a: ["Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng", "Viết – Bấm – Nhập – Rà – Đóng", "Văn bản – Biểu mẫu – Nội dung – Rút gọn – Đọc", "Không có"], c: 0, e: "Buổi 5." },
+  { q: "Dòng nào của thông báo lỗi Python nên đọc trước?", a: ["Dòng đầu", "Dòng cuối", "Dòng giữa", "Không đọc"], c: 1, e: "Buổi 13." },
+  { q: "Tổng hợp 31 sheet ngày thành bảng kê tháng dùng:", a: ["pandas", "CSS", "manifest", "docx2pdf"], c: 0, e: "Buổi 18." },
+  { q: "Dữ liệu nào thuộc vùng đỏ?", a: ["Mẫu biểu trống", "Danh sách họ tên người cai nghiện", "Văn bản pháp luật công khai", "Câu hỏi Excel"], c: 1, e: "Buổi 20." },
+  { q: "Vốn 1.000 USD, rủi ro 1%, SL 20 pip EURUSD. Lot =", a: ["0,5", "0,05", "0,005", "0,1"], c: 1, e: "Buổi 23." },
+  { q: "Cảm xúc 5/5 (cay cú). Bạn:", a: ["Vào lệnh lớn để gỡ", "Không vào lệnh", "Vào lệnh nhỏ", "Hỏi nhóm"], c: 1, e: "Buổi 24." },
+  { q: "Dời SL được phép khi:", a: ["Giá sắp chạm SL", "Dời để giảm rủi ro, ví dụ về hòa vốn khi đã lãi", "Cảm thấy giá sẽ quay lại", "Không bao giờ được đặt SL"], c: 1, e: "Buổi 25." },
+  { q: "Mục tiêu 30 ngày demo:", a: ["Lãi 30%", "Tuân thủ kế hoạch 100%", "100 lệnh", "Không thua lệnh nào"], c: 1, e: "Buổi 26." },
+  { q: "Rủi ro 10%/lệnh, 10 lệnh thua liên tiếp còn khoảng:", a: ["90%", "35%", "60%", "0%"], c: 1, e: "Buổi 27." },
+  { q: "Trước khi nhận tiền làm dịch vụ, cán bộ Công an cần:", a: ["Không cần gì", "Kiểm tra quy định ngành", "Dùng danh nghĩa cơ quan", "Dùng máy cơ quan"], c: 1, e: "Buổi 29." }
+],
+cards: [
+  { f: "Quy trình 6 bước làm dự án với AI", b: "Mô tả vấn đề → master prompt → dữ liệu giả → AI làm & sửa lỗi → kiểm tra → hướng dẫn & sao lưu." }
+]
+}
+);
+
+
+/* ============================ NÂNG CAO 1: EXCEL CHUYÊN SÂU & PHẦN MỀM NỘI BỘ ============================ */
+SESSIONS.push(
+{
+id: 31, week: 5, ready: true,
+title: "Excel nâng cao cùng AI: hàm động, PivotTable, kiểm soát dữ liệu",
+goal: "Dùng AI để viết và giải thích công thức nâng cao; dựng báo cáo PivotTable; chống nhập sai dữ liệu.",
+practice: "Làm lại bảng kê tháng bằng hàm động và PivotTable, có kiểm tra dữ liệu đầu vào.",
+content: `
+## Excel vẫn là công cụ số 1 của kế toán
+Trước khi viết code, hãy hỏi: **Excel làm được không?** Nhiều việc chỉ cần công thức tốt, không cần Python. AI giúp bạn viết những công thức mà trước đây phải tra cứu rất lâu.
+
+> Một số hàm dưới đây (XLOOKUP, FILTER, UNIQUE, SORT, LET) chỉ có trong **Excel 2021 / Microsoft 365**. Excel 2016/2019 không có, khi đó dặn AI: "Tôi dùng Excel 2016, chỉ dùng hàm có trong bản này."
+
+## Hàm tra cứu và tổng có điều kiện
+| Việc | Hàm | Ví dụ |
+| Tra đơn giá theo tên hàng | XLOOKUP (hoặc VLOOKUP / INDEX+MATCH) | =XLOOKUP(B2; DM!A:A; DM!C:C; "Không có") |
+| Tổng theo nhiều điều kiện | SUMIFS | =SUMIFS(F:F; B:B; "Gạo"; A:A; ">="&DATE(2026;11;1)) |
+| Đếm theo điều kiện | COUNTIFS | =COUNTIFS(C:C; "B"; E:E; "Đang cai nghiện") |
+(Máy cài định dạng Việt Nam thường dùng dấu **;** để ngăn cách đối số; máy định dạng Mỹ dùng dấu **,**. Nói rõ với AI máy bạn dùng dấu nào.)
+
+## Hàm "mảng động": một công thức trả về cả bảng
+~~~
+=UNIQUE(B2:B500)                         danh sách tên hàng không trùng
+=SORT(UNIQUE(B2:B500))                   ... và sắp xếp A–Z
+=FILTER(A2:F500; C2:C500="Phân khu B")   lọc mọi dòng của Phân khu B
+=SUMIFS(F2:F500; B2:B500; H2#)           tổng theo từng tên hàng ở cột H (H2# = cả mảng)
+~~~
+Bảng kê tổng hợp tự cập nhật khi thêm dòng mới, không cần kéo công thức.
+
+## PivotTable: báo cáo trong 1 phút
+Insert → PivotTable → kéo **Tên hàng** vào Rows, **Thành tiền** vào Values, **Ngày** vào Columns hoặc Filters. Đây chính là groupby của pandas, bằng chuột. Nhờ AI: "Tôi muốn báo cáo X, hướng dẫn tôi kéo thả PivotTable từng bước."
+
+## Kiểm soát dữ liệu đầu vào (Data Validation)
+Sai số liệu thường do **nhập sai**: gõ "Thit heo" thay vì "Thịt heo", số âm, ngày sai tháng. Phòng từ gốc:
+- Data → Data Validation → **List**: chọn tên hàng từ danh mục, không gõ tay.
+- Giới hạn số: Whole number/Decimal ≥ 0.
+- Giới hạn ngày trong tháng đang làm.
+- **Conditional Formatting**: tô đỏ ô vượt định mức, ô trống bắt buộc.
+
+## Bảng (Table) thay cho vùng dữ liệu
+Ctrl+T để biến vùng thành **Table**: công thức tự kéo xuống, PivotTable tự nhận dòng mới, công thức đọc dễ hơn (=[@[Số lượng]]*[@[Đơn giá]]). Đây là thói quen nhỏ giúp file "sống" lâu.
+
+## Cách nhờ AI làm Excel hiệu quả
+1. Nói **phiên bản Excel** và **dấu ngăn cách** (; hay ,).
+2. Mô tả **tên sheet, cột, dòng tiêu đề**, kèm 3 dòng dữ liệu giả.
+3. Yêu cầu **giải thích từng phần** công thức.
+4. **Thử với ô biết đáp án** trước khi kéo cho cả bảng.
+`,
+summary: [
+  "XLOOKUP, SUMIFS, COUNTIFS và hàm mảng động (UNIQUE, FILTER, SORT) giải quyết đa số báo cáo; nhớ nói AI phiên bản Excel và dấu ngăn cách.",
+  "PivotTable là groupby bằng chuột; Table (Ctrl+T) giúp công thức và báo cáo tự cập nhật.",
+  "Data Validation và Conditional Formatting chặn lỗi nhập liệu từ gốc."
+],
+practiceDetail: `
+Dùng file dat_hang_thu.xlsx (buổi 18, dữ liệu giả), gộp dữ liệu 3 sheet vào một sheet "Tổng" (copy tay hoặc dùng script cũ).
+~~~prompt
+Tôi dùng Excel [2016 / 2021 / Microsoft 365], máy dùng dấu [; hoặc ,] ngăn cách đối số. Sheet "Tổng" có Table tên TongHop với các cột: Ngày, Tên hàng, ĐVT, Số lượng, Đơn giá, Thành tiền.
+Giúp tôi:
+1. Công thức tạo danh sách tên hàng không trùng và tổng số lượng, tổng tiền theo từng tên hàng.
+2. Data Validation cho cột Tên hàng lấy từ sheet DanhMuc.
+3. Conditional Formatting tô đỏ dòng có Thành tiền khác Số lượng × Đơn giá.
+Giải thích từng bước bằng tiếng Việt cho người mới.
+~~~
+Làm thêm 1 PivotTable cùng nội dung. So sánh kết quả công thức và PivotTable.
+`,
+quiz: [
+  { q: "Excel 2016 không có hàm nào?", a: ["SUMIFS", "XLOOKUP", "COUNTIFS", "VLOOKUP"], c: 1, e: "XLOOKUP có từ Excel 2021/365." },
+  { q: "Chặn việc gõ sai tên hàng hiệu quả nhất:", a: ["Nhắc miệng", "Data Validation dạng List lấy từ danh mục", "Tô màu", "In ra giấy"], c: 1, e: "Chọn từ danh sách, không gõ tay." },
+  { q: "PivotTable tương đương thao tác nào trong pandas?", a: ["read_excel", "groupby", "to_excel", "print"], c: 1, e: "Nhóm và tổng hợp." },
+  { q: "Ctrl+T (Table) giúp gì?", a: ["In nhanh", "Công thức tự kéo, báo cáo tự nhận dòng mới", "Xóa dữ liệu", "Đổi màu"], c: 1, e: "Bảng có cấu trúc giúp file bền vững." }
+],
+cards: [
+  { f: "SUMIFS", b: "Tổng theo nhiều điều kiện, ví dụ tổng tiền Gạo trong tháng 11." },
+  { f: "Hàm mảng động", b: "UNIQUE, FILTER, SORT: một công thức trả về cả bảng, tự cập nhật (Excel 2021/365)." },
+  { f: "Data Validation", b: "Giới hạn dữ liệu nhập: chọn từ danh sách, số ≥ 0, ngày trong tháng." }
+]
+},
+
+{
+id: 32, week: 5, ready: true,
+title: "Power Query: gộp và làm sạch dữ liệu tự động",
+goal: "Dùng Power Query gộp nhiều sheet/nhiều file và làm sạch dữ liệu chỉ với một lần thiết lập.",
+practice: "Gộp 3 sheet ngày thành một bảng bằng Power Query, bấm Refresh khi có sheet mới.",
+content: `
+## Power Query là gì?
+**Power Query** (Data → Get & Transform Data) là công cụ có sẵn trong Excel 2016 trở lên để **lấy, gộp, làm sạch** dữ liệu theo các bước được **ghi lại**. Thiết lập một lần, tháng sau chỉ cần bấm **Refresh**. Đây là "tự động hóa không cần code" mạnh nhất của Excel.
+
+## Khi nào dùng Power Query, khi nào dùng Python?
+| Power Query | Python |
+| Gộp nhiều sheet/file cùng cấu trúc, làm sạch, đổi kiểu | Logic phức tạp, điền mẫu Word/Excel có định dạng |
+| Người dùng chỉ cần Excel, bấm Refresh | Cần cài Python trên máy chạy |
+| Người khác trong đơn vị dễ tiếp nhận | Linh hoạt, làm được gần như mọi thứ |
+Với báo cáo định kỳ trong Excel, **Power Query thường là lựa chọn bền vững hơn**.
+
+## Các bước gộp nhiều sheet trong một file
+1. Data → Get Data → From File → From Workbook → chọn chính file đặt hàng tháng (hoặc bản sao).
+2. Trong Navigator, chọn **tên file (dòng trên cùng)** → Transform Data.
+3. Lọc cột Kind = Sheet; giữ cột Name (tên sheet = ngày) và Data.
+4. Bấm biểu tượng mở rộng ở cột Data → chọn các cột cần lấy.
+5. Use First Row as Headers; lọc bỏ các dòng tiêu đề lặp lại, dòng trống, dòng "Tổng".
+6. Đổi kiểu dữ liệu: Số lượng, Đơn giá → số; Ngày → ngày.
+7. Close & Load → ra một bảng tổng.
+Giao diện có thể khác chút theo phiên bản, cần kiểm tra lại. Làm sai bước nào, ô **Applied Steps** bên phải cho phép xóa bước đó.
+
+## Gộp nhiều file trong một thư mục
+Data → Get Data → From File → **From Folder** → chọn thư mục chứa file các tháng → Combine & Transform. Thêm file tháng mới vào thư mục, bấm Refresh.
+
+## Làm sạch thường gặp
+- Trim/Clean: bỏ khoảng trắng thừa, ký tự lạ ở tên hàng.
+- Replace Values: "Thit heo" → "Thịt heo".
+- Split Column: tách "25 kg" thành số và đơn vị.
+- Merge Queries: ghép đơn giá từ bảng danh mục (giống XLOOKUP).
+- Group By: tổng theo mặt hàng.
+
+## Ngôn ngữ M: AI viết hộ
+Mỗi bước Power Query thực chất là một dòng code ngôn ngữ **M** (xem ở Advanced Editor). Bạn có thể:
+- Dán code M cho AI để **giải thích từng bước**.
+- Nhờ AI **viết code M** rồi dán vào Advanced Editor.
+Đặc biệt hữu ích khi sheet có tiêu đề nhiều tầng, ô gộp.
+`,
+summary: [
+  "Power Query lấy, gộp, làm sạch dữ liệu theo các bước được ghi lại; tháng sau chỉ cần Refresh.",
+  "Gộp nhiều sheet (From Workbook) hoặc nhiều file (From Folder) cùng cấu trúc rất nhanh.",
+  "Mỗi bước là code M; AI có thể giải thích hoặc viết code M cho bạn."
+],
+practiceDetail: `
+1. Làm theo 7 bước gộp sheet với file dat_hang_thu.xlsx (dữ liệu giả).
+2. Thêm sheet "4" với dữ liệu mới → Data → Refresh All. Bảng tổng có tự thêm không?
+3. Mở Advanced Editor, copy code M:
+~~~prompt
+Đây là code Power Query (M) của tôi. Giải thích từng bước bằng tiếng Việt cho người mới. Sau đó sửa để: bỏ các dòng có Tên hàng trống hoặc bằng "Tổng cộng", đổi Số lượng và Đơn giá sang số, thêm cột Thành tiền.
+[dán code M]
+~~~
+4. Dán code mới vào Advanced Editor, kiểm tra kết quả.
+`,
+quiz: [
+  { q: "Ưu điểm lớn nhất của Power Query với báo cáo hằng tháng:", a: ["Đẹp hơn", "Thiết lập một lần, tháng sau chỉ cần Refresh", "Không cần Excel", "Chạy trên điện thoại"], c: 1, e: "Các bước được ghi lại và chạy lại." },
+  { q: "Gộp file các tháng nằm trong một thư mục dùng:", a: ["From Folder", "From Web", "From Picture", "From Text"], c: 0, e: "Combine nhiều file cùng cấu trúc." },
+  { q: "Làm sai một bước trong Power Query, bạn:", a: ["Làm lại từ đầu", "Xóa bước đó trong Applied Steps", "Xóa file", "Không sửa được"], c: 1, e: "Mỗi bước có thể xóa/sửa riêng." },
+  { q: "Ngôn ngữ đằng sau Power Query là:", a: ["Python", "M", "CSS", "HTML"], c: 1, e: "Xem trong Advanced Editor." }
+],
+cards: [
+  { f: "Power Query", b: "Công cụ trong Excel để lấy, gộp, làm sạch dữ liệu theo các bước được ghi lại; bấm Refresh để chạy lại." },
+  { f: "From Folder", b: "Gộp tất cả file cùng cấu trúc trong một thư mục." },
+  { f: "Ngôn ngữ M", b: "Code đằng sau mỗi bước Power Query; xem ở Advanced Editor, AI có thể viết/giải thích." }
+]
+},
+
+{
+id: 33, week: 5, ready: true,
+title: "Macro VBA hay Python: chọn đúng và dùng an toàn",
+goal: "Biết khi nào dùng macro VBA, khi nào dùng Python; nhờ AI viết macro an toàn.",
+practice: "Nhờ AI viết macro tạo sheet ngày mới từ mẫu; kiểm tra trước khi chạy.",
+content: `
+## VBA là gì?
+**VBA** là ngôn ngữ lập trình **có sẵn trong Excel/Word**. Macro VBA chạy ngay trong file (.xlsm), không cần cài thêm gì. Phù hợp cho thao tác **bên trong file Excel**: tạo sheet, định dạng, in hàng loạt, nút bấm.
+
+## Chọn công cụ nào?
+| Việc | Nên dùng |
+| Gộp/làm sạch dữ liệu định kỳ | Power Query |
+| Nút bấm trong file để tạo sheet ngày mới, in biên bản, định dạng | VBA |
+| Xử lý nhiều file, tạo Word hàng loạt, logic phức tạp, thống kê | Python |
+| Người khác trong đơn vị cũng phải dùng, máy họ không có Python | Power Query hoặc VBA |
+
+## Ví dụ macro đọc hiểu được
+~~~vba
+Sub TaoSheetNgayMoi()
+    Dim tenMoi As String
+    tenMoi = InputBox("Nhập ngày (ví dụ 16):")
+    If tenMoi = "" Then Exit Sub
+    Sheets("Mau").Copy After:=Sheets(Sheets.Count)   ' chép sheet mẫu ra cuối
+    ActiveSheet.Name = tenMoi                          ' đặt tên theo ngày
+    Range("B2").Value = tenMoi & "/" & Month(Date) & "/" & Year(Date)
+End Sub
+~~~
+Bạn đọc được nhờ Tuần 2: có **biến** (Dim), **if**, và các bước tuần tự. Dấu nháy đơn ' là chú thích.
+
+## Cách chạy
+1. File → Options → Customize Ribbon → tick **Developer**.
+2. Developer → Visual Basic → Insert → Module → dán code.
+3. Lưu file dạng **.xlsm** (Excel Macro-Enabled).
+4. Developer → Macros → chọn macro → Run. Hoặc gắn vào một nút (Insert → Button).
+
+## An toàn với macro
+- **Macro có thể chứa mã độc.** Không bật macro trong file lạ nhận qua mạng, email. Excel mặc định chặn macro trong file tải từ Internet là có lý do.
+- Macro **không có Undo (Ctrl+Z)**: chạy xong là thay đổi luôn. **Luôn chạy trên bản sao** lần đầu.
+- Đọc lướt code AI viết: có lệnh **Delete, Kill (xóa file), Clear** ở chỗ bạn không mong đợi không?
+- Máy cơ quan có thể bị chính sách chặn macro; tuân thủ quy định CNTT của đơn vị.
+
+## Nhờ AI viết macro hiệu quả
+Nói rõ: tên sheet, ô nào chứa gì, việc cần làm từng bước, và yêu cầu "**hỏi xác nhận trước khi xóa hay ghi đè bất cứ thứ gì**" (MsgBox với Yes/No).
+`,
+summary: [
+  "VBA chạy sẵn trong Excel, hợp với thao tác trong file và nút bấm; Python hợp việc nhiều file và logic phức tạp; Power Query hợp gộp dữ liệu.",
+  "Macro không Undo được: chạy trên bản sao, đọc lướt tìm lệnh xóa, yêu cầu hỏi xác nhận.",
+  "Không bật macro trong file lạ; tuân thủ chính sách CNTT của đơn vị."
+],
+practiceDetail: `
+~~~prompt
+Viết macro VBA cho Excel (người mới) trong file có sheet tên "Mau" là mẫu sheet ngày:
+1. Hỏi người dùng số ngày (1–31); kiểm tra hợp lệ; nếu sheet tên đó đã tồn tại thì báo và dừng.
+2. Chép sheet "Mau" ra cuối, đặt tên theo ngày, điền ngày đầy đủ vào ô B2.
+3. Không xóa hay ghi đè gì khác.
+Chú thích tiếng Việt từng dòng; hướng dẫn cách dán và chạy từng bước; cách gắn macro vào một nút bấm.
+~~~
+Làm trên bản sao file. Thử nhập ngày đã tồn tại, nhập chữ, để trống: macro phản ứng đúng không?
+`,
+quiz: [
+  { q: "Tạo nút bấm trong file Excel để thêm sheet ngày mới, nên dùng:", a: ["VBA", "Python", "CSS", "PWA"], c: 0, e: "Thao tác bên trong file Excel." },
+  { q: "File chứa macro cần lưu đuôi:", a: [".xlsx", ".xlsm", ".csv", ".docx"], c: 1, e: "Macro-Enabled Workbook." },
+  { q: "Vì sao chạy macro lần đầu trên bản sao?", a: ["Cho nhanh", "Macro không Undo được", "Bắt buộc của Excel", "Để in"], c: 1, e: "Thay đổi là vĩnh viễn." },
+  { q: "Nhận file Excel lạ qua email yêu cầu 'Enable Content' để xem:", a: ["Bật ngay", "Không bật, có thể chứa mã độc", "Bật rồi tắt", "Chuyển cho đồng nghiệp bật"], c: 1, e: "Chiêu phát tán mã độc phổ biến." }
+],
+cards: [
+  { f: "VBA", b: "Ngôn ngữ lập trình có sẵn trong Excel/Word; macro lưu trong file .xlsm." },
+  { f: "Chọn công cụ tự động hóa", b: "Gộp dữ liệu: Power Query. Thao tác trong file: VBA. Nhiều file, logic phức tạp: Python." },
+  { f: "An toàn macro", b: "Không bật macro file lạ; chạy trên bản sao; yêu cầu hỏi xác nhận trước khi xóa." }
+]
+},
+
+{
+id: 34, week: 5, ready: true,
+title: "Thiết kế phần mềm nội bộ: từ nhu cầu đến bản đặc tả",
+goal: "Viết bản đặc tả (spec) rõ ràng trước khi nhờ AI làm phần mềm; chọn kiểu phần mềm phù hợp.",
+practice: "Viết bản đặc tả 1–2 trang cho một phần mềm nhỏ quản lý trang cấp (dữ liệu giả).",
+content: `
+## Vì sao phần mềm làm bằng AI hay "hỏng giữa chừng"?
+Không phải vì AI kém, mà vì **yêu cầu mơ hồ**. "Làm phần mềm quản lý kho" có trăm cách hiểu. Người làm phần mềm chuyên nghiệp luôn viết **bản đặc tả** trước. Bạn đã quen với việc này: đó chính là **master prompt chi tiết**.
+
+## Bản đặc tả gồm 8 mục
+1. **Mục đích**: giải quyết vấn đề gì, đo thành công bằng gì (tiết kiệm bao nhiêu phút/tháng).
+2. **Người dùng**: ai, mấy người, trình độ, dùng trên thiết bị gì.
+3. **Dữ liệu**: những "bảng" nào, mỗi bảng có những cột gì (buổi 35).
+4. **Chức năng**: danh sách việc người dùng làm được, viết dạng "Người dùng có thể ...".
+5. **Màn hình**: liệt kê các màn hình và nội dung chính của từng màn hình.
+6. **Quy tắc nghiệp vụ**: định mức, điều kiện cảnh báo, cách làm tròn, ai được sửa gì.
+7. **Ràng buộc**: offline hay online, lưu ở đâu, sao lưu thế nào, bảo mật.
+8. **Ngoài phạm vi**: những gì **không** làm ở phiên bản này.
+
+## Chọn kiểu phần mềm
+| Kiểu | Hợp khi | Ví dụ |
+| File Excel + công thức/Power Query | Một người dùng, dữ liệu dạng bảng | Bảng kê, báo cáo tháng |
+| PWA offline (như app này) | Một/vài người, mỗi người dữ liệu riêng, cần dùng trên điện thoại | Sổ tay, checklist, công cụ tính |
+| Script Python | Xử lý file hàng loạt, chạy theo đợt | Tạo biên bản, gộp file |
+| Phần mềm nhiều người dùng chung (có máy chủ, cơ sở dữ liệu) | Nhiều người cùng nhập, cần phân quyền, nhật ký sửa | Hệ thống quản lý đơn vị |
+Kiểu cuối **phức tạp hơn rất nhiều** (bảo mật, máy chủ, bảo trì) và với dữ liệu nghiệp vụ của cơ quan **phải được đơn vị cho phép** và tuân thủ quy định bảo mật. Người mới nên bắt đầu từ 3 kiểu đầu.
+
+## Phiên bản 1 phải nhỏ (MVP)
+**MVP** (sản phẩm khả dụng tối thiểu) = phiên bản nhỏ nhất **dùng được thật**. Ví dụ phần mềm trang cấp phiên bản 1: danh mục vật tư, nhập phiếu xuất, báo cáo tồn. Chưa cần in phiếu đẹp, chưa cần biểu đồ. Dùng thật 2 tuần rồi mới thêm.
+
+## Mẫu câu chức năng tốt
+| Mơ hồ | Rõ ràng |
+| "Quản lý xuất kho" | "Người dùng chọn vật tư từ danh mục, nhập số lượng, ngày, phân khu nhận; phần mềm chặn nếu số lượng lớn hơn tồn kho." |
+| "Có báo cáo" | "Báo cáo tồn theo tháng: mỗi vật tư một dòng gồm tồn đầu, nhập, xuất, tồn cuối; xuất ra Excel." |
+`,
+summary: [
+  "Viết bản đặc tả 8 mục trước khi nhờ AI làm phần mềm: mục đích, người dùng, dữ liệu, chức năng, màn hình, quy tắc, ràng buộc, ngoài phạm vi.",
+  "Chọn kiểu đơn giản nhất đủ dùng: Excel → PWA offline → script → hệ thống nhiều người (phức tạp, cần cho phép).",
+  "Phiên bản 1 phải nhỏ nhưng dùng được thật (MVP)."
+],
+practiceDetail: `
+~~~prompt
+Đóng vai chuyên viên phân tích nghiệp vụ. Tôi muốn làm phần mềm nhỏ chạy offline (PWA) để theo dõi xuất – nhập – tồn vật tư trang cấp (chăn, chiếu, quần áo, đồ dùng cá nhân) cho các Phân khu A, B, C. Chỉ tôi dùng, trên iPhone và Windows.
+Hãy phỏng vấn tôi tối đa 6 câu, sau đó viết bản đặc tả 8 mục: mục đích, người dùng, dữ liệu (các bảng và cột), chức năng ("Người dùng có thể..."), màn hình, quy tắc nghiệp vụ, ràng buộc (offline, sao lưu, bảo mật), ngoài phạm vi. Đề xuất phạm vi MVP.
+~~~
+Lưu bản đặc tả vào Ghi chú. Buổi 35–36 sẽ dùng tiếp. Không dùng tên người, số liệu thật.
+`,
+quiz: [
+  { q: "Nguyên nhân hàng đầu khiến phần mềm làm bằng AI hỏng giữa chừng:", a: ["AI yếu", "Yêu cầu mơ hồ, không có bản đặc tả", "Máy chậm", "Thiếu mạng"], c: 1, e: "Yêu cầu rõ thì kết quả rõ." },
+  { q: "MVP là:", a: ["Phiên bản đầy đủ nhất", "Phiên bản nhỏ nhất dùng được thật", "Bản demo không dùng được", "Bản dành cho sếp"], c: 1, e: "Bắt đầu nhỏ, dùng thật, rồi mở rộng." },
+  { q: "Một người dùng, cần trên điện thoại, chạy offline: kiểu phù hợp là", a: ["Hệ thống máy chủ nhiều người", "PWA offline", "Gửi email", "Giấy"], c: 1, e: "Như các app sổ tay bạn đã làm." },
+  { q: "Mục 'Ngoài phạm vi' trong bản đặc tả để:", a: ["Cho dài", "Ghi rõ những gì phiên bản này KHÔNG làm, tránh phình yêu cầu", "Ghi tên người làm", "Không cần"], c: 1, e: "Kiểm soát phạm vi." }
+],
+cards: [
+  { f: "Bản đặc tả (spec)", b: "Mục đích, người dùng, dữ liệu, chức năng, màn hình, quy tắc nghiệp vụ, ràng buộc, ngoài phạm vi." },
+  { f: "MVP", b: "Sản phẩm khả dụng tối thiểu: nhỏ nhất nhưng dùng được thật." },
+  { f: "Thứ tự chọn kiểu phần mềm", b: "Excel → PWA offline → script Python → hệ thống nhiều người (phức tạp, cần cho phép)." }
+]
+},
+
+{
+id: 35, week: 5, ready: true,
+title: "Thiết kế dữ liệu: bảng, khóa, quan hệ",
+goal: "Thiết kế dữ liệu đúng ngay từ đầu để phần mềm không rối khi lớn lên.",
+practice: "Thiết kế các bảng dữ liệu cho phần mềm trang cấp; kiểm tra bằng dữ liệu giả.",
+content: `
+## Dữ liệu sai thiết kế = phần mềm khó sửa mãi
+Giao diện sửa được dễ. **Cấu trúc dữ liệu sai** thì càng dùng lâu càng khó sửa. Đây là phần đáng đầu tư suy nghĩ nhất.
+
+## 3 khái niệm cốt lõi
+| Khái niệm | Nghĩa | Ví dụ |
+| **Bảng** | Một loại đối tượng, mỗi dòng một đối tượng | Bảng Vật tư, bảng Phiếu xuất |
+| **Khóa chính** | Mã duy nhất của mỗi dòng | Mã vật tư VT001 |
+| **Khóa ngoại / quan hệ** | Cột trỏ tới dòng của bảng khác | Phiếu xuất có cột Mã vật tư trỏ tới bảng Vật tư |
+
+## Ví dụ thiết kế cho phần mềm trang cấp
+~~~
+VAT_TU     (ma_vt*, ten, dvt, nhom, ton_dau_ky)
+PHAN_KHU   (ma_pk*, ten)                      A, B, C
+PHIEU      (so_phieu*, ngay, loai[Nhập/Xuất], ma_pk, ghi_chu)
+CHI_TIET   (so_phieu, ma_vt, so_luong)        mỗi phiếu nhiều dòng
+(* = khóa chính)
+~~~
+**Tồn kho không lưu thành một con số sửa tay**, mà **tính ra**: tồn đầu + tổng nhập − tổng xuất. Như vậy số liệu luôn khớp với chứng từ, đúng tinh thần kế toán.
+
+## 4 nguyên tắc thiết kế
+1. **Mỗi thông tin chỉ lưu một chỗ.** Tên vật tư nằm ở bảng Vật tư; phiếu chỉ lưu mã. Đổi tên một lần, mọi nơi cập nhật.
+2. **Dùng mã, không dùng tên để liên kết.** Tên có thể gõ sai, trùng; mã thì không.
+3. **Lưu chứng từ gốc, tính ra kết quả.** Không sửa tay số tồn, số tổng.
+4. **Không xóa chứng từ, chỉ hủy có ghi lý do.** Giữ dấu vết như sổ kế toán.
+
+## Lưu dữ liệu ở đâu?
+| Nơi lưu | Dùng khi |
+| localStorage (như app này) | Dữ liệu nhỏ, vài nghìn dòng, một máy |
+| IndexedDB (cơ sở dữ liệu trong trình duyệt) | PWA có dữ liệu lớn hơn, nhiều bảng |
+| File Excel | Người dùng muốn mở xem, sửa trực tiếp |
+| SQLite (một file cơ sở dữ liệu) | Script Python/ứng dụng máy tính, dữ liệu nhiều |
+| Cơ sở dữ liệu máy chủ | Nhiều người dùng chung, cần cho phép và bảo mật |
+
+## SQL – hỏi dữ liệu bằng câu gần tiếng Anh
+~~~sql
+SELECT v.ten, SUM(c.so_luong) AS tong_xuat
+FROM CHI_TIET c JOIN PHIEU p ON c.so_phieu = p.so_phieu
+                JOIN VAT_TU v ON c.ma_vt = v.ma_vt
+WHERE p.loai = 'Xuất' AND p.ngay LIKE '2026-11%'
+GROUP BY v.ten;
+~~~
+Đọc: "Lấy tên vật tư và tổng số lượng xuất, ghép các bảng theo mã, chỉ lấy phiếu xuất tháng 11, nhóm theo tên." Bạn không cần tự viết SQL; chỉ cần **đọc hiểu** để kiểm tra AI viết đúng điều kiện.
+`,
+summary: [
+  "Dữ liệu gồm bảng, khóa chính (mã duy nhất), quan hệ (cột trỏ tới bảng khác).",
+  "Mỗi thông tin lưu một chỗ, liên kết bằng mã, lưu chứng từ gốc rồi tính kết quả, không xóa chứng từ.",
+  "Chọn nơi lưu theo quy mô: localStorage, IndexedDB, Excel, SQLite, máy chủ."
+],
+practiceDetail: `
+~~~prompt
+Dựa trên bản đặc tả phần mềm trang cấp này: [dán bản đặc tả buổi 34].
+Thiết kế cấu trúc dữ liệu: liệt kê các bảng, cột, khóa chính, quan hệ; giải thích lý do bằng tiếng Việt đơn giản. Áp dụng: mỗi thông tin lưu một chỗ, liên kết bằng mã, tồn kho tính từ chứng từ, không xóa chứng từ mà hủy có lý do.
+Sau đó tạo dữ liệu giả cho mỗi bảng (5–10 dòng) và tính thử báo cáo tồn tháng 11 để tôi kiểm tra tay.
+~~~
+Tự tính tồn của 2 vật tư bằng tay, so với kết quả AI.
+`,
+quiz: [
+  { q: "Khóa chính là:", a: ["Mật khẩu", "Mã duy nhất của mỗi dòng trong bảng", "Cột đầu tiên luôn là tên", "Một loại khóa cửa"], c: 1, e: "Ví dụ mã vật tư." },
+  { q: "Số tồn kho nên:", a: ["Gõ tay mỗi ngày", "Tính ra từ tồn đầu + nhập − xuất", "Ước lượng", "Không cần"], c: 1, e: "Luôn khớp chứng từ." },
+  { q: "Liên kết phiếu với vật tư nên dùng:", a: ["Tên vật tư", "Mã vật tư", "Màu", "Số dòng"], c: 1, e: "Mã không trùng, không gõ sai." },
+  { q: "Phiếu nhập sai, cách làm đúng tinh thần kế toán:", a: ["Xóa hẳn", "Hủy phiếu có ghi lý do, lập phiếu đúng", "Sửa số tồn tay", "Bỏ qua"], c: 1, e: "Giữ dấu vết." }
+],
+cards: [
+  { f: "Khóa ngoại / quan hệ", b: "Cột trỏ tới dòng của bảng khác, ví dụ Phiếu.ma_vt → Vật tư.ma_vt." },
+  { f: "Lưu chứng từ, tính kết quả", b: "Không lưu số tổng/tồn sửa tay; tính từ chứng từ gốc." },
+  { f: "SQL", b: "Ngôn ngữ hỏi dữ liệu: SELECT … FROM … WHERE … GROUP BY …" }
+]
+},
+
+{
+id: 36, week: 5, ready: true,
+title: "Làm phần mềm nội bộ bằng AI: quy trình, kiểm thử, bàn giao",
+goal: "Biến bản đặc tả thành phần mềm chạy được bằng AI, kiểm thử bài bản, viết hướng dẫn.",
+practice: "Nhờ AI làm MVP phần mềm trang cấp dạng PWA với dữ liệu giả; kiểm thử theo kịch bản.",
+content: `
+## Quy trình 7 bước với AI
+1. **Bản đặc tả + thiết kế dữ liệu** (buổi 34–35) → dán vào Project làm tài liệu nền.
+2. **Yêu cầu AI lập kế hoạch**: các bước xây dựng, mỗi bước kiểm tra được. Duyệt trước.
+3. **Làm từng phần**: dữ liệu và chức năng nhập trước, báo cáo sau, giao diện đẹp cuối cùng.
+4. **Kiểm thử theo kịch bản** sau mỗi phần.
+5. **Sửa lỗi**: mô tả "làm gì → mong đợi gì → thấy gì", kèm ảnh chụp màn hình.
+6. **Viết hướng dẫn sử dụng** 1–2 trang.
+7. **Đóng gói phiên bản**: lưu bản 1.0, ghi lại thay đổi.
+
+## Công cụ AI lập trình (agent)
+Ngoài trò chuyện, có các công cụ AI lập trình làm việc trực tiếp trên thư mục dự án: đọc file, viết code, chạy thử, sửa lỗi (ví dụ Claude Code; tên và tính năng cần kiểm tra lại). Rất mạnh, nhưng áp dụng nguyên tắc agent của buổi 17: thư mục riêng cho dự án, không chứa dữ liệu thật, duyệt kế hoạch trước.
+
+## Kiểm thử theo kịch bản
+| Kịch bản | Mong đợi |
+| Nhập phiếu xuất 5 chăn cho Phân khu A, tồn đang 20 | Tồn còn 15 |
+| Xuất 30 khi tồn chỉ 15 | Chặn, báo lỗi rõ ràng |
+| Nhập số âm, để trống số lượng | Chặn |
+| Hủy một phiếu | Tồn khôi phục; phiếu vẫn còn, ghi "Đã hủy" |
+| Sao lưu → xóa dữ liệu → khôi phục | Dữ liệu trở lại đầy đủ |
+| Mở trên iPhone khi tắt mạng | Vẫn chạy |
+Viết kịch bản **trước** khi AI làm, đưa luôn cho AI: "Phần mềm phải qua được các kịch bản này." AI sẽ tự kiểm tra theo.
+
+## Báo lỗi giao diện cho AI
+"Không chạy" là mô tả vô dụng. Mẫu tốt:
+~~~
+Bước làm: vào Phiếu → Thêm phiếu xuất → chọn Chăn → nhập 5 → Lưu.
+Mong đợi: tồn Chăn giảm từ 20 xuống 15.
+Thực tế: tồn vẫn 20, không có thông báo gì.
+Thiết bị: iPhone, Safari, app đã cài lên màn hình chính.
+(kèm ảnh chụp màn hình)
+~~~
+
+## Bàn giao dù chỉ cho chính mình
+- **Hướng dẫn sử dụng** ngắn: cài đặt, các thao tác chính, sao lưu.
+- **Ghi chú kỹ thuật** cho lần sửa sau: cấu trúc dữ liệu, file nào làm gì (nhờ AI viết).
+- **Lưu mã nguồn** từng phiên bản (buổi 37).
+
+## Với phần mềm dùng ở cơ quan
+Phần mềm xử lý dữ liệu nghiệp vụ của cơ quan cần **được chỉ huy đơn vị cho phép**, tuân thủ quy định bảo mật, quy định CNTT của ngành. Làm thử bằng dữ liệu giả, trình bày đề xuất (bản đặc tả + bản chạy thử) với cấp có thẩm quyền trước khi dùng dữ liệu thật.
+`,
+summary: [
+  "7 bước: đặc tả → kế hoạch → làm từng phần → kiểm thử → sửa lỗi → hướng dẫn → đóng gói phiên bản.",
+  "Viết kịch bản kiểm thử trước, đưa cho AI; báo lỗi theo mẫu 'làm gì – mong đợi gì – thấy gì'.",
+  "Phần mềm dùng ở cơ quan cần được cho phép và tuân thủ quy định bảo mật; thử bằng dữ liệu giả trước."
+],
+practiceDetail: `
+~~~prompt
+Bạn là lập trình viên PWA. Dựa trên bản đặc tả và thiết kế dữ liệu tôi dán bên dưới, làm phiên bản MVP phần mềm "Sổ trang cấp" chạy offline trên iPhone và Windows:
+- Một file HTML (HTML + CSS + JS thuần, không thư viện ngoài), kèm manifest và service worker; dữ liệu lưu trên máy; có sao lưu/khôi phục JSON.
+- Phải qua các kịch bản kiểm thử sau: [dán bảng kịch bản].
+- Có sẵn dữ liệu giả để thử, có nút xóa dữ liệu giả.
+Trước khi làm, liệt kê kế hoạch các bước và chờ tôi duyệt.
+[dán bản đặc tả + thiết kế dữ liệu]
+~~~
+Chạy từng kịch bản, đánh dấu Đạt/Không đạt trong Ghi chú. Báo lỗi theo mẫu.
+`,
+quiz: [
+  { q: "Thứ tự làm hợp lý:", a: ["Giao diện đẹp trước", "Dữ liệu và chức năng nhập trước, báo cáo sau, giao diện đẹp cuối", "Báo cáo trước", "Làm cùng lúc tất cả"], c: 1, e: "Nền móng trước, trang trí sau." },
+  { q: "Báo lỗi tốt cho AI gồm:", a: ["'Không chạy'", "Bước làm, mong đợi, thực tế, thiết bị, ảnh chụp", "Chỉ ảnh chụp", "Chửi AI"], c: 1, e: "Mô tả đủ để tái hiện lỗi." },
+  { q: "Kịch bản kiểm thử nên viết khi nào?", a: ["Sau khi xong hết", "Trước khi AI làm, đưa luôn cho AI", "Không cần", "Khi khách phàn nàn"], c: 1, e: "AI sẽ làm và tự kiểm tra theo." },
+  { q: "Trước khi dùng phần mềm tự làm với dữ liệu thật của cơ quan:", a: ["Dùng luôn", "Cần được cho phép và tuân thủ quy định bảo mật", "Hỏi bạn bè", "Đăng lên mạng"], c: 1, e: "Dữ liệu nghiệp vụ có quy định riêng." }
+],
+cards: [
+  { f: "Kịch bản kiểm thử", b: "Danh sách thao tác + kết quả mong đợi, gồm cả trường hợp xấu (âm, trống, vượt tồn)." },
+  { f: "Mẫu báo lỗi", b: "Bước làm → Mong đợi → Thực tế → Thiết bị → Ảnh chụp." },
+  { f: "Quy trình làm phần mềm với AI", b: "Đặc tả → kế hoạch → từng phần → kiểm thử → sửa → hướng dẫn → phiên bản." }
+]
+},
+
+{
+id: 37, week: 5, ready: true,
+title: "Bảo trì phần mềm: phiên bản, sao lưu, Git cơ bản",
+goal: "Quản lý các phiên bản mã nguồn, quay lại bản cũ khi AI sửa hỏng; sao lưu dữ liệu người dùng.",
+practice: "Tạo kho Git cho dự án, lưu 3 phiên bản, thử quay lại bản cũ.",
+content: `
+## Vấn đề quen thuộc
+"Hôm qua app chạy tốt, hôm nay nhờ AI thêm một tính năng thì hỏng hết, mà không nhớ bản cũ ở đâu." Giải pháp: **quản lý phiên bản**.
+
+## Cách đơn giản: thư mục theo phiên bản
+~~~
+SoTayTrangCap/
+  v1.0_2026-11-20/
+  v1.1_2026-11-27_them-bao-cao-ton/
+  v1.2_2026-12-05_sua-loi-huy-phieu/
+  NHAT_KY_THAY_DOI.txt
+~~~
+Mỗi lần thay đổi lớn: chép cả thư mục ra bản mới, ghi 1 dòng vào nhật ký thay đổi. Đủ dùng cho dự án nhỏ.
+
+## Cách chuyên nghiệp: Git
+**Git** là công cụ miễn phí ghi lại **từng lần thay đổi** của mã nguồn ("commit"), cho phép xem khác biệt và quay lại bất kỳ lúc nào. Mọi lập trình viên đều dùng.
+~~~
+git init                         bắt đầu theo dõi thư mục
+git add .                        chọn tất cả thay đổi
+git commit -m "Thêm báo cáo tồn"  lưu một mốc có ghi chú
+git log --oneline                xem danh sách các mốc
+git diff                         xem đã sửa những gì từ mốc trước
+git checkout <mã-mốc> -- index.html   lấy lại file từ một mốc cũ
+~~~
+Cài Git từ git-scm.com. VS Code có sẵn giao diện Git (biểu tượng nhánh cây bên trái), bấm chuột thay vì gõ lệnh.
+
+## Quy tắc làm việc với AI + Git
+1. **Commit trước khi nhờ AI sửa.** Hỏng thì quay lại ngay.
+2. **Mỗi commit một thay đổi**, ghi chú rõ: "Sửa lỗi hủy phiếu không khôi phục tồn".
+3. Dùng **git diff** xem AI đã sửa những gì. AI hay sửa lan sang chỗ không cần sửa.
+4. Có thể đưa kho lên GitHub (kho riêng tư) để có bản sao ngoài máy. **Không bao giờ** đưa dữ liệu thật, mật khẩu, khóa API lên đó.
+
+## Hai loại sao lưu khác nhau
+| Loại | Là gì | Cách |
+| Mã nguồn | Phần mềm (index.html, sw.js...) | Git / thư mục phiên bản |
+| Dữ liệu người dùng | Số liệu đã nhập (localStorage, file Excel, SQLite) | Nút Sao lưu, lịch sao lưu hằng tuần, giữ nhiều bản |
+
+## Cập nhật phần mềm mà không mất dữ liệu
+- **Không đổi tên khóa lưu trữ** (ví dụ "sthai.trades") giữa các phiên bản; nếu đổi cấu trúc dữ liệu, nhờ AI viết đoạn **chuyển đổi dữ liệu cũ sang mới**.
+- Với PWA: tăng phiên bản cache trong sw.js.
+- Luôn **sao lưu dữ liệu trước khi cập nhật**.
+`,
+summary: [
+  "Quản lý phiên bản: thư mục theo phiên bản (đơn giản) hoặc Git (chuyên nghiệp).",
+  "Commit trước khi nhờ AI sửa; dùng git diff xem AI đã thay đổi gì; hỏng thì quay lại.",
+  "Sao lưu cả mã nguồn và dữ liệu người dùng; cập nhật không đổi khóa lưu trữ, sao lưu trước khi cập nhật."
+],
+practiceDetail: `
+1. Cài Git, mở thư mục dự án Sổ trang cấp (buổi 36) trong VS Code.
+2. Nhờ AI hướng dẫn:
+~~~prompt
+Hướng dẫn tôi (người mới, Windows, VS Code) dùng Git qua giao diện VS Code: khởi tạo kho, commit lần đầu, sửa một file rồi commit lần hai, xem khác biệt giữa hai lần, và lấy lại file từ commit đầu. Mỗi bước 1–2 dòng, chỉ rõ bấm vào đâu.
+~~~
+3. Tạo 3 commit. Cố ý làm hỏng index.html, rồi khôi phục từ commit trước.
+4. Tạo file NHAT_KY_THAY_DOI.txt, ghi các phiên bản.
+`,
+quiz: [
+  { q: "Trước khi nhờ AI sửa code, nên:", a: ["Xóa bản cũ", "Commit (lưu mốc) để có thể quay lại", "Tắt máy", "Đổi tên thư mục"], c: 1, e: "Hỏng thì quay lại ngay." },
+  { q: "git diff dùng để:", a: ["Xóa thay đổi", "Xem đã sửa những gì", "Tải phần mềm", "Đổi màu"], c: 1, e: "Kiểm tra AI sửa những chỗ nào." },
+  { q: "Thứ KHÔNG bao giờ đưa lên GitHub:", a: ["Mã nguồn đã bỏ dữ liệu thật", "Dữ liệu thật, mật khẩu, khóa API", "Hướng dẫn sử dụng", "Nhật ký thay đổi"], c: 1, e: "Bảo mật." },
+  { q: "Cập nhật app mà không mất dữ liệu cần:", a: ["Đổi tên khóa lưu trữ", "Giữ nguyên khóa lưu trữ, sao lưu trước khi cập nhật", "Xóa trình duyệt", "Cài lại máy"], c: 1, e: "Đổi khóa thì app mới không thấy dữ liệu cũ." }
+],
+cards: [
+  { f: "Git commit", b: "Một mốc lưu lại trạng thái mã nguồn kèm ghi chú; quay lại được bất cứ lúc nào." },
+  { f: "Quy tắc AI + Git", b: "Commit trước khi nhờ AI sửa; xem git diff; mỗi commit một thay đổi." },
+  { f: "Hai loại sao lưu", b: "Mã nguồn (Git/thư mục phiên bản) và dữ liệu người dùng (nút sao lưu, hằng tuần)." }
+]
+}
+);
+
+
+/* ============================ NÂNG CAO 2: VIDEO AI, API, TRADING NÂNG CAO, TỰ ĐỘNG HÓA ============================ */
+SESSIONS.push(
+{
+id: 38, week: 6, ready: true,
+title: "Quy trình video AI nhanh: từ ý tưởng đến bản nháp",
+goal: "Làm video AI theo dây chuyền để nhanh hơn: kịch bản → bảng phân cảnh → ảnh → video → dựng.",
+practice: "Làm kịch bản và bảng phân cảnh cho video 60 giây bằng AI trong 1 buổi.",
+content: `
+## Vì sao làm video AI chậm?
+Thường không phải do công cụ, mà do **làm không theo dây chuyền**: nghĩ đến đâu tạo đến đó, mỗi cảnh thử chục lần, nhân vật mỗi cảnh một kiểu, dựng xong mới phát hiện thiếu cảnh. Cách nhanh hơn: làm **như một xưởng phim nhỏ**, xong khâu này mới sang khâu sau.
+
+## Dây chuyền 6 khâu
+| Khâu | Đầu ra | Công cụ (ví dụ) |
+| 1. Ý tưởng & thông điệp | 1 câu thông điệp + đối tượng xem | Trợ lý AI trò chuyện |
+| 2. Kịch bản | Lời dẫn + mô tả cảnh, có thời lượng | Trợ lý AI |
+| 3. Bảng phân cảnh (shot list) | Bảng: số cảnh, thời lượng, hình ảnh, chuyển động máy, lời dẫn | Trợ lý AI → Excel |
+| 4. Ảnh từng cảnh | 1 ảnh đẹp nhất mỗi cảnh, cùng phong cách | Công cụ tạo ảnh |
+| 5. Biến ảnh thành video | Clip 5–10 giây mỗi cảnh | Kling, MiniMax (qua RunningHub)... |
+| 6. Dựng | Bản nháp không tiếng → duyệt → thêm lời, nhạc, phụ đề | CapCut; giọng đọc AI như ElevenLabs |
+(Tên công cụ, gói miễn phí và giới hạn thay đổi thường xuyên, cần kiểm tra lại.)
+
+## 5 nguyên tắc tăng tốc
+1. **Khóa kịch bản trước khi tạo hình.** Sửa chữ thì rẻ, sửa video thì đắt.
+2. **Bảng phân cảnh là "bản đặc tả" của video** (như buổi 34). Mỗi cảnh một dòng, có sẵn prompt.
+3. **Một "bộ phong cách" cố định** dán vào mọi prompt ảnh: phong cách vẽ, ánh sáng, bảng màu, tỷ lệ khung. Nhân vật và không khí sẽ đồng nhất.
+4. **Làm theo lô**: tạo ảnh tất cả cảnh một lượt → chọn → tạo video tất cả cảnh một lượt. Không làm xong từng cảnh một.
+5. **Chấp nhận 80%.** Đặt giới hạn: mỗi cảnh tối đa 3 lần tạo; vẫn chưa được thì đổi cách kể (cảnh xa hơn, ít người hơn, ít chuyển động hơn).
+
+## Cấu trúc kịch bản ngắn hiệu quả
+| Phần | Thời lượng (video 60 giây) | Nội dung |
+| Mở (móc câu) | 0–3 giây | Hình ảnh/câu hỏi gây chú ý ngay |
+| Vấn đề | 3–15 giây | Nhân vật gặp khó khăn gì |
+| Hành trình | 15–45 giây | Thay đổi, sự giúp đỡ, nỗ lực |
+| Thông điệp | 45–55 giây | Một câu dễ nhớ |
+| Kết | 55–60 giây | Poster, lời kêu gọi |
+
+## Hết ý tưởng? Cho AI một khung chặt
+AI cho ý tưởng chung chung khi bạn hỏi chung chung. Hãy cho **ràng buộc**: đối tượng xem, một thông điệp, thời lượng, số nhân vật, bối cảnh có sẵn, phong cách, những gì **tránh**. Rồi yêu cầu **10 ý tưởng khác nhau về cách kể**, chọn 1, phát triển tiếp.
+`,
+summary: [
+  "Làm video theo dây chuyền 6 khâu: ý tưởng → kịch bản → bảng phân cảnh → ảnh → video → dựng.",
+  "Tăng tốc: khóa kịch bản trước, bộ phong cách cố định, làm theo lô, mỗi cảnh tối đa 3 lần tạo.",
+  "Kịch bản ngắn: móc câu 3 giây → vấn đề → hành trình → thông điệp → kết. Ý tưởng tốt đến từ ràng buộc rõ."
+],
+practiceDetail: `
+~~~prompt
+Đóng vai biên kịch video ngắn. Làm video [60 giây], dọc 9:16, phong cách [anime 2D / người thật], đối tượng xem: [ai]. Thông điệp duy nhất: [1 câu]. Tối đa [2] nhân vật, không lời thoại, chỉ lời dẫn. Tránh: [hình ảnh bạo lực, hình người thật có thể nhận diện...].
+1. Đưa 5 ý tưởng khác nhau về cách kể (mỗi ý 2 câu). Chờ tôi chọn.
+2. Sau khi tôi chọn: viết kịch bản theo cấu trúc móc câu – vấn đề – hành trình – thông điệp – kết.
+3. Lập bảng phân cảnh: STT, thời lượng, mô tả hình ảnh, chuyển động máy, lời dẫn, prompt tạo ảnh (tiếng Anh) có dán chung một "bộ phong cách".
+~~~
+Chép bảng phân cảnh sang Excel. Ghi vào Ghi chú thời gian bạn mất cho khâu 1–3.
+`,
+quiz: [
+  { q: "Sửa ở khâu nào rẻ nhất?", a: ["Khi đã dựng xong", "Ở kịch bản và bảng phân cảnh", "Khi tạo video", "Khi đăng"], c: 1, e: "Sửa chữ rẻ hơn sửa hình." },
+  { q: "Giữ nhân vật và không khí đồng nhất giữa các cảnh:", a: ["Mỗi cảnh viết prompt khác hẳn", "Dùng một bộ phong cách cố định dán vào mọi prompt", "Tạo thật nhiều lần", "Đổi công cụ liên tục"], c: 1, e: "Bộ phong cách cố định." },
+  { q: "Làm theo lô nghĩa là:", a: ["Làm xong từng cảnh từ ảnh đến video rồi mới sang cảnh sau", "Tạo ảnh tất cả cảnh một lượt, rồi tạo video tất cả một lượt", "Làm nhiều video một lúc", "Không chọn lọc"], c: 1, e: "Giảm chuyển đổi qua lại giữa công cụ." },
+  { q: "Video 60 giây, phần 'móc câu' nên ở:", a: ["Cuối video", "3 giây đầu", "Giữa video", "Không cần"], c: 1, e: "Giữ người xem ngay từ đầu." }
+],
+cards: [
+  { f: "Dây chuyền video AI", b: "Ý tưởng → kịch bản → bảng phân cảnh → ảnh → video → dựng (nháp không tiếng → duyệt → lời, nhạc)." },
+  { f: "Bộ phong cách", b: "Đoạn mô tả phong cách, ánh sáng, màu, tỷ lệ dán vào mọi prompt để đồng nhất." },
+  { f: "Quy tắc 3 lần", b: "Mỗi cảnh tối đa 3 lần tạo; chưa được thì đổi cách kể cảnh." }
+]
+},
+
+{
+id: 39, week: 6, ready: true,
+title: "Viết prompt hình ảnh và video, giữ nhân vật nhất quán",
+goal: "Viết prompt ảnh/video có cấu trúc; giữ nhân vật đồng nhất; biết sửa khi kết quả lỗi.",
+practice: "Viết bộ phong cách và prompt cho 6 cảnh; tạo ảnh và video thử 2 cảnh.",
+content: `
+## Cấu trúc prompt ảnh (6 phần)
+| Phần | Ví dụ (thường viết tiếng Anh) |
+| Chủ thể | a young Vietnamese man, short black hair, plain grey t-shirt |
+| Hành động | sitting alone on a bench, head down |
+| Bối cảnh | small riverside park at dusk |
+| Khung hình | medium shot, eye level |
+| Ánh sáng, màu | soft warm sunset light, muted colors |
+| Phong cách | 2D anime style, clean lines, cinematic |
+Nhiều công cụ hiểu tiếng Anh tốt hơn; nhờ AI dịch prompt từ mô tả tiếng Việt của bạn.
+
+## Prompt video: mô tả CHUYỂN ĐỘNG
+Ảnh đã có hình; prompt video chỉ cần nói **cái gì chuyển động và chuyển động thế nào**:
+- Chuyển động nhân vật: slowly raises his head, looks at the sky.
+- Chuyển động máy: slow push in / static camera / slow pan left.
+- Môi trường: leaves gently moving, light flickering.
+Càng ít chuyển động phức tạp, càng ít lỗi (tay biến dạng, mặt méo). Người, tay và chữ là những thứ AI video hay làm hỏng nhất.
+
+## Giữ nhân vật nhất quán
+1. **Mô tả nhân vật cố định**, lặp lại y nguyên ở mọi cảnh (tóc, áo, độ tuổi, dáng).
+2. Dùng tính năng **ảnh tham chiếu** nếu công cụ có. Kinh nghiệm thực tế: tùy công cụ, có khi dùng **chính ảnh cảnh** làm tham chiếu ổn định hơn ảnh nhân vật riêng; thử và ghi lại cái nào hợp.
+3. **Giảm số lần nhân vật nhìn rõ mặt**: cảnh xa, cảnh từ sau lưng, cảnh tay, cảnh vật gợi ý.
+4. Giữ **trang phục đơn giản**, màu dễ nhận (áo xám, áo xanh); chi tiết càng nhiều càng dễ lệch.
+
+## Bảng xử lý lỗi thường gặp
+| Lỗi | Cách sửa |
+| Mặt nhân vật đổi giữa các cảnh | Lặp lại mô tả cố định; dùng ảnh tham chiếu; cảnh xa hơn |
+| Tay, ngón tay méo | Giấu tay, cảnh không cần tay, giảm chuyển động tay |
+| Chữ trên biển hiệu sai | Không để AI viết chữ; thêm chữ khi dựng |
+| Video giật, biến hình | Giảm chuyển động, máy quay đứng yên, rút ngắn clip |
+| Màu khác nhau giữa cảnh | Bộ phong cách cố định; chỉnh màu đồng bộ khi dựng |
+
+## Lưu thư viện prompt video
+Mỗi prompt cho ra kết quả tốt, lưu vào mục **Prompt** của app (nhóm "Video") kèm ghi chú công cụ, cài đặt. Sau vài video, bạn có bộ "công thức" riêng, làm nhanh gấp nhiều lần.
+`,
+summary: [
+  "Prompt ảnh 6 phần: chủ thể, hành động, bối cảnh, khung hình, ánh sáng-màu, phong cách. Prompt video tập trung mô tả chuyển động.",
+  "Giữ nhân vật: mô tả cố định lặp lại, ảnh tham chiếu phù hợp, giảm cảnh rõ mặt, trang phục đơn giản.",
+  "Ít chuyển động thì ít lỗi; chữ thêm khi dựng; lưu prompt tốt thành thư viện."
+],
+practiceDetail: `
+~~~prompt
+Tôi làm video phong cách [anime 2D]. Nhân vật chính: [mô tả tiếng Việt]. Hãy:
+1. Viết "bộ phong cách" bằng tiếng Anh (1 đoạn) dùng chung cho mọi cảnh.
+2. Viết "mô tả nhân vật cố định" bằng tiếng Anh (1 câu).
+3. Với 6 cảnh sau [dán mô tả cảnh từ bảng phân cảnh buổi 38], viết prompt ảnh (6 phần) và prompt video (chỉ chuyển động, ít chuyển động phức tạp, máy quay chậm).
+4. Đánh dấu cảnh nào dễ lỗi (tay, mặt cận, chữ) và đề xuất cách quay thay thế.
+~~~
+Tạo ảnh và video thử cho 2 cảnh. Lưu prompt tốt vào mục Prompt của app.
+`,
+quiz: [
+  { q: "Prompt video (từ ảnh có sẵn) nên tập trung vào:", a: ["Mô tả lại toàn bộ ảnh", "Chuyển động của nhân vật, máy quay, môi trường", "Tên công cụ", "Màu chữ"], c: 1, e: "Ảnh đã có hình; video cần chuyển động." },
+  { q: "Biển hiệu trong ảnh AI bị sai chữ. Cách xử lý tốt nhất:", a: ["Tạo lại 20 lần", "Không để AI viết chữ, thêm chữ khi dựng", "Bỏ qua", "Đổi ngôn ngữ prompt"], c: 1, e: "AI hay làm hỏng chữ." },
+  { q: "Giảm lỗi khuôn mặt thay đổi giữa các cảnh:", a: ["Toàn cảnh cận mặt", "Lặp mô tả cố định, dùng tham chiếu, thêm cảnh xa/sau lưng", "Đổi trang phục mỗi cảnh", "Tăng chuyển động"], c: 1, e: "Nhiều cách kết hợp." },
+  { q: "Clip bị giật, biến hình. Thử trước:", a: ["Tăng chuyển động", "Giảm chuyển động, máy quay đứng yên, rút ngắn clip", "Thêm nhân vật", "Đổi nhạc"], c: 1, e: "Ít chuyển động, ít lỗi." }
+],
+cards: [
+  { f: "Prompt ảnh 6 phần", b: "Chủ thể – hành động – bối cảnh – khung hình – ánh sáng/màu – phong cách." },
+  { f: "Prompt video", b: "Mô tả chuyển động: nhân vật, máy quay (push in, pan, static), môi trường. Càng đơn giản càng ít lỗi." },
+  { f: "Những thứ AI video hay làm hỏng", b: "Tay, khuôn mặt cận, chữ, chuyển động phức tạp." }
+]
+},
+
+{
+id: 40, week: 6, ready: true,
+title: "Giọng đọc, nhạc, dựng phim; bản quyền và đạo đức",
+goal: "Hoàn thiện video: dựng nháp, lời dẫn AI, nhạc, phụ đề; tránh vi phạm bản quyền và đạo đức.",
+practice: "Dựng bản nháp không tiếng, duyệt, rồi thêm lời dẫn và phụ đề cho video 60 giây.",
+content: `
+## Thứ tự dựng hợp lý
+1. **Bản nháp không tiếng**: ghép các clip đúng thứ tự, đúng thời lượng theo bảng phân cảnh. Duyệt nhịp phim trước.
+2. **Lời dẫn**: chốt lời → tạo giọng đọc → căn theo hình.
+3. **Nhạc nền**: âm lượng thấp hơn lời dẫn nhiều.
+4. **Phụ đề**: phần lớn người xem mạng xã hội tắt tiếng.
+5. **Chỉnh màu đồng bộ**, poster mở/đóng.
+6. **Xuất**: 16:9 bản gốc, 9:16 cho mạng xã hội nếu cần.
+Duyệt nháp không tiếng trước giúp tránh việc thu lại lời dẫn nhiều lần.
+
+## Mẹo dựng nhanh trong CapCut (giao diện có thể thay đổi)
+- Kéo tất cả clip vào một lượt theo tên file đã đánh số (canh_01, canh_02...). **Đặt tên file theo số cảnh** ngay từ khâu tạo video.
+- Clip ngắn hơn lời dẫn: làm chậm nhẹ thay vì thêm hiệu ứng.
+- Dùng phụ đề tự động rồi **soát lại chính tả tiếng Việt**.
+- Lưu một **mẫu dự án** (khung tỷ lệ, phông phụ đề, logo, poster) để video sau chỉ thay nội dung.
+
+## Giọng đọc AI
+- Viết lời dẫn **để nghe**: câu ngắn, ít số liệu, không viết tắt.
+- Thử 2–3 giọng, chọn giọng hợp thông điệp; giữ một giọng cho cả loạt video.
+- Đọc số, tên riêng, từ địa phương: kiểm tra kỹ, viết lại theo cách đọc nếu AI đọc sai.
+
+## Bản quyền và đạo đức (bắt buộc)
+| Không được | Nên |
+| Dùng nhạc, phim, hình có bản quyền khi chưa được phép | Thư viện nhạc miễn phí bản quyền của công cụ; đọc điều khoản |
+| Tạo hình/giọng **người thật** (người nổi tiếng, đồng nghiệp, người cai nghiện) khi chưa đồng ý | Nhân vật hư cấu; xin phép bằng văn bản nếu dùng người thật |
+| Làm video giả mạo (deepfake) người thật, cơ quan | Ghi rõ "nội dung minh họa tạo bằng AI" khi phù hợp |
+| Nội dung có thể nhận diện người cai nghiện thật | Nhân vật, bối cảnh hư cấu; không dùng ảnh thật |
+| Đăng video nhân danh cơ quan khi chưa duyệt | Video tuyên truyền của đơn vị phải qua duyệt nội dung theo quy định |
+Điều khoản sử dụng của từng công cụ (quyền dùng thương mại, ghi nguồn) khác nhau, cần kiểm tra lại.
+
+## Nếu video là để kiếm tiền
+Video AI là thị trường cạnh tranh rất mạnh. Lợi thế của bạn không phải "làm đẹp nhất", mà là **làm đúng nhu cầu một nhóm khách cụ thể** (ví dụ video giới thiệu ngắn cho cửa hàng người quen) với **quy trình nhanh, giá rõ ràng**. Nếu làm video vẫn chậm và không thích, hãy dồn sức cho hướng Excel/phần mềm, nơi bạn có lợi thế nghiệp vụ.
+`,
+summary: [
+  "Dựng: nháp không tiếng → duyệt → lời dẫn → nhạc → phụ đề → màu → xuất; lưu mẫu dự án để làm nhanh lần sau.",
+  "Lời dẫn viết để nghe; thử vài giọng, giữ một giọng cho cả loạt; soát số và tên riêng.",
+  "Không dùng nhạc/hình có bản quyền, không giả mạo người thật, không để nhận diện người cai nghiện, video của đơn vị phải được duyệt."
+],
+practiceDetail: `
+1. Dùng các clip từ buổi 39 (hoặc ảnh tĩnh nếu chưa đủ clip): dựng **bản nháp không tiếng** 60 giây theo bảng phân cảnh.
+2. Nhờ AI chỉnh lời dẫn để nghe:
+~~~prompt
+Viết lại lời dẫn dưới đây để đọc thành tiếng cho video 60 giây: câu ngắn, dễ nghe, tổng khoảng 130–150 chữ, chia theo từng cảnh với thời lượng tương ứng. Không viết tắt, không dùng số khó đọc.
+[dán lời dẫn và bảng thời lượng cảnh]
+~~~
+3. Tạo giọng đọc, thêm phụ đề, nhạc nền miễn phí bản quyền. Soát lại theo bảng bản quyền và đạo đức.
+4. Ghi vào Ghi chú: tổng thời gian làm video lần này so với trước đây.
+`,
+quiz: [
+  { q: "Vì sao dựng bản nháp không tiếng trước?", a: ["Cho nhanh xuất", "Duyệt nhịp phim trước, tránh thu lại lời dẫn nhiều lần", "Bắt buộc của CapCut", "Không có lý do"], c: 1, e: "Chốt hình trước, tiếng sau." },
+  { q: "Dùng giọng nói AI nhái một người nổi tiếng để quảng cáo:", a: ["Được nếu ghi nguồn", "Không được khi chưa có sự đồng ý; có thể vi phạm pháp luật và đạo đức", "Được nếu miễn phí", "Được nếu ngắn"], c: 1, e: "Giả mạo người thật là vi phạm." },
+  { q: "Video tuyên truyền nhân danh cơ quan:", a: ["Tự đăng", "Phải qua duyệt nội dung theo quy định của đơn vị", "Đăng nhóm bạn bè trước", "Không cần duyệt nếu làm bằng AI"], c: 1, e: "Nội dung nhân danh cơ quan cần duyệt." },
+  { q: "Phụ đề quan trọng vì:", a: ["Đẹp", "Nhiều người xem mạng xã hội tắt tiếng", "Bắt buộc", "Tăng thời lượng"], c: 1, e: "Truyền tải được cả khi không bật tiếng." }
+],
+cards: [
+  { f: "Thứ tự dựng", b: "Nháp không tiếng → duyệt → lời dẫn → nhạc → phụ đề → màu → xuất." },
+  { f: "Lời dẫn để nghe", b: "Câu ngắn, ít số, không viết tắt; ~130–150 chữ cho 60 giây." },
+  { f: "Đạo đức video AI", b: "Không dùng người thật khi chưa đồng ý, không deepfake, không nhận diện người cai nghiện, tôn trọng bản quyền." }
+]
+},
+
+{
+id: 41, week: 6, ready: true,
+title: "Gọi AI bằng API với Python",
+goal: "Gọi AI từ script để xử lý hàng loạt; giữ an toàn khóa API; kiểm soát chi phí.",
+practice: "Viết script tóm tắt hàng loạt các văn bản công khai trong một thư mục bằng API.",
+content: `
+## Khi nào cần API thay vì chat?
+- Cùng một việc lặp lại cho **nhiều file**: tóm tắt 50 văn bản, phân loại 500 dòng ghi chú, chuẩn hóa tên hàng.
+- Muốn **gắn AI vào công cụ của mình**: script Excel gọi AI để viết nhận xét tự động.
+Nếu chỉ vài lần một tuần, **chat vẫn rẻ và đơn giản hơn**.
+
+## Chuẩn bị
+1. Tạo tài khoản nhà phát triển ở trang API của nhà cung cấp (ví dụ trang Console của Anthropic cho Claude), nạp tiền hoặc gói dùng thử nếu có. Quy trình và giá **cần kiểm tra lại** trên trang chính thức.
+2. Tạo **khóa API**. Chỉ hiện một lần, cất kín.
+3. **Đặt giới hạn chi tiêu** (spend limit) trong trang quản lý nếu có.
+4. Cài thư viện: pip install anthropic
+
+## Cất khóa API đúng cách: biến môi trường
+**Không bao giờ** dán khóa thẳng vào code (dễ lộ khi chia sẻ code, đưa lên GitHub). Trên Windows, mở PowerShell:
+~~~
+setx ANTHROPIC_API_KEY "dán-khóa-của-bạn-vào-đây"
+~~~
+Đóng và mở lại VS Code. Thư viện tự đọc khóa từ biến môi trường.
+
+## Script đầu tiên
+~~~python
+import anthropic
+
+client = anthropic.Anthropic()            # tự đọc khóa từ biến môi trường ANTHROPIC_API_KEY
+tra_loi = client.messages.create(
+    model="claude-sonnet-5-5",            # tên model: kiểm tra lại trong tài liệu chính thức
+    max_tokens=500,                       # giới hạn độ dài trả lời = giới hạn chi phí
+    system="Bạn là trợ lý tóm tắt văn bản hành chính, trả lời tiếng Việt, ngắn gọn.",
+    messages=[{"role": "user", "content": "Tóm tắt trong 3 gạch đầu dòng: ..."}],
+)
+print(tra_loi.content[0].text)
+~~~
+- **system**: hướng dẫn cố định (giống master prompt, buổi 6).
+- **messages**: nội dung bạn gửi.
+- **max_tokens**: chặn trả lời quá dài.
+
+## Xử lý hàng loạt
+~~~python
+from pathlib import Path
+for tep in sorted(Path("van_ban").glob("*.txt")):
+    noi_dung = tep.read_text(encoding="utf-8")
+    kq = client.messages.create(model="claude-sonnet-5-5", max_tokens=400,
+        messages=[{"role": "user", "content": "Tóm tắt 3 ý chính:\n\n" + noi_dung}])
+    Path("tom_tat", tep.stem + "_tomtat.txt").write_text(kq.content[0].text, encoding="utf-8")
+    print("Xong:", tep.name)
+~~~
+(Cần tạo sẵn thư mục tom_tat.)
+
+## Kiểm soát chi phí và rủi ro
+| Việc | Vì sao |
+| Chạy thử với 2–3 file trước | Kiểm tra kết quả và ước tính chi phí |
+| Đặt max_tokens hợp lý | Chặn trả lời dài tốn tiền |
+| Đặt giới hạn chi tiêu trên trang quản lý | Tránh hóa đơn bất ngờ khi code lặp lỗi |
+| Dùng model nhỏ hơn cho việc đơn giản | Rẻ hơn nhiều; việc khó mới cần model mạnh |
+| Ghi log từng file đã xử lý | Lỗi giữa chừng thì chạy tiếp, không chạy lại từ đầu |
+
+## Bảo mật: API cũng là gửi dữ liệu ra ngoài
+Mọi quy tắc **vùng đỏ – vàng – xanh** (buổi 20) áp dụng y nguyên. API không làm dữ liệu "an toàn hơn" chat. Chỉ xử lý văn bản công khai, dữ liệu giả hoặc đã ẩn danh.
+`,
+summary: [
+  "Dùng API khi cần xử lý hàng loạt hoặc gắn AI vào công cụ; việc lẻ thì chat đơn giản hơn.",
+  "Khóa API cất trong biến môi trường, không dán vào code; đặt giới hạn chi tiêu, max_tokens, chạy thử ít file trước.",
+  "API cũng gửi dữ liệu ra ngoài: chỉ dùng dữ liệu công khai, giả hoặc đã ẩn danh."
+],
+practiceDetail: `
+1. Tạo thư mục van_ban với 3 file .txt chứa **văn bản pháp luật công khai** (copy từ nguồn chính thức) và thư mục tom_tat trống.
+2. Nhờ AI hoàn thiện script:
+~~~prompt
+Hoàn thiện script Python dùng thư viện anthropic để tóm tắt hàng loạt file .txt trong thư mục van_ban, ghi kết quả vào thư mục tom_tat. Yêu cầu: khóa API đọc từ biến môi trường; tự tạo thư mục tom_tat nếu chưa có; bỏ qua file đã có bản tóm tắt; bắt lỗi từng file mà không dừng cả chương trình; in số token đầu vào/đầu ra của mỗi lần gọi để tôi ước tính chi phí. Chú thích tiếng Việt cho người mới.
+~~~
+3. Chạy với 3 file. Ghi tổng số token vào Ghi chú, tự tra bảng giá trên trang chính thức để ước tính chi phí.
+`,
+quiz: [
+  { q: "Cất khóa API đúng cách:", a: ["Dán vào code", "Biến môi trường, không đưa vào file chia sẻ", "Gửi qua Zalo", "Ghi trên giấy dán màn hình"], c: 1, e: "Tránh lộ khi chia sẻ code." },
+  { q: "max_tokens dùng để:", a: ["Tăng tốc", "Giới hạn độ dài trả lời, từ đó giới hạn chi phí", "Đổi model", "Bảo mật"], c: 1, e: "Chi phí tính theo token." },
+  { q: "Trước khi chạy 500 file:", a: ["Chạy luôn", "Chạy thử 2–3 file, kiểm tra kết quả và chi phí, đặt giới hạn chi tiêu", "Tắt giới hạn", "Dùng model mạnh nhất"], c: 1, e: "Tránh tốn tiền vì lỗi." },
+  { q: "Gửi danh sách người cai nghiện qua API có an toàn hơn chat không?", a: ["An toàn hơn", "Không, API cũng gửi dữ liệu ra ngoài; vùng đỏ tuyệt đối không", "Tùy model", "An toàn nếu ít dòng"], c: 1, e: "Quy tắc buổi 20 áp dụng y nguyên." }
+],
+cards: [
+  { f: "Biến môi trường ANTHROPIC_API_KEY", b: "Nơi cất khóa API trên máy; thư viện tự đọc, không cần dán vào code." },
+  { f: "system / messages / max_tokens", b: "Hướng dẫn cố định / nội dung gửi / giới hạn độ dài trả lời." },
+  { f: "Kiểm soát chi phí API", b: "Chạy thử ít file, max_tokens, giới hạn chi tiêu, model nhỏ cho việc đơn giản, ghi log." }
+]
+},
+
+{
+id: 42, week: 6, ready: true,
+title: "Trading nâng cao: kiểm chứng chiến lược bằng dữ liệu",
+goal: "Viết backtest đơn giản không nhìn trước tương lai, tính chi phí, tách dữ liệu, mô phỏng Monte Carlo.",
+practice: "Backtest một quy tắc minh họa trên dữ liệu lịch sử, so sánh giai đoạn trong/ngoài mẫu.",
+content: `
+> Mục đích buổi này là học cách **kiểm chứng** và **loại bỏ** ý tưởng, không phải tìm "chiến lược thắng". Quy tắc dùng làm ví dụ (hai đường trung bình) chỉ để minh họa kỹ thuật, **không phải khuyến nghị giao dịch**. Lưu ý pháp lý ở buổi 22 vẫn nguyên giá trị.
+
+## Lấy dữ liệu giá lịch sử
+Trong MetaTrader 5 (máy tính): View → Symbols (Ctrl+U) → tab Bars → chọn mã, khung thời gian, khoảng ngày → Request → Export Bars → lưu CSV. Thao tác có thể khác theo phiên bản, cần kiểm tra lại. Dữ liệu demo/của sàn có thể có sai sót, khoảng trống.
+
+## Backtest tối giản, không nhìn trước tương lai
+~~~python
+import pandas as pd
+
+df = pd.read_csv("XAUUSD_H1.csv")              # cột: time, open, high, low, close
+df["ma_nhanh"] = df["close"].rolling(20).mean()
+df["ma_cham"] = df["close"].rolling(50).mean()
+df["tin_hieu"] = (df["ma_nhanh"] > df["ma_cham"]).astype(int)   # 1 = muốn giữ lệnh mua
+
+# Quyết định ở nến t chỉ được dùng từ nến t+1: dịch tín hiệu xuống 1 dòng
+df["vi_the"] = df["tin_hieu"].shift(1).fillna(0)
+df["lai_lo_gia"] = df["vi_the"] * df["close"].diff()
+
+CHI_PHI = 0.30          # chi phí giả định mỗi lần vào/ra (spread...), chỉnh theo thực tế
+df["so_lan_doi"] = df["vi_the"].diff().abs().fillna(0)
+df["ket_qua"] = df["lai_lo_gia"] - df["so_lan_doi"] * CHI_PHI
+df["luy_ke"] = df["ket_qua"].cumsum()
+print("Tổng (USD giá/1 oz):", round(df["ket_qua"].sum(), 2))
+print("Sụt giảm lớn nhất:", round((df["luy_ke"] - df["luy_ke"].cummax()).min(), 2))
+~~~
+Dòng quan trọng nhất là **shift(1)**: không có nó, code "biết" giá đóng cửa trước khi quyết định, kết quả đẹp giả tạo.
+
+## Tách dữ liệu: trong mẫu và ngoài mẫu
+- **Trong mẫu** (ví dụ 70% thời gian đầu): được thử, chỉnh thông số.
+- **Ngoài mẫu** (30% cuối): **chỉ chạy một lần** với thông số đã chốt.
+Kết quả ngoài mẫu tệ hơn hẳn → dấu hiệu **quá khớp**. Nâng cao hơn: **walk-forward**, lặp lại chỉnh–kiểm tra trên nhiều đoạn thời gian nối tiếp.
+
+## Monte Carlo: chuỗi thua có thể tệ đến đâu?
+Lấy danh sách kết quả từng lệnh (từ backtest hoặc nhật ký), **xáo trộn thứ tự** hàng nghìn lần, mỗi lần tính mức sụt vốn lớn nhất. Bạn thấy được **phân bố** sụt vốn, không chỉ một con số may mắn của lịch sử.
+~~~python
+import random
+ket_qua_lenh = [12.5, -8, -10, 25, -9, 18, -11, -7, 30, -10]   # lãi/lỗ từng lệnh (thay bằng dữ liệu của bạn)
+sut_max = []
+for _ in range(5000):
+    random.shuffle(ket_qua_lenh)
+    von, dinh, sut = 0, 0, 0
+    for x in ket_qua_lenh:
+        von += x; dinh = max(dinh, von); sut = min(sut, von - dinh)
+    sut_max.append(sut)
+sut_max.sort()
+print("95% trường hợp sụt không quá:", sut_max[int(0.05 * len(sut_max))])
+~~~
+
+## Danh sách kiểm tra một backtest
+- Có shift (không nhìn trước tương lai)?
+- Có tính chi phí (spread, commission, swap)?
+- Đủ số lệnh (hàng trăm, không phải vài chục)?
+- Ngoài mẫu có giữ được kết quả?
+- Sụt vốn tệ nhất (Monte Carlo) bạn có chịu nổi về tài chính và tâm lý?
+- Ít thông số (càng nhiều thông số càng dễ quá khớp)?
+`,
+summary: [
+  "Backtest đúng phải dịch tín hiệu (shift) để không nhìn trước tương lai và phải trừ chi phí.",
+  "Tách trong mẫu/ngoài mẫu (hoặc walk-forward); kết quả ngoài mẫu tệ hơn hẳn là quá khớp.",
+  "Monte Carlo xáo trộn thứ tự lệnh để thấy phân bố sụt vốn; mục đích là loại bỏ ý tưởng tệ, không phải tìm chén thánh."
+],
+practiceDetail: `
+1. Xuất dữ liệu H1 của một mã (demo), khoảng 1–2 năm.
+2. Prompt:
+~~~prompt
+Tôi học cách kiểm chứng chiến lược, không cần khuyến nghị giao dịch. File CSV của tôi có cột [dán dòng tiêu đề]. Hoàn thiện script backtest Python (pandas) cho quy tắc minh họa hai đường trung bình 20/50:
+- Dịch tín hiệu 1 nến để không nhìn trước tương lai; trừ chi phí mỗi lần đổi vị thế (biến CHI_PHI).
+- Tách 70% đầu (trong mẫu) và 30% cuối (ngoài mẫu); in cho từng phần: tổng kết quả, số lần giao dịch, sụt giảm lớn nhất.
+- Thêm mô phỏng Monte Carlo 5000 lần trên kết quả từng giao dịch.
+- Liệt kê các hạn chế của backtest này.
+Chú thích tiếng Việt cho người mới.
+~~~
+3. Ghi vào Ghi chú: kết quả trong mẫu và ngoài mẫu khác nhau thế nào? Kết luận của bạn?
+`,
+quiz: [
+  { q: "shift(1) trong backtest để:", a: ["Chạy nhanh hơn", "Tránh dùng thông tin chưa có tại thời điểm quyết định", "Tăng lợi nhuận", "Làm đẹp biểu đồ"], c: 1, e: "Tránh nhìn trước tương lai." },
+  { q: "Kết quả trong mẫu rất đẹp, ngoài mẫu lỗ nặng. Đây là dấu hiệu:", a: ["Chiến lược tốt", "Quá khớp (overfitting)", "Dữ liệu ít", "Lỗi Excel"], c: 1, e: "Thông số chỉ khớp dữ liệu cũ." },
+  { q: "Monte Carlo trong bài dùng để:", a: ["Dự đoán giá", "Thấy phân bố sụt vốn có thể xảy ra khi thứ tự lệnh khác đi", "Tăng tỷ lệ thắng", "Chọn mã"], c: 1, e: "Đánh giá rủi ro chuỗi thua." },
+  { q: "Mục đích chính của backtest với người học:", a: ["Tìm chiến lược chắc thắng", "Kiểm chứng và loại bỏ ý tưởng tệ", "Thay thế kỷ luật", "Bán cho người khác"], c: 1, e: "Backtest không bảo đảm tương lai." }
+],
+cards: [
+  { f: "Nhìn trước tương lai (look-ahead bias)", b: "Code dùng dữ liệu chưa có tại thời điểm quyết định; kết quả đẹp giả tạo. Khắc phục bằng shift." },
+  { f: "Trong mẫu / ngoài mẫu", b: "Chỉnh thông số trên phần đầu; kiểm tra một lần trên phần cuối chưa từng dùng." },
+  { f: "Monte Carlo", b: "Xáo trộn thứ tự kết quả lệnh nhiều lần để thấy phân bố sụt vốn." }
+]
+},
+
+{
+id: 43, week: 6, ready: true,
+title: "Tự động hóa quy trình: lịch chạy, Agent và giới hạn",
+goal: "Cho script/AI chạy tự động theo lịch, có nhật ký và điểm kiểm tra của con người; biết khi nào không nên tự động hóa.",
+practice: "Đặt lịch chạy một script trên Windows; thiết kế một quy trình tự động có điểm duyệt.",
+content: `
+## Các mức tự động hóa
+| Mức | Mô tả | Ví dụ |
+| 0 | Làm tay | Gõ biên bản từng ngày |
+| 1 | Bấm một nút | Chạy script tạo biên bản khi cần |
+| 2 | Chạy theo lịch | Mỗi sáng thứ Hai tự gộp file tuần trước |
+| 3 | Agent làm nhiều bước, người duyệt điểm chốt | Agent gộp số liệu, soạn báo cáo nháp, chờ bạn duyệt |
+| 4 | Agent tự làm từ đầu đến cuối | Ít khi phù hợp với việc cơ quan |
+Với công việc kế toán ở cơ quan, **mức 1–3 là hợp lý**. Điểm ký, duyệt, gửi luôn do người làm.
+
+## Chạy script theo lịch trên Windows: Task Scheduler
+1. Mở **Task Scheduler** (gõ tìm trong Start).
+2. Create Basic Task → đặt tên → chọn lịch (Daily/Weekly).
+3. Action: Start a program → Program: đường dẫn python.exe (hoặc py) → Add arguments: tên file script → Start in: thư mục chứa script.
+4. Máy phải bật vào giờ đó. Giao diện có thể khác chút theo phiên bản, cần kiểm tra lại.
+
+## Script chạy tự động phải "biết tự báo cáo"
+Khi không có người ngồi xem, script cần:
+- **Ghi nhật ký (log)** vào file: thời gian chạy, số file xử lý, lỗi nếu có.
+- **Không ghi đè** file gốc; ghi kết quả vào thư mục theo ngày.
+- **Dừng an toàn khi gặp bất thường** (thiếu file, tổng lệch) và ghi rõ lý do, thay vì cố chạy tiếp.
+- Tùy chọn: tạo file "CAN_KIEM_TRA.txt" khi có cảnh báo để bạn nhìn thấy ngay.
+
+## Tác vụ định kỳ với trợ lý AI
+Một số trợ lý AI có tính năng **tác vụ theo lịch** (ví dụ mỗi sáng tổng hợp tin tức một chủ đề, mỗi tuần nhắc lịch học). Tên và cách bật khác nhau theo công cụ, cần kiểm tra lại. Phù hợp với việc dùng **thông tin công khai**; không dùng cho dữ liệu nội bộ.
+
+## Thiết kế quy trình có điểm duyệt của người
+~~~
+[Tự động] Gộp file đặt hàng tuần → [Tự động] Tính tổng, đối chiếu định mức
+→ [Tự động] Tạo biên bản nháp + danh sách cảnh báo
+→ [NGƯỜI] Kiểm tra cảnh báo, đối chiếu chứng từ → [NGƯỜI] Ký, lưu hồ sơ
+~~~
+Máy làm phần lặp lại; người làm phần **phán đoán và chịu trách nhiệm**.
+
+## Khi nào KHÔNG nên tự động hóa
+- Việc làm **vài lần một năm**: thời gian làm công cụ lớn hơn thời gian tiết kiệm.
+- Quy trình **chưa ổn định**, mẫu biểu thay đổi liên tục.
+- Việc cần **phán đoán**, xử lý ngoại lệ nhiều.
+- Việc **không hoàn tác được**: gửi văn bản, chuyển tiền, xóa dữ liệu.
+- Khi bạn **không hiểu** công cụ làm gì: không kiểm tra được thì không nên giao.
+Công thức nhanh: **thời gian tiết kiệm mỗi lần × số lần mỗi năm** so với **thời gian làm + bảo trì công cụ**.
+`,
+summary: [
+  "Mức tự động hóa hợp lý cho việc cơ quan: bấm nút, chạy theo lịch, agent làm nháp và người duyệt điểm chốt.",
+  "Script tự chạy phải ghi log, không ghi đè, dừng an toàn và báo khi bất thường; dùng Task Scheduler trên Windows.",
+  "Không tự động hóa việc hiếm, quy trình chưa ổn định, cần phán đoán, không hoàn tác được, hoặc bạn không hiểu."
+],
+practiceDetail: `
+1. Nhờ AI bổ sung "khả năng tự báo cáo" cho script gộp file buổi 18:
+~~~prompt
+Sửa script Python sau để chạy tự động theo lịch: ghi log vào file log_<ngày>.txt (thời gian, số file, số dòng, tổng tiền, lỗi); ghi kết quả vào thư mục theo ngày; nếu thiếu file hoặc tổng lệch thì dừng an toàn và tạo file CAN_KIEM_TRA.txt ghi lý do. Hướng dẫn tôi đặt lịch chạy bằng Task Scheduler trên Windows từng bước. Chú thích tiếng Việt.
+[dán script]
+~~~
+2. Đặt lịch chạy thử sau 5 phút. Kiểm tra file log.
+3. Vẽ quy trình tháng của bạn theo mẫu "Tự động / NGƯỜI", tính thời gian tiết kiệm mỗi năm. Ghi vào Ghi chú.
+`,
+quiz: [
+  { q: "Mức tự động hóa phù hợp nhất với việc lập biên bản ở cơ quan:", a: ["Agent tự làm và tự ký gửi", "Máy làm nháp và cảnh báo, người kiểm tra và ký", "Làm tay hoàn toàn", "Nhờ người ngoài"], c: 1, e: "Người làm phần phán đoán và chịu trách nhiệm." },
+  { q: "Script chạy theo lịch gặp thiếu file thì nên:", a: ["Chạy tiếp với dữ liệu thiếu", "Dừng an toàn, ghi lý do vào log/file cảnh báo", "Xóa file cũ", "Gửi email cho mọi người"], c: 1, e: "Không để kết quả sai âm thầm." },
+  { q: "Việc nào KHÔNG nên tự động hóa?", a: ["Gộp file tuần", "Gửi văn bản chính thức hoặc chuyển tiền", "Tạo biên bản nháp", "Ghi log"], c: 1, e: "Không hoàn tác được." },
+  { q: "Công cụ đặt lịch chạy script có sẵn trên Windows:", a: ["Task Scheduler", "Paint", "Notepad", "Calculator"], c: 0, e: "Task Scheduler." }
+],
+cards: [
+  { f: "Task Scheduler", b: "Công cụ Windows chạy chương trình/script theo lịch." },
+  { f: "Script tự báo cáo", b: "Ghi log, không ghi đè, dừng an toàn khi bất thường, tạo file cảnh báo." },
+  { f: "Khi nào không tự động hóa", b: "Việc hiếm, quy trình chưa ổn định, cần phán đoán, không hoàn tác được, không hiểu công cụ." }
+]
+},
+
+{
+id: 44, week: 6, ready: true, review: true,
+title: "Tổng kết nâng cao: bộ công cụ cá nhân và lộ trình tiếp theo",
+goal: "Hệ thống lại toàn khóa, xây bộ công cụ cá nhân, chọn hướng đi tiếp.",
+practice: "Lập danh mục sản phẩm (portfolio) và kế hoạch 3 tháng tiếp theo.",
+content: `
+## Bản đồ toàn khóa
+| Giai đoạn | Năng lực |
+| Tuần 1 | Hiểu AI, viết prompt, kiểm soát AI |
+| Tuần 2 | Đọc hiểu code, sửa lỗi cùng AI |
+| Tuần 3 | App web/PWA, API, Agent, tự động hóa Excel/Word, bảo mật |
+| Tuần 4 | Kỷ luật và quản lý rủi ro giao dịch; hướng kiếm tiền |
+| Nâng cao 1 | Excel chuyên sâu, Power Query, VBA; thiết kế và làm phần mềm nội bộ; Git |
+| Nâng cao 2 | Video AI theo dây chuyền; API; kiểm chứng chiến lược; tự động hóa có kiểm soát |
+
+## Bộ công cụ cá nhân của bạn
+Gom về một thư mục **D:\\HocAI\\BoCongCu**:
+- **Thư viện prompt** (xuất từ app: sao chép các prompt "Của tôi").
+- **Các Project** trong công cụ AI: Kế toán nuôi ăn, Học AI, Video...
+- **Script**: gộp file, tạo biên bản, ẩn danh, thống kê giao dịch, tóm tắt hàng loạt.
+- **Mẫu**: mẫu Word/Excel chuẩn, mẫu dự án CapCut, bộ phong cách video.
+- **Ứng dụng**: Sổ tay học AI, Sổ trang cấp (bản thử)...
+- **Sao lưu**: dữ liệu app hằng tuần; mã nguồn bằng Git.
+
+## Danh mục sản phẩm (portfolio)
+Nếu muốn kiếm tiền (sau khi đã kiểm tra quy định), mỗi sản phẩm nên có: tên, vấn đề giải quyết, ảnh chụp/video ngắn với **dữ liệu giả**, thời gian tiết kiệm được. 3–5 sản phẩm thật, chạy được, có giá trị hơn rất nhiều lời giới thiệu.
+
+## Chọn hướng đi tiếp (chọn 1 trong 3 tháng tới)
+| Hướng | Học thêm |
+| Chuyên gia tự động hóa kế toán | Power Query nâng cao, Power BI hoặc báo cáo động, Python pandas sâu hơn |
+| Làm phần mềm nhỏ | JavaScript cơ bản, IndexedDB, công cụ AI lập trình, kiểm thử |
+| Video AI | Kể chuyện bằng hình, dựng phim, quy trình làm theo đơn hàng |
+| Trading có kỷ luật | Chỉ tiếp tục sau khi đã rõ quy định; thống kê, quản trị rủi ro; nếu không giữ được kỷ luật demo thì dừng |
+Nguyên tắc: **một hướng chính**, mỗi tuần **một sản phẩm nhỏ** hoàn thành.
+
+## Nguyên tắc dùng AI lâu dài
+1. AI là công cụ; **bạn chịu trách nhiệm** kết quả.
+2. **Kiểm tra** con số, căn cứ pháp lý, mọi thứ quan trọng.
+3. **Dữ liệu thật ở lại máy**; vùng đỏ không bao giờ lên AI.
+4. **Bắt đầu nhỏ**, dùng thật, rồi mở rộng.
+5. **Lưu lại** prompt, mẫu, công cụ tốt; đó là tài sản tăng dần.
+`,
+summary: [
+  "Toàn khóa: hiểu AI → đọc code → làm app và tự động hóa → kỷ luật giao dịch → Excel/phần mềm/video/API nâng cao.",
+  "Gom bộ công cụ cá nhân: prompt, Project, script, mẫu, ứng dụng, sao lưu; làm portfolio bằng dữ liệu giả.",
+  "Chọn một hướng chính cho 3 tháng, mỗi tuần một sản phẩm nhỏ; luôn kiểm tra và bảo vệ dữ liệu."
+],
+practiceDetail: `
+~~~prompt
+Tôi vừa học xong khóa AI ứng dụng 44 buổi (prompt, Python cơ bản, tự động hóa Excel/Word, PWA, Power Query, VBA, phần mềm nội bộ, video AI, API, kiểm chứng giao dịch). Tôi là kế toán, học 1 giờ/ngày. Hướng tôi chọn: [hướng].
+Lập kế hoạch 12 tuần: mỗi tuần 1 sản phẩm nhỏ hoàn thành được trong 5 giờ, có tiêu chí hoàn thành, sắp xếp từ dễ đến khó. Không hứa hẹn thu nhập. Hỏi tôi tối đa 3 câu trước.
+~~~
+Lưu kế hoạch vào Ghi chú. Làm bài kiểm tra tổng kết nâng cao bên dưới.
+`,
+quiz: [
+  { q: "Gộp file các tháng trong một thư mục, người khác trong đơn vị cũng phải dùng, máy họ không có Python:", a: ["Python", "Power Query", "API", "Video"], c: 1, e: "Buổi 32–33." },
+  { q: "Bước đầu tiên khi làm phần mềm nội bộ bằng AI:", a: ["Chọn màu giao diện", "Viết bản đặc tả", "Viết code", "Đăng lên mạng"], c: 1, e: "Buổi 34." },
+  { q: "Số tồn kho trong phần mềm nên:", a: ["Gõ tay", "Tính từ chứng từ", "Ước lượng", "Lấy từ AI"], c: 1, e: "Buổi 35." },
+  { q: "Trước khi nhờ AI sửa code dự án:", a: ["Xóa bản cũ", "Commit Git", "Đổi máy", "Không cần gì"], c: 1, e: "Buổi 37." },
+  { q: "Làm video AI nhanh hơn nhờ:", a: ["Làm từng cảnh từ đầu đến cuối", "Dây chuyền + bộ phong cách + làm theo lô", "Tạo 20 lần mỗi cảnh", "Không có kịch bản"], c: 1, e: "Buổi 38." },
+  { q: "Dùng hình/giọng người thật trong video AI khi chưa đồng ý:", a: ["Được", "Không được", "Được nếu miễn phí", "Được nếu ngắn"], c: 1, e: "Buổi 40." },
+  { q: "Khóa API nên cất ở:", a: ["Trong code", "Biến môi trường", "Trên GitHub", "Trong nhóm chat"], c: 1, e: "Buổi 41." },
+  { q: "Backtest không có shift(1) dễ bị:", a: ["Nhìn trước tương lai, kết quả đẹp giả", "Chạy chậm", "Thiếu dữ liệu", "Lỗi cú pháp"], c: 0, e: "Buổi 42." },
+  { q: "Việc nào nên giữ cho người làm?", a: ["Gộp file", "Tính tổng", "Ký duyệt, gửi văn bản", "Ghi log"], c: 2, e: "Buổi 43." },
+  { q: "Nguyên tắc dữ liệu suốt khóa học:", a: ["Đưa hết lên AI cho nhanh", "AI viết công cụ bằng dữ liệu giả, dữ liệu thật ở lại máy", "Chỉ dùng giấy", "Không dùng AI"], c: 1, e: "Buổi 20 và xuyên suốt." }
+],
+cards: [
+  { f: "5 nguyên tắc dùng AI lâu dài", b: "Bạn chịu trách nhiệm; kiểm tra điều quan trọng; dữ liệu thật ở lại máy; bắt đầu nhỏ; lưu lại tài sản." },
+  { f: "Portfolio", b: "3–5 sản phẩm chạy được, có ảnh/video với dữ liệu giả, ghi vấn đề giải quyết và thời gian tiết kiệm." }
+]
+}
+);
+
+
+/* ---------------- BỔ SUNG TỪ ĐIỂN & PROMPT CHO TUẦN 2–6 ---------------- */
+GLOSSARY.push(
+  { en: "Indentation", vi: "Thụt đầu dòng", d: "Trong Python, thụt đầu dòng cho biết dòng nào thuộc khối if/vòng lặp/hàm; thụt sai là lỗi.", g: "Lập trình" },
+  { en: "Traceback", vi: "Thông báo lỗi Python", d: "Đọc dòng cuối (loại lỗi) và dòng 'line …' (vị trí lỗi).", g: "Lập trình" },
+  { en: "pandas", vi: "Thư viện xử lý bảng", d: "Thư viện Python đọc, gộp, nhóm, tính toán dữ liệu dạng bảng.", g: "Lập trình" },
+  { en: "openpyxl", vi: "Thư viện Excel", d: "Thư viện Python đọc/ghi file Excel chi tiết đến từng ô, định dạng.", g: "Lập trình" },
+  { en: "docxtpl", vi: "Thư viện mẫu Word", d: "Điền dữ liệu vào mẫu Word có chỗ trống {{ ten }}.", g: "Lập trình" },
+  { en: "Git / commit", vi: "Quản lý phiên bản / mốc lưu", d: "Công cụ ghi lại từng lần thay đổi mã nguồn; commit là một mốc có ghi chú, quay lại được.", g: "Lập trình" },
+  { en: "Environment variable", vi: "Biến môi trường", d: "Giá trị cất trong hệ điều hành, dùng để giữ khóa API ngoài code.", g: "Lập trình" },
+  { en: "Log", vi: "Nhật ký chạy", d: "File ghi lại chương trình đã làm gì, lúc nào, lỗi gì.", g: "Lập trình" },
+  { en: "Task Scheduler", vi: "Bộ lập lịch Windows", d: "Chạy chương trình/script theo lịch định sẵn.", g: "Lập trình" },
+  { en: "Database", vi: "Cơ sở dữ liệu", d: "Nơi lưu dữ liệu có cấu trúc gồm nhiều bảng liên kết.", g: "Ứng dụng" },
+  { en: "Primary key", vi: "Khóa chính", d: "Mã duy nhất của mỗi dòng trong bảng.", g: "Ứng dụng" },
+  { en: "Foreign key", vi: "Khóa ngoại", d: "Cột trỏ tới dòng của bảng khác, tạo quan hệ giữa các bảng.", g: "Ứng dụng" },
+  { en: "SQL", vi: "Ngôn ngữ truy vấn", d: "Ngôn ngữ hỏi dữ liệu: SELECT … FROM … WHERE … GROUP BY …", g: "Ứng dụng" },
+  { en: "SQLite", vi: "CSDL một file", d: "Cơ sở dữ liệu gọn trong một file, hợp với script và ứng dụng máy tính.", g: "Ứng dụng" },
+  { en: "IndexedDB", vi: "CSDL trong trình duyệt", d: "Cơ sở dữ liệu của trình duyệt, chứa được nhiều dữ liệu hơn localStorage.", g: "Ứng dụng" },
+  { en: "Spec (specification)", vi: "Bản đặc tả", d: "Tài liệu mô tả phần mềm cần làm gì: mục đích, dữ liệu, chức năng, màn hình, quy tắc, phạm vi.", g: "Ứng dụng" },
+  { en: "MVP", vi: "Sản phẩm khả dụng tối thiểu", d: "Phiên bản nhỏ nhất nhưng dùng được thật.", g: "Ứng dụng" },
+  { en: "Test case", vi: "Kịch bản kiểm thử", d: "Một thao tác cụ thể kèm kết quả mong đợi để kiểm tra phần mềm.", g: "Ứng dụng" },
+  { en: "API key", vi: "Khóa API", d: "Mật khẩu để gọi API; lộ khóa thì người khác dùng và bạn trả tiền.", g: "Ứng dụng" },
+  { en: "XLOOKUP", vi: "Hàm tra cứu", d: "Hàm tra cứu linh hoạt (Excel 2021/365), thay VLOOKUP.", g: "Excel" },
+  { en: "SUMIFS / COUNTIFS", vi: "Tổng / đếm nhiều điều kiện", d: "Cộng hoặc đếm các dòng thỏa nhiều điều kiện.", g: "Excel" },
+  { en: "Dynamic array", vi: "Hàm mảng động", d: "UNIQUE, FILTER, SORT: một công thức trả về cả bảng (Excel 2021/365).", g: "Excel" },
+  { en: "PivotTable", vi: "Bảng tổng hợp", d: "Kéo thả để tổng hợp dữ liệu theo nhóm.", g: "Excel" },
+  { en: "Table (Ctrl+T)", vi: "Bảng có cấu trúc", d: "Vùng dữ liệu được định dạng bảng: công thức tự kéo, báo cáo tự nhận dòng mới.", g: "Excel" },
+  { en: "Data Validation", vi: "Kiểm soát dữ liệu nhập", d: "Giới hạn giá trị được nhập: danh sách, số ≥ 0, ngày trong khoảng.", g: "Excel" },
+  { en: "Power Query", vi: "Công cụ lấy và làm sạch dữ liệu", d: "Gộp, làm sạch dữ liệu theo các bước ghi lại; bấm Refresh để chạy lại.", g: "Excel" },
+  { en: "M language", vi: "Ngôn ngữ M", d: "Code đằng sau các bước Power Query.", g: "Excel" },
+  { en: "VBA / Macro", vi: "Macro Excel", d: "Ngôn ngữ lập trình có sẵn trong Excel; macro lưu trong file .xlsm, không Undo được.", g: "Excel" },
+  { en: "Storyboard / Shot list", vi: "Bảng phân cảnh", d: "Bảng liệt kê từng cảnh: thời lượng, hình ảnh, chuyển động máy, lời dẫn, prompt.", g: "Video" },
+  { en: "Text-to-image", vi: "Tạo ảnh từ chữ", d: "AI tạo ảnh từ mô tả bằng chữ (prompt).", g: "Video" },
+  { en: "Image-to-video", vi: "Tạo video từ ảnh", d: "AI biến một ảnh thành clip có chuyển động theo mô tả.", g: "Video" },
+  { en: "Reference image", vi: "Ảnh tham chiếu", d: "Ảnh đưa vào để AI giữ nhân vật/phong cách nhất quán.", g: "Video" },
+  { en: "Style prompt", vi: "Bộ phong cách", d: "Đoạn mô tả phong cách cố định dán vào mọi prompt để đồng nhất.", g: "Video" },
+  { en: "Camera movement", vi: "Chuyển động máy quay", d: "Push in (tiến vào), pan (lia ngang), static (đứng yên)...", g: "Video" },
+  { en: "Deepfake", vi: "Giả mạo bằng AI", d: "Video/giọng nói giả người thật; vi phạm đạo đức, có thể vi phạm pháp luật.", g: "Video" },
+  { en: "Look-ahead bias", vi: "Nhìn trước tương lai", d: "Lỗi backtest dùng dữ liệu chưa có tại thời điểm quyết định.", g: "Trading" },
+  { en: "In-sample / Out-of-sample", vi: "Trong mẫu / ngoài mẫu", d: "Dữ liệu để chỉnh thông số / dữ liệu để kiểm tra một lần.", g: "Trading" },
+  { en: "Walk-forward", vi: "Kiểm tra cuốn chiếu", d: "Lặp lại chỉnh rồi kiểm tra trên nhiều đoạn thời gian nối tiếp.", g: "Trading" },
+  { en: "Monte Carlo", vi: "Mô phỏng ngẫu nhiên", d: "Xáo trộn/giả lập kết quả nhiều lần để thấy phân bố rủi ro.", g: "Trading" },
+  { en: "Expectancy", vi: "Kỳ vọng mỗi lệnh", d: "Tỷ lệ thắng × lãi TB − tỷ lệ thua × lỗ TB.", g: "Trading" }
+);
+
+PROMPTS.push(
+  { g: "Excel", t: "Giải thích / viết code Power Query (M)", x: `Đây là code Power Query (M) của tôi. Giải thích từng bước bằng tiếng Việt cho người mới, sau đó sửa để: [yêu cầu]. Tôi dùng Excel [phiên bản].
+[dán code M từ Advanced Editor]` },
+  { g: "Excel", t: "Viết macro VBA an toàn", x: `Viết macro VBA cho Excel [phiên bản] để: [mô tả từng bước]. Tên sheet: [..]; các ô quan trọng: [..].
+Yêu cầu: hỏi xác nhận (MsgBox Yes/No) trước khi xóa hay ghi đè bất cứ thứ gì; kiểm tra dữ liệu nhập; chú thích tiếng Việt từng dòng; hướng dẫn cách dán, chạy và gắn vào nút bấm.` },
+  { g: "Làm app", t: "Phỏng vấn để viết bản đặc tả phần mềm", x: `Đóng vai chuyên viên phân tích nghiệp vụ. Tôi muốn làm phần mềm nhỏ để: [vấn đề]. Người dùng: [ai], thiết bị: [..].
+Phỏng vấn tôi tối đa 6 câu, sau đó viết bản đặc tả 8 mục: mục đích, người dùng, dữ liệu (bảng, cột, khóa), chức năng ("Người dùng có thể..."), màn hình, quy tắc nghiệp vụ, ràng buộc (offline, sao lưu, bảo mật), ngoài phạm vi. Đề xuất phạm vi MVP.` },
+  { g: "Làm app", t: "Viết kịch bản kiểm thử", x: `Dựa trên bản đặc tả dưới đây, viết 15 kịch bản kiểm thử dạng bảng: STT, thao tác, dữ liệu nhập, kết quả mong đợi. Gồm cả trường hợp xấu: để trống, số âm, vượt tồn, trùng mã, mất mạng, sao lưu/khôi phục.
+[dán bản đặc tả]` },
+  { g: "Làm app", t: "Báo lỗi giao diện cho AI", x: `App có lỗi:
+- Bước làm: [..]
+- Mong đợi: [..]
+- Thực tế: [..]
+- Thiết bị/trình duyệt: [..]
+(đính kèm ảnh chụp màn hình)
+Tìm nguyên nhân, chỉ sửa đúng phần liên quan, giữ nguyên mọi chức năng và dữ liệu khác; liệt kê chỗ đã sửa.` },
+  { g: "Video", t: "Ý tưởng + kịch bản + bảng phân cảnh", x: `Đóng vai biên kịch video ngắn. Video [thời lượng], tỷ lệ [16:9 / 9:16], phong cách [..], đối tượng xem [..]. Thông điệp duy nhất: [..]. Tối đa [..] nhân vật, chỉ lời dẫn. Tránh: [..].
+1. Đưa 5 ý tưởng khác nhau về cách kể, chờ tôi chọn.
+2. Viết kịch bản: móc câu 3 giây – vấn đề – hành trình – thông điệp – kết.
+3. Lập bảng phân cảnh: STT, thời lượng, hình ảnh, chuyển động máy, lời dẫn, prompt ảnh tiếng Anh dùng chung bộ phong cách.` },
+  { g: "Video", t: "Prompt ảnh + video cho từng cảnh", x: `Phong cách: [..]. Nhân vật chính: [mô tả]. Viết: (1) bộ phong cách tiếng Anh dùng chung; (2) mô tả nhân vật cố định; (3) với mỗi cảnh sau, prompt ảnh 6 phần (chủ thể, hành động, bối cảnh, khung hình, ánh sáng-màu, phong cách) và prompt video chỉ mô tả chuyển động đơn giản, máy quay chậm; (4) đánh dấu cảnh dễ lỗi (tay, mặt cận, chữ) và cách quay thay thế.
+[dán danh sách cảnh]` },
+  { g: "Video", t: "Viết lời dẫn để đọc", x: `Viết lại lời dẫn sau để đọc thành tiếng cho video [thời lượng]: câu ngắn, dễ nghe, khoảng [..] chữ, chia theo từng cảnh với thời lượng tương ứng; không viết tắt, không số khó đọc; giọng [ấm áp / trang trọng].
+[dán lời dẫn + thời lượng từng cảnh]` },
+  { g: "Sửa lỗi code", t: "Gọi AI bằng API xử lý hàng loạt", x: `Viết script Python dùng thư viện anthropic để [việc] cho từng file trong thư mục [..], ghi kết quả vào thư mục [..]. Yêu cầu: khóa API đọc từ biến môi trường; max_tokens hợp lý; bỏ qua file đã xử lý; bắt lỗi từng file; ghi log; in số token mỗi lần gọi. Chú thích tiếng Việt cho người mới.` },
+  { g: "Trading", t: "Kiểm chứng ý tưởng bằng backtest", x: `Tôi học cách kiểm chứng, không cần khuyến nghị giao dịch. Dữ liệu CSV có cột [..]. Viết backtest Python cho quy tắc minh họa: [quy tắc].
+Bắt buộc: dịch tín hiệu 1 nến (không nhìn trước tương lai); trừ chi phí mỗi lần vào/ra; tách 70% trong mẫu / 30% ngoài mẫu; in tổng kết quả, số giao dịch, sụt giảm lớn nhất cho từng phần; mô phỏng Monte Carlo; liệt kê hạn chế. Chú thích tiếng Việt.` },
+  { g: "Gốc", t: "Biến script thành quy trình chạy tự động", x: `Sửa script sau để chạy tự động theo lịch: ghi log (thời gian, số file, lỗi), ghi kết quả vào thư mục theo ngày, không ghi đè file gốc, dừng an toàn và tạo file CAN_KIEM_TRA.txt khi bất thường. Hướng dẫn đặt lịch bằng Task Scheduler trên Windows. Chú thích tiếng Việt.
+[dán script]` }
+);
 
 </script>
 
@@ -1175,7 +3994,7 @@ const NAV = [
   ['hom-nay', '🏠', 'Hôm nay'], ['lo-trinh', '🗺️', 'Lộ trình'], ['on-tap', '🧠', 'Ôn tập'],
   ['prompt', '📋', 'Prompt'], ['giao-dich', '📈', 'Giao dịch'], ['them', '☰', 'Thêm']
 ];
-const TITLES = { 'hom-nay': 'Sổ tay học AI', 'lo-trinh': 'Lộ trình 30 buổi', 'bai': 'Bài học', 'on-tap': 'Ôn tập', 'tu-dien': 'Từ điển thuật ngữ', 'prompt': 'Thư viện prompt', 'giao-dich': 'Kỷ luật giao dịch', 'them': 'Thêm', 'tim-kiem': 'Tìm kiếm' };
+const TITLES = { 'hom-nay': 'Sổ tay học AI', 'lo-trinh': 'Lộ trình học', 'bai': 'Bài học', 'on-tap': 'Ôn tập', 'tu-dien': 'Từ điển thuật ngữ', 'prompt': 'Thư viện prompt', 'giao-dich': 'Kỷ luật giao dịch', 'them': 'Thêm', 'tim-kiem': 'Tìm kiếm' };
 
 function render() {
   const r = route();
@@ -1199,11 +4018,11 @@ function vToday() {
     const last = days.slice().sort().pop(); const gap = daysBetween(last, today());
     if (gap >= 2) h += '<div class="alert warn"><b>Bạn đã nghỉ ' + (gap - 1) + ' ngày.</b> Không sao, quan trọng là quay lại. Học tiếp buổi ' + s.id + ' ngay hôm nay nhé!</div>';
   } else {
-    h += '<div class="alert ok"><b>Chào bạn!</b> Lộ trình gồm 30 buổi, mỗi buổi 60 phút. Bắt đầu từ buổi 1 bên dưới.</div>';
+    h += '<div class="alert ok"><b>Chào bạn!</b> Lộ trình gồm 30 buổi cơ bản và 14 buổi nâng cao, mỗi buổi 60 phút. Bắt đầu từ buổi 1 bên dưới.</div>';
   }
   h += '<div class="card"><div class="row" style="justify-content:space-between"><b>Tiến độ khóa học</b><span class="pill">' + p + '%</span></div>' +
     '<div class="progress" style="margin:10px 0"><div style="width:' + p + '%"></div></div>' +
-    '<div class="stats"><div class="stat"><b>' + Object.keys(done).length + '/30</b><span>buổi đã học</span></div>' +
+    '<div class="stats"><div class="stat"><b>' + Object.keys(done).length + '/' + SESSIONS.length + '</b><span>buổi đã học</span></div>' +
     '<div class="stat"><b>🔥 ' + streak() + '</b><span>ngày học liên tục</span></div>' +
     '<div class="stat"><b>' + dueCards().length + '</b><span>thẻ cần ôn hôm nay</span></div></div></div>';
   // Buổi học hôm nay
@@ -1240,7 +4059,7 @@ function vRoadmap() {
     WEEKS.map(w => {
       const ss = SESSIONS.filter(s => s.week === w.id);
       const d = ss.filter(s => done[s.id]).length;
-      return '<div class="card"><h2>' + esc(w.title) + '</h2><p class="muted">' + esc(w.goal) + ' · ' + d + '/' + ss.length + ' buổi</p><ul class="list">' +
+      return '<div class="card">' + (w.adv ? '<span class="pill warn">Nâng cao</span>' : '') + '<h2>' + esc(w.title) + '</h2><p class="muted">' + esc(w.goal) + ' · ' + d + '/' + ss.length + ' buổi</p><ul class="list">' +
         ss.map(s => '<li data-act="go" data-href="#/bai/' + s.id + '"><div class="num ' + (done[s.id] ? 'done' : '') + '">' + (done[s.id] ? '✓' : s.id) + '</div>' +
           '<div class="grow"><div class="t">' + esc(s.title) + '</div><div class="muted small">' + esc(s.goal) + '</div></div>' +
           (quiz[s.id] != null ? '<span class="pill ok">' + quiz[s.id] + '%</span>' : (s.ready ? '' : '<span class="pill warn">Khung</span>')) + '</li>').join('') +
@@ -1275,16 +4094,22 @@ function vLesson(r) {
   h += '<div class="row" style="justify-content:space-between;margin-top:14px">' + (prev ? '<a class="btn" href="#/bai/' + prev.id + '">← Buổi ' + prev.id + '</a>' : '<span></span>') + (next ? '<a class="btn" href="#/bai/' + next.id + '">Buổi ' + next.id + ' →</a>' : '') + '</div>';
   return h;
 }
+/* Đảo thứ tự đáp án (cố định theo từng câu) để không đoán theo vị trí */
+function shuffleOrder(n, seed) {
+  const idx = [...Array(n).keys()]; let x = seed * 9301 + 49297;
+  for (let i = n - 1; i > 0; i--) { x = (x * 9301 + 49297) % 233280; const j = Math.floor(x / 233280 * (i + 1)); [idx[i], idx[j]] = [idx[j], idx[i]]; }
+  return idx;
+}
 function quizHtml(s) {
   const st = quizState[s.id] || {}; const best = store.get('quiz', {})[s.id];
   let answered = 0, right = 0;
   let h = (s.quiz || []).map((q, qi) => {
     const chosen = st[qi];
     if (chosen != null) { answered++; if (chosen === q.c) right++; }
-    return '<div class="q"><b>Câu ' + (qi + 1) + '.</b> ' + esc(q.q) + q.a.map((a, oi) => {
-      let cls = 'opt';
+    return '<div class="q"><b>Câu ' + (qi + 1) + '.</b> ' + esc(q.q) + shuffleOrder(q.a.length, s.id * 97 + qi).map((oi, pos) => {
+      const a = q.a[oi]; let cls = 'opt';
       if (chosen != null) { if (oi === q.c) cls += ' right'; else if (oi === chosen) cls += ' wrong'; }
-      return '<button class="' + cls + '" data-act="ans" data-s="' + s.id + '" data-q="' + qi + '" data-o="' + oi + '">' + String.fromCharCode(65 + oi) + '. ' + esc(a) + '</button>';
+      return '<button class="' + cls + '" data-act="ans" data-s="' + s.id + '" data-q="' + qi + '" data-o="' + oi + '">' + String.fromCharCode(65 + pos) + '. ' + esc(a) + '</button>';
     }).join('') + (chosen != null ? '<div class="exp">' + (chosen === q.c ? '✅ Đúng. ' : '❌ Chưa đúng. ') + esc(q.e) + '</div>' : '') + '</div>';
   }).join('');
   const total = (s.quiz || []).length;
@@ -1312,9 +4137,9 @@ function vReview() {
 function vGlossary() {
   const groups = ['Tất cả', ...new Set(GLOSSARY.map(g => g.g))];
   return '<div class="tabs"><a href="#/on-tap">🧠 Thẻ ghi nhớ</a><a href="#/tu-dien" class="on">📚 Từ điển thuật ngữ</a></div>' +
-    '<div class="card"><input id="gq" placeholder="Tìm thuật ngữ (Anh hoặc Việt)..." data-input="gloss"><div class="seg" style="margin-top:8px" id="gseg">' +
-    groups.map((g, i) => '<button class="' + (i === 0 ? 'on' : '') + '" data-act="gfilter" data-g="' + esc(g) + '">' + esc(g) + '</button>').join('') + '</div></div>' +
-    '<div class="card" id="glist">' + glossList('', 'Tất cả') + '</div>';
+    '<div class="card"><input id="gq" placeholder="Tìm thuật ngữ (Anh hoặc Việt)..." data-input="gloss"><select id="gsel" data-input="gloss" style="margin-top:8px">' +
+    groups.map(g => '<option value="' + esc(g) + '"' + (g === gFilter ? ' selected' : '') + '>' + (g === 'Tất cả' ? 'Tất cả nhóm' : 'Nhóm: ' + esc(g)) + '</option>').join('') + '</select><p class="small muted" style="margin:6px 0 0">' + GLOSSARY.length + ' thuật ngữ</p></div>' +
+    '<div class="card" id="glist">' + glossList('', gFilter) + '</div>';
 }
 let gFilter = 'Tất cả';
 function glossList(q, g) {
@@ -1682,7 +4507,6 @@ document.addEventListener('click', e => {
     case 'quizReset': { const s = +el.dataset.s; quizState[s] = {}; $('quiz').innerHTML = quizHtml(SESSIONS.find(x => x.id === s)); break; }
     case 'flip': flipped = !flipped; R(); break;
     case 'rate': rateCard(el.dataset.id, el.dataset.ok === '1'); flipped = false; R(); break;
-    case 'gfilter': gFilter = el.dataset.g; document.querySelectorAll('#gseg button').forEach(b => b.classList.toggle('on', b === el)); $('glist').innerHTML = glossList($('gq').value, gFilter); break;
     case 'pgroup': pGroup = el.dataset.g; R(); break;
     case 'addPrompt': {
       const t = $('np_t').value.trim(), x = $('np_x').value.trim();
@@ -1729,11 +4553,12 @@ document.addEventListener('input', e => {
   const el = e.target;
   if (el.id === 'note') { clearTimeout(noteTimer); noteTimer = setTimeout(() => { const n = store.get('notes', {}); n[el.dataset.sid] = el.value; store.set('notes', n); }, 400); }
   else if (el.dataset.input === 'calc') calcUpdate();
-  else if (el.dataset.input === 'gloss') $('glist').innerHTML = glossList(el.value, gFilter);
+  else if (el.dataset.input === 'gloss') { gFilter = $('gsel').value; $('glist').innerHTML = glossList($('gq').value, gFilter); }
 });
 document.addEventListener('change', e => {
   const el = e.target;
   if (el.dataset.input === 'calc') calcUpdate();
+  if (el.dataset.input === 'gloss') { gFilter = $('gsel').value; $('glist').innerHTML = glossList($('gq').value, gFilter); }
   if ((el.id === 'restoreFile' || el.id === 'mt5file') && el.files && el.files[0]) {
     const rd = new FileReader();
     rd.onload = () => el.id === 'restoreFile' ? restore(rd.result) : importMt5(rd.result);
@@ -1750,7 +4575,7 @@ function applyTheme() {
 }
 
 /* ---------- 12. KHỞI ĐỘNG APP ---------- */
-const APP_VERSION = '1.0 (Tuần 1)';
+const APP_VERSION = '2.0 (đủ 44 buổi)';
 applyTheme();
 render();
 /* Đăng ký service worker để chạy offline (chỉ khi mở qua địa chỉ http/https, không chạy khi mở file trực tiếp) */

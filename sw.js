@@ -1,7 +1,7 @@
 /* Service worker: lưu sẵn các file của app để mở được khi KHÔNG có mạng.
    Khi cập nhật app (sửa index.html), hãy tăng số phiên bản bên dưới (v1 → v2)
    để máy tải bản mới. */
-const CACHE = 'so-tay-hoc-ai-v1';
+const CACHE = 'so-tay-hoc-ai-v2';
 const FILES = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

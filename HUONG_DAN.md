@@ -1,6 +1,6 @@
 # SỔ TAY HỌC AI – HƯỚNG DẪN SỬ DỤNG
 
-Phiên bản 1.0: khung ứng dụng, công cụ **Kỷ luật giao dịch** và nội dung đầy đủ **Tuần 1** (buổi 1–7). Buổi 8–30 đã có tên, mục tiêu và bài thực hành dự kiến; nội dung chi tiết sẽ bổ sung ở các lượt sau.
+Phiên bản 2.0: đủ **44 buổi**: 30 buổi cơ bản (4 tuần) và 14 buổi nâng cao (2 tuần) về Excel chuyên sâu, phần mềm nội bộ, video AI, gọi AI bằng API, kiểm chứng giao dịch và tự động hóa. Mỗi buổi có bài đọc, thực hành kèm prompt, tóm tắt, trắc nghiệm, thẻ ghi nhớ. Kèm công cụ **Kỷ luật giao dịch**, từ điển 108 thuật ngữ, 29 prompt mẫu.
 
 ## 1. Các file trong thư mục
 
@@ -14,42 +14,84 @@ Phiên bản 1.0: khung ứng dụng, công cụ **Kỷ luật giao dịch** và
 
 Luôn để **tất cả file trong cùng một thư mục**.
 
-## 2. Lộ trình 30 buổi × 60 phút
+## 2. Lộ trình 44 buổi × 60 phút
 
-Mỗi buổi: 15 phút đọc (trên iPhone), 35 phút thực hành (trên máy Windows), 10 phút trắc nghiệm, ghi chú và ôn thẻ.
+Mỗi buổi: 15 phút đọc (trên iPhone), 35 phút thực hành (trên máy Windows), 10 phút trắc nghiệm, ghi chú và ôn thẻ. Học mỗi ngày 1 buổi: phần cơ bản khoảng 1 tháng, phần nâng cao thêm khoảng 2 tuần.
 
-| Tuần | Buổi | Tên bài | Thực hành |
-|---|---|---|---|
-| 1 | 1 | AI là gì? Vì sao AI trả lời được | 3 thí nghiệm: ngày tháng, tính nhẩm và tính bằng code, giải thích cho người mới |
-| 1 | 2 | Token, cửa sổ ngữ cảnh, giới hạn kiến thức | AI quên giữa các chat; hỏi quy định mới; tóm tắt chat dài |
-| 1 | 3 | AI "bịa": nhận biết và kiểm tra | Bắt AI chỉ dựa trên văn bản; kiểm tra số hiệu văn bản; thử công thức Excel |
-| 1 | 4 | Các công cụ AI và cách chọn | So sánh 2 công cụ bằng bảng chấm điểm |
-| 1 | 5 | Prompt 5 phần V-B-N-R-Đ | Viết lại 3 prompt xấu |
-| 1 | 6 | Kiểm soát AI làm đúng ý | Viết master prompt, tạo Project "Kế toán nuôi ăn" |
-| 1 | 7 | Ôn tập & kiểm tra Tuần 1 | Prompt hoàn chỉnh cho một việc thật |
-| 2 | 8 | Biến và kiểu dữ liệu | Tính thành tiền bằng Python |
-| 2 | 9 | Điều kiện if | Cảnh báo vượt định mức |
-| 2 | 10 | Vòng lặp | Cộng tổng bảng kê, tính tỷ lệ thắng |
-| 2 | 11 | Hàm | Hàm tính khối lượng lệnh |
-| 2 | 12 | Cài Python + VS Code | Chạy script đầu tiên |
-| 2 | 13 | Đọc lỗi và nhờ AI sửa | Sửa 3 lỗi phổ biến |
-| 2 | 14 | Ôn tập & kiểm tra Tuần 2 | Chú thích một script hoàn chỉnh |
-| 3 | 15 | HTML, CSS, JavaScript | Mổ xẻ mã nguồn app này |
-| 3 | 16 | PWA, offline, localStorage | Mổ xẻ app Sổ tay; sao lưu và khôi phục |
-| 3 | 17 | API và AI Agent | Vẽ quy trình giao cho Agent |
-| 3 | 18 | Python đọc/ghi Excel | Mổ xẻ script tạo biên bản |
-| 3 | 19 | Tạo Word hàng loạt | 5 biên bản từ 1 file Excel |
-| 3 | 20 | Bảo mật, ẩn danh hóa | Ẩn danh bảng dữ liệu |
-| 3 | 21 | Ôn tập + thống kê MetaTrader bằng Python | Đối chiếu với tab Giao dịch |
-| 4 | 22 | Sự thật về trading, AI, lừa đảo | Nhận diện dấu hiệu lừa đảo |
-| 4 | 23 | Lot, pip, đòn bẩy, ký quỹ, stop out | Máy tính khối lượng với 5 tình huống |
-| 4 | 24 | Lỗi 1: cảm xúc | Bảng kiểm trước mọi lệnh demo 1 tuần |
-| 4 | 25 | Lỗi 2: gồng lỗ, dời SL | Thống kê lệnh dời SL |
-| 4 | 26 | Lỗi 3: thiếu kỷ luật | Hoàn thiện kế hoạch, in ra |
-| 4 | 27 | Lỗi 4: lệnh quá lớn | Mô phỏng chuỗi thua ở 1% và 10% |
-| 4 | 28 | AI phân tích nhật ký, backtest | Lộ trình demo 30 ngày |
-| 4 | 29 | Kiếm tiền từ AI cho kế toán | Bản giới thiệu dịch vụ + báo giá |
-| 4 | 30 | Dự án cuối khóa & tổng kết | Làm 1 công cụ dùng được hoặc bán được |
+**Tuần 1 – Hiểu AI và nói chuyện với AI**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 1 | AI là gì? Vì sao AI trả lời được | Làm 3 thí nghiệm nhỏ với AI để tự thấy điểm mạnh, điểm yếu của nó. |
+| 2 | Token, cửa sổ ngữ cảnh và giới hạn kiến thức | Thử nghiệm AI quên giữa các cuộc trò chuyện và kiểm tra AI với một quy định mới. |
+| 3 | AI "bịa": nhận biết và kiểm tra | Bắt AI trả lời chỉ dựa trên văn bản bạn đưa, và kiểm tra một câu trả lời có số hiệu văn bản. |
+| 4 | Các công cụ AI phổ biến và cách chọn | Cùng một prompt, thử trên 2 công cụ và chấm điểm theo bảng tiêu chí. |
+| 5 | Viết prompt 5 phần: Vai trò – Bối cảnh – Nhiệm vụ – Ràng buộc – Định dạng | Viết lại 3 prompt 'xấu' thành prompt tốt và so sánh kết quả. |
+| 6 | Kiểm soát AI làm đúng ý mình | Viết master prompt cho công việc kế toán của bạn và tạo một Project dùng nó. |
+| 7 | Ôn tập & kiểm tra Tuần 1 | Viết 1 prompt hoàn chỉnh (5 phần + câu kiểm soát) cho một việc thật bạn sẽ làm tuần tới. |
+
+**Tuần 2 – Lập trình vừa đủ hiểu**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 8 | Biến và kiểu dữ liệu | Nhờ AI viết đoạn Python tính thành tiền và đọc hiểu từng dòng. |
+| 9 | Điều kiện if – "nếu… thì…" | Viết đoạn code cảnh báo khi định lượng vượt định mức. |
+| 10 | Vòng lặp – làm lặp lại tự động | Cộng tổng cột Thành tiền và tính tỷ lệ thắng từ danh sách lệnh giao dịch. |
+| 11 | Hàm – đóng gói một việc để dùng lại | Viết hàm tính khối lượng lệnh từ vốn, % rủi ro và khoảng dừng lỗ. |
+| 12 | Cài Python + VS Code, chạy script đầu tiên | Cài Python, VS Code; cài thư viện; chạy script in bảng kê mẫu. |
+| 13 | Đọc thông báo lỗi và nhờ AI sửa | Cố tình tạo 3 lỗi phổ biến, dùng quy trình mô tả → chạy → báo lỗi → sửa. |
+| 14 | Ôn tập & kiểm tra Tuần 2 | Đọc và chú thích từng dòng một script tự động hóa ngắn. |
+
+**Tuần 3 – Ứng dụng chạy thế nào & tự động hóa văn phòng**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 15 | Trang web và ứng dụng: HTML, CSS, JavaScript | Mở mã nguồn chính app này, nhận diện phần HTML, CSS, JavaScript. |
+| 16 | App offline: PWA, service worker, localStorage | Mổ xẻ app Sổ tay học AI; thử sao lưu và khôi phục dữ liệu. |
+| 17 | API và AI Agent là gì | Vẽ sơ đồ một quy trình công việc có thể giao cho Agent. |
+| 18 | Python đọc/ghi Excel | Mổ xẻ script tạo biên bản tự động; nhờ AI thêm một cột mới. |
+| 19 | Tạo Word hàng loạt, gộp và tách file | Tạo 5 biên bản Word từ 1 file Excel dữ liệu giả. |
+| 20 | Bảo mật và ẩn danh hóa dữ liệu | Ẩn danh một bảng dữ liệu mẫu trước khi nhờ AI phân tích. |
+| 21 | Ôn tập Tuần 3 + thống kê lịch sử giao dịch bằng Python | Xuất lịch sử từ MetaTrader, chạy script thống kê, so sánh với tab Giao dịch của app. |
+
+**Tuần 4 – AI với trading và kiếm tiền**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 22 | Sự thật về trading, AI và các kiểu lừa đảo | Nhờ AI liệt kê dấu hiệu lừa đảo và tự đối chiếu với các lời mời bạn từng nhận. |
+| 23 | Lot, pip, đòn bẩy, ký quỹ, stop out, spread, swap | Dùng máy tính khối lượng lệnh trong app với 5 tình huống. |
+| 24 | Lỗi 1: Vào lệnh theo cảm xúc | Dùng bảng kiểm trước mọi lệnh demo trong 1 tuần, ghi điểm cảm xúc. |
+| 25 | Lỗi 2: Gồng lỗ và dời dừng lỗ | Thống kê các lệnh đã dời SL trong nhật ký và kết quả của chúng. |
+| 26 | Lỗi 3: Thiếu kỷ luật – kế hoạch giao dịch | Hoàn thiện mục Kế hoạch trong tab Giao dịch; in ra dán cạnh máy tính. |
+| 27 | Lỗi 4: Vào lệnh quá lớn – quản lý vốn | Mô phỏng 20 lệnh thua liên tiếp ở mức rủi ro 1% và 10% để so sánh. |
+| 28 | AI phân tích nhật ký giao dịch & backtest nhập môn | Xuất nhật ký từ app cho AI phân tích; lập lộ trình demo 30 ngày. |
+| 29 | Kiếm tiền từ AI: hướng hợp với kế toán | Viết bản giới thiệu dịch vụ và bảng báo giá mẫu cho 1 hướng đã chọn. |
+| 30 | Dự án cuối khóa & kiểm tra tổng kết | Làm dự án cuối khóa theo quy trình đã học; làm bài kiểm tra tổng kết. |
+
+**Nâng cao 1 – Excel chuyên sâu & phần mềm nội bộ**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 31 | Excel nâng cao cùng AI: hàm động, PivotTable, kiểm soát dữ liệu | Làm lại bảng kê tháng bằng hàm động và PivotTable, có kiểm tra dữ liệu đầu vào. |
+| 32 | Power Query: gộp và làm sạch dữ liệu tự động | Gộp 3 sheet ngày thành một bảng bằng Power Query, bấm Refresh khi có sheet mới. |
+| 33 | Macro VBA hay Python: chọn đúng và dùng an toàn | Nhờ AI viết macro tạo sheet ngày mới từ mẫu; kiểm tra trước khi chạy. |
+| 34 | Thiết kế phần mềm nội bộ: từ nhu cầu đến bản đặc tả | Viết bản đặc tả 1–2 trang cho một phần mềm nhỏ quản lý trang cấp (dữ liệu giả). |
+| 35 | Thiết kế dữ liệu: bảng, khóa, quan hệ | Thiết kế các bảng dữ liệu cho phần mềm trang cấp; kiểm tra bằng dữ liệu giả. |
+| 36 | Làm phần mềm nội bộ bằng AI: quy trình, kiểm thử, bàn giao | Nhờ AI làm MVP phần mềm trang cấp dạng PWA với dữ liệu giả; kiểm thử theo kịch bản. |
+| 37 | Bảo trì phần mềm: phiên bản, sao lưu, Git cơ bản | Tạo kho Git cho dự án, lưu 3 phiên bản, thử quay lại bản cũ. |
+
+**Nâng cao 2 – Video AI, API, trading nâng cao & tự động hóa**
+
+| Buổi | Tên bài | Thực hành |
+|---|---|---|
+| 38 | Quy trình video AI nhanh: từ ý tưởng đến bản nháp | Làm kịch bản và bảng phân cảnh cho video 60 giây bằng AI trong 1 buổi. |
+| 39 | Viết prompt hình ảnh và video, giữ nhân vật nhất quán | Viết bộ phong cách và prompt cho 6 cảnh; tạo ảnh và video thử 2 cảnh. |
+| 40 | Giọng đọc, nhạc, dựng phim; bản quyền và đạo đức | Dựng bản nháp không tiếng, duyệt, rồi thêm lời dẫn và phụ đề cho video 60 giây. |
+| 41 | Gọi AI bằng API với Python | Viết script tóm tắt hàng loạt các văn bản công khai trong một thư mục bằng API. |
+| 42 | Trading nâng cao: kiểm chứng chiến lược bằng dữ liệu | Backtest một quy tắc minh họa trên dữ liệu lịch sử, so sánh giai đoạn trong/ngoài mẫu. |
+| 43 | Tự động hóa quy trình: lịch chạy, Agent và giới hạn | Đặt lịch chạy một script trên Windows; thiết kế một quy trình tự động có điểm duyệt. |
+| 44 | Tổng kết nâng cao: bộ công cụ cá nhân và lộ trình tiếp theo | Lập danh mục sản phẩm (portfolio) và kế hoạch 3 tháng tiếp theo. |
+
 
 ## 3. Dùng trên máy tính Windows
 
@@ -97,13 +139,13 @@ Tên cột và định dạng báo cáo có thể khác tùy phiên bản MetaTr
 Mở `index.html` bằng VS Code hoặc Notepad, tìm dòng `<script id="du-lieu-bai-hoc">`. Đây là phần **PHẦN 3: DỮ LIỆU BÀI HỌC**, chỉ chứa nội dung; giao diện không cần sửa.
 
 - Mỗi buổi là một khối `{ id: ..., week: ..., title: ..., ... }` trong mảng `SESSIONS`.
-- Đổi `ready: false` thành `ready: true` và thêm `content`, `practiceDetail`, `summary`, `quiz`, `cards`. Làm theo mẫu của buổi 1–6.
+- Muốn thêm buổi mới: chép một khối buổi có sẵn, đổi `id` (45, 46...), `week`, rồi sửa nội dung. Buổi chỉ có khung thì để `ready: false`.
 - Nội dung viết giữa hai dấu ` (dấu huyền). Không gõ thêm dấu huyền bên trong. Khối prompt và code bắt đầu bằng `~~~prompt` hoặc `~~~python`, kết thúc bằng `~~~`.
 - Thêm thuật ngữ vào `GLOSSARY` và prompt mẫu vào `PROMPTS`, theo cùng cách viết.
 
 Cách dễ nhất: gửi file `index.html` cho AI và nhờ "Thêm nội dung đầy đủ cho buổi X theo đúng định dạng dữ liệu của buổi 1".
 
-**Sau khi sửa** và tải lại lên web: mở `sw.js`, đổi `so-tay-hoc-ai-v1` thành `v2` (lần sau `v3`...) để iPhone nhận bản mới. Dữ liệu học của bạn không bị mất khi cập nhật app.
+**Sau khi sửa** và tải lại lên web: mở `sw.js`, tăng số phiên bản trong `so-tay-hoc-ai-v2` (lần sau `v3`, `v4`...) để iPhone nhận bản mới. Dữ liệu học của bạn không bị mất khi cập nhật app.
 
 ## 8. Lưu ý về giao dịch
 
